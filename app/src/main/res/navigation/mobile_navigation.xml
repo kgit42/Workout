@@ -9,16 +9,17 @@
         android:id="@+id/navigation_home"
         android:name="com.example.workout.ui.home.HomeFragment"
         android:label="@string/title_home"
+        app:menu="@menu/menu_sort"
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_exercices"
         android:name="com.example.workout.ui.exercices.ExercicesFragment"
         android:label="@string/title_exercices"
         tools:layout="@layout/fragment_exercices" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_stats"
         android:name="com.example.workout.ui.stats.StatsFragment"
         android:label="@string/title_stats"
         tools:layout="@layout/fragment_stats" />

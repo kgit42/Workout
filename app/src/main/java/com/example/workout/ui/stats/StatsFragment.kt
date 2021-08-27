@@ -12,7 +12,7 @@ import com.example.workout.databinding.FragmentStatsBinding
 
 class StatsFragment : Fragment() {
 
-    private lateinit var notificationsViewModel: StatsViewModel
+    private lateinit var statsViewModel: StatsViewModel
     private var _binding: FragmentStatsBinding? = null
 
     // This property is only valid between onCreateView and
@@ -24,14 +24,14 @@ class StatsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        notificationsViewModel =
+        statsViewModel =
             ViewModelProvider(this).get(StatsViewModel::class.java)
 
         _binding = FragmentStatsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         val textView: TextView = binding.textNotifications
-        notificationsViewModel.text.observe(viewLifecycleOwner, Observer {
+        statsViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root

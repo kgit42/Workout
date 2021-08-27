@@ -3,11 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.1796875" />
+        <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.1796875" />
         <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/layout/activity_main.xml" value="0.23097826086956522" />
         <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/layout/fragment_dashboard.xml" value="0.23097826086956522" />
-        <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/layout/fragment_home.xml" value="0.23097826086956522" />
+        <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/layout/fragment_exercices.xml" value="0.16354166666666667" />
+        <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/layout/fragment_notifications.xml" value="0.16354166666666667" />
         <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/menu/bottom_nav_menu.xml" value="0.30416666666666664" />
+        <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/menu/menu_sort.xml" value="0.30416666666666664" />
       </map>
     </option>
   </component>
