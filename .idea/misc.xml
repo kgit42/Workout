@@ -4,6 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/layout/activity_main.xml" value="0.23097826086956522" />
+        <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/layout/fragment_dashboard.xml" value="0.23097826086956522" />
+        <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/layout/fragment_home.xml" value="0.23097826086956522" />
+        <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/layout/fragment_notifications.xml" value="0.16354166666666667" />
+        <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/menu/bottom_nav_menu.xml" value="0.30416666666666664" />
       </map>
     </option>
   </component>
