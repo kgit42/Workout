@@ -9,6 +9,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import com.example.workout.databinding.ActivityMainBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
@@ -39,31 +40,5 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
 
-/*
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
-
-        supportActionBar?.let { ab ->
-            ab.setHomeAsUpIndicator(R.drawable.ic_menu)
-            ab.setDisplayHomeAsUpEnabled(true)
-        }
-
-        drawerLayout = findViewById(R.id.drawer_layout)
-
-        val navigationView: NavigationView = findViewById(R.id.nav_view)
-        setupDrawerContent(navigationView)
-
-        val viewPager: ViewPager = findViewById(R.id.viewpager)
-        setupViewPager(viewPager)
-
-        val floatingActionButton: FloatingActionButton = findViewById(R.id.fab)
-        floatingActionButton.setOnClickListener { view ->
-            Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
-
-        val tabLayout: TabLayout = findViewById(R.id.tabs)
-        tabLayout.setupWithViewPager(viewPager)
-*/
     }
 }

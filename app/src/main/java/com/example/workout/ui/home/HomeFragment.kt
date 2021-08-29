@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.workout.R
 import com.example.workout.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.tabs.TabLayoutMediator
 
 class HomeFragment : Fragment() {
 
@@ -26,16 +27,18 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
+        //homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        setupViewPagerWithTabs()
+
+        /*
         val textView: TextView = binding.textHome
         homeViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
-        })
+        })*/
 
 
 
@@ -48,8 +51,31 @@ class HomeFragment : Fragment() {
         return root
     }
 
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+
+
+    private fun setupViewPagerWithTabs() {
+        val tabLayout = binding.tabs
+        val viewPager = binding.viewpager
+
+        viewPager.adapter = ViewPagerAdapter(this)
+
+        // Set the title for each tab
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = getTabTitle(position)
+        }.attach()
+    }
+
+    private fun getTabTitle(position: Int): String? {
+        return when(position){
+            ROUTINES_PAGE_INDEX -> "Routinen"
+            WORKOUTS_PAGE_INDEX -> "Workouts"
+            else -> null
+        }
     }
 }

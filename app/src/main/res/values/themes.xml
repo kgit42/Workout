@@ -17,6 +17,11 @@
     <style name="Theme.Workout.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="actionOverflowButtonStyle">@style/SortIcon</item>
+    </style>
+
+    <style name="SortIcon" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_sort</item>
     </style>
 
 </resources>
