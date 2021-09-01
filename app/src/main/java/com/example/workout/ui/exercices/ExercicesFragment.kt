@@ -30,10 +30,10 @@ class ExercicesFragment : Fragment() {
         _binding = FragmentExercicesBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textDashboard
+        /*val textView: TextView = binding.textDashboard
         exercicesViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
-        })
+        })*/
         return root
     }
 

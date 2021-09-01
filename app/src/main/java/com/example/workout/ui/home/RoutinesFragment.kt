@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workout.R
@@ -25,7 +26,7 @@ class RoutinesFragment : Fragment() {
             false
         ) as RecyclerView
         rv.layoutManager = LinearLayoutManager(rv.context)
-        rv.adapter = SimpleStringRecyclerViewAdapter(arrayListOf("Hallo", "Hallo2"))
+        rv.adapter = SimpleStringRecyclerViewAdapter(arrayListOf("Hallo", "Hallo2", "Test", "Hallo", "Hallo2", "Test", "Hallo", "Hallo2", "Test"))
 
         return rv
     }
@@ -37,7 +38,7 @@ class RoutinesFragment : Fragment() {
         class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
             var boundString: String? = null
             //val image: ImageView = view.findViewById(R.id.avatar)
-            val text: TextView = view.findViewById(R.id.text1)
+            val text: TextView = view.findViewById(R.id.workout_title)
 
             override fun toString(): String {
                 return super.toString() + " '" + text.text
@@ -59,6 +60,11 @@ class RoutinesFragment : Fragment() {
                 /*val intent = Intent(context, CheeseDetailActivity::class.java)
                 intent.putExtra(CheeseDetailActivity.EXTRA_NAME, holder.boundString)
                 context.startActivity(intent)*/
+
+                //navigiert zur Detail-Seite und übergibt das jeweilige Workout/die Routine
+                val args = Bundle()
+                args.putParcelable("workout", null)
+                holder.view.findNavController().navigate(R.id.navigation_routine_detail, args)
             }
 
         }

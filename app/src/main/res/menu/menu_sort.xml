@@ -4,8 +4,8 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/sort_by_date"
-            android:contentDescription="qerefr"
-            android:title="sds"
+            android:contentDescription="Oberarm"
+            android:title="Oberarm"
             app:showAsAction="never" />
 
         <item

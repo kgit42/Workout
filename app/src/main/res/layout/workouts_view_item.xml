@@ -39,7 +39,7 @@
              /> <!-- tools:src="@drawable/arms_a" -->     <!--             app:srcImage="@{workout.iconCode}" -->
 
         <TextView
-            android:id="@+id/text1"
+            android:id="@+id/workout_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"

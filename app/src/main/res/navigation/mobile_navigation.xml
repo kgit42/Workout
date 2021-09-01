@@ -22,4 +22,16 @@
         android:name="com.example.workout.ui.stats.StatsFragment"
         android:label="@string/title_stats"
         tools:layout="@layout/fragment_stats" />
+
+    <fragment
+        android:id="@+id/navigation_routine_detail"
+        android:name="com.example.workout.ui.home.RoutineDetailFragment"
+        android:label="Routine xyz"
+        tools:layout="@layout/fragment_routine_detail">
+        <!--
+        <argument
+            android:name="routine"
+            app:argType="com.ersiver.gymific.model.Workout" />
+            -->
+    </fragment>
 </navigation>

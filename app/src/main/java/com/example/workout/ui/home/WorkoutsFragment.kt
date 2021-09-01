@@ -37,7 +37,7 @@ class WorkoutsFragment : Fragment() {
         class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
             var boundString: String? = null
             //val image: ImageView = view.findViewById(R.id.avatar)
-            val text: TextView = view.findViewById(R.id.text1)
+            val text: TextView = view.findViewById(R.id.workout_title)
 
             override fun toString(): String {
                 return super.toString() + " '" + text.text
