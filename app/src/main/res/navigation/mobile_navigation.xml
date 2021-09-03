@@ -34,4 +34,28 @@
             app:argType="com.ersiver.gymific.model.Workout" />
             -->
     </fragment>
+
+    <fragment
+        android:id="@+id/navigation_workout_detail"
+        android:name="com.example.workout.ui.home.WorkoutDetailFragment"
+        android:label="Workout xyz"
+        tools:layout="@layout/fragment_workout_detail">
+        <!--
+        <argument
+            android:name="routine"
+            app:argType="com.ersiver.gymific.model.Workout" />
+            -->
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_workout_detail_exercice"
+        android:name="com.example.workout.ui.home.WorkoutDetailExerciceFragment"
+        android:label="Übung xyz"
+        tools:layout="@layout/fragment_workout_detail_exercice">
+        <!--
+        <argument
+            android:name="routine"
+            app:argType="com.ersiver.gymific.model.Workout" />
+            -->
+    </fragment>
 </navigation>

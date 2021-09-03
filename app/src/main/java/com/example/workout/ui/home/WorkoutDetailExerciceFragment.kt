@@ -15,14 +15,14 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workout.R
-import com.example.workout.databinding.FragmentRoutineDetailBinding
+import com.example.workout.databinding.FragmentWorkoutDetailExerciceBinding
 import com.example.workout.ui.exercices.SimpleStringRecyclerViewAdapter
 
-class RoutineDetailFragment : Fragment() {
+class WorkoutDetailExerciceFragment : Fragment() {
 
     private lateinit var menuItem: MenuItem
-    //private val args: RoutineDetailFragmentArgs by navArgs()
-    private lateinit var binding: FragmentRoutineDetailBinding
+    //private val args: WorkoutDetailExerciceFragmentArgs by navArgs()
+    private lateinit var binding: FragmentWorkoutDetailExerciceBinding
     private lateinit var adapter: SimpleStringRecyclerViewAdapter
     /*private val workout: Workout by lazy {
         args.workout
@@ -34,13 +34,12 @@ class RoutineDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentRoutineDetailBinding.inflate(inflater, container, false)
+        binding = FragmentWorkoutDetailExerciceBinding.inflate(inflater, container, false)
         /*binding.apply {
             viewModel = detailViewModel
             lifecycleOwner = viewLifecycleOwner
         }*/
 
-        setupRecyclerView()
         return binding.root
     }
 
@@ -91,13 +90,6 @@ class RoutineDetailFragment : Fragment() {
         }
     }*/
 
-    private fun setupRecyclerView() {
-        adapter = SimpleStringRecyclerViewAdapter(arrayListOf("Hallo", "Hallo2", "Hallo3", "Hallo4", "Hallo5", "Hallo6"))
-        binding.apply {
-            addExerciceList.adapter = adapter
-            addExerciceList.layoutManager = LinearLayoutManager(addExerciceList.context)
-        }
-    }
 
 
 

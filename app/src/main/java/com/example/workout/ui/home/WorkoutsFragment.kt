@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workout.R
@@ -54,11 +55,17 @@ class WorkoutsFragment : Fragment() {
             holder.boundString = values[position]
             holder.text.text = values[position]
 
-            holder.view.setOnClickListener { v ->
+            holder.view.setOnLongClickListener { v ->
                 val context = v.context
                 /*val intent = Intent(context, CheeseDetailActivity::class.java)
                 intent.putExtra(CheeseDetailActivity.EXTRA_NAME, holder.boundString)
                 context.startActivity(intent)*/
+
+                //navigiert zur Detail-Seite und übergibt das jeweilige Workout/die Routine
+                val args = Bundle()
+                args.putParcelable("workout", null)
+                holder.view.findNavController().navigate(R.id.navigation_workout_detail, args)
+                return@setOnLongClickListener true
             }
 
         }

@@ -15,14 +15,14 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workout.R
-import com.example.workout.databinding.FragmentRoutineDetailBinding
+import com.example.workout.databinding.FragmentWorkoutDetailBinding
 import com.example.workout.ui.exercices.SimpleStringRecyclerViewAdapter
 
-class RoutineDetailFragment : Fragment() {
+class WorkoutDetailFragment : Fragment() {
 
     private lateinit var menuItem: MenuItem
-    //private val args: RoutineDetailFragmentArgs by navArgs()
-    private lateinit var binding: FragmentRoutineDetailBinding
+    //private val args: WorkoutDetailFragmentArgs by navArgs()
+    private lateinit var binding: FragmentWorkoutDetailBinding
     private lateinit var adapter: SimpleStringRecyclerViewAdapter
     /*private val workout: Workout by lazy {
         args.workout
@@ -34,7 +34,7 @@ class RoutineDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentRoutineDetailBinding.inflate(inflater, container, false)
+        binding = FragmentWorkoutDetailBinding.inflate(inflater, container, false)
         /*binding.apply {
             viewModel = detailViewModel
             lifecycleOwner = viewLifecycleOwner
@@ -135,7 +135,7 @@ class RoutineDetailFragment : Fragment() {
                 //navigiert zur Detail-Seite und übergibt das jeweilige Workout/die Routine
                 val args = Bundle()
                 args.putParcelable("workout", null)
-                holder.view.findNavController().navigate(R.id.navigation_routine_detail, args)
+                holder.view.findNavController().navigate(R.id.navigation_workout_detail_exercice, args)
             }
 
         }

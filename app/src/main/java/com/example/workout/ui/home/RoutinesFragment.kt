@@ -55,7 +55,7 @@ class RoutinesFragment : Fragment() {
             holder.boundString = values[position]
             holder.text.text = values[position]
 
-            holder.view.setOnClickListener { v ->
+            holder.view.setOnLongClickListener { v ->
                 val context = v.context
                 /*val intent = Intent(context, CheeseDetailActivity::class.java)
                 intent.putExtra(CheeseDetailActivity.EXTRA_NAME, holder.boundString)
@@ -65,6 +65,7 @@ class RoutinesFragment : Fragment() {
                 val args = Bundle()
                 args.putParcelable("workout", null)
                 holder.view.findNavController().navigate(R.id.navigation_routine_detail, args)
+                return@setOnLongClickListener true
             }
 
         }
