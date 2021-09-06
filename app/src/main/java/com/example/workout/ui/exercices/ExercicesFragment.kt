@@ -2,9 +2,12 @@ package com.example.workout.ui.exercices
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -53,6 +56,7 @@ class ExercicesFragment : Fragment() {
     }
      */
 
+
     private fun setupRecyclerView() {
         adapter = SimpleStringRecyclerViewAdapter(arrayListOf("Hallo", "Hallo2"))
         _binding.apply {
@@ -100,6 +104,8 @@ class SimpleStringRecyclerViewAdapter(
         }
 
     }
+
+
 
     override fun getItemCount(): Int = values.size
 }

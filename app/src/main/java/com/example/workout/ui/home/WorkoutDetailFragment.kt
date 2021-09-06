@@ -14,9 +14,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.workout.R
+//import com.example.workout.R
 import com.example.workout.databinding.FragmentWorkoutDetailBinding
 import com.example.workout.ui.exercices.SimpleStringRecyclerViewAdapter
+import android.R
+import android.widget.Button
+
 
 class WorkoutDetailFragment : Fragment() {
 
@@ -39,6 +42,14 @@ class WorkoutDetailFragment : Fragment() {
             viewModel = detailViewModel
             lifecycleOwner = viewLifecycleOwner
         }*/
+
+        //Listener für den Hinzufügen-Button:
+        binding.button.setOnClickListener(View.OnClickListener {
+            //navigiert zur Detail-Seite und übergibt das jeweilige Workout/die Routine
+            val args = Bundle()
+            args.putParcelable("workout", null)
+            findNavController().navigate(com.example.workout.R.id.navigation_workout_detail_add, args)
+        })
 
         setupRecyclerView()
         return binding.root
@@ -109,7 +120,7 @@ class WorkoutDetailFragment : Fragment() {
         class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
             var boundString: String? = null
             //val image: ImageView = view.findViewById(R.id.avatar)
-            val text: TextView = view.findViewById(R.id.workout_title)
+            val text: TextView = view.findViewById(com.example.workout.R.id.workout_title)
 
             override fun toString(): String {
                 return super.toString() + " '" + text.text
@@ -118,7 +129,7 @@ class WorkoutDetailFragment : Fragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = LayoutInflater.from(parent.context).inflate(
-                R.layout.routines_view_item, parent, false)
+                com.example.workout.R.layout.routines_view_item, parent, false)
             return ViewHolder(view)
         }
 
@@ -132,10 +143,10 @@ class WorkoutDetailFragment : Fragment() {
                 intent.putExtra(CheeseDetailActivity.EXTRA_NAME, holder.boundString)
                 context.startActivity(intent)*/
 
-                //navigiert zur Detail-Seite und übergibt das jeweilige Workout/die Routine
+                //navigiert zur Detail-Seite und übergibt die jeweilige Übung
                 val args = Bundle()
                 args.putParcelable("workout", null)
-                holder.view.findNavController().navigate(R.id.navigation_workout_detail_exercice, args)
+                holder.view.findNavController().navigate(com.example.workout.R.id.navigation_workout_detail_exercice, args)
             }
 
         }

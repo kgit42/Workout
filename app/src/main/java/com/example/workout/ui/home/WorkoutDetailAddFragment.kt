@@ -1,11 +1,11 @@
 package com.example.workout.ui.home
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
+import android.widget.CheckBox
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -15,14 +15,14 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workout.R
-import com.example.workout.databinding.FragmentWorkoutDetailExerciceBinding
+import com.example.workout.databinding.FragmentWorkoutDetailAddBinding
 import com.example.workout.ui.exercices.SimpleStringRecyclerViewAdapter
 
-class WorkoutDetailExerciceFragment : Fragment() {
+class WorkoutDetailAddFragment : Fragment() {
 
     private lateinit var menuItem: MenuItem
-    //private val args: WorkoutDetailExerciceFragmentArgs by navArgs()
-    private lateinit var binding: FragmentWorkoutDetailExerciceBinding
+    //private val args: WorkoutDetailAddFragmentArgs by navArgs()
+    private lateinit var binding: FragmentWorkoutDetailAddBinding
     private lateinit var adapter: SimpleStringRecyclerViewAdapter
     /*private val workout: Workout by lazy {
         args.workout
@@ -30,27 +30,32 @@ class WorkoutDetailExerciceFragment : Fragment() {
     private lateinit var toolbar: Toolbar
     private var pausedTime: Long = 0
 
+    //Liste mit IDs der hinzuzufügenden Elemente
+    var listToAdd: ArrayList<String> = arrayListOf()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentWorkoutDetailExerciceBinding.inflate(inflater, container, false)
+        binding = FragmentWorkoutDetailAddBinding.inflate(inflater, container, false)
         /*binding.apply {
             viewModel = detailViewModel
             lifecycleOwner = viewLifecycleOwner
         }*/
 
-        binding.chip1.setOnClickListener {
-            // Responds to chip click
-        }
-        
-
+        setupRecyclerView()
+        setHasOptionsMenu(true)
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setupToolbarWithNavigation()
+
+        //Alle Elemente zunächst löschen, wenn Seite neu geöffnet wird
+        listToAdd.clear()
+
+        onOptionsItemSelected()
 
         /*
         onOptionsItemSelected()
@@ -87,35 +92,72 @@ class WorkoutDetailExerciceFragment : Fragment() {
         }
     }
 
-/*
+    
+
     private fun onOptionsItemSelected() {
+        toolbar = binding.toolbarDetail
         toolbar.setOnMenuItemClickListener {
-            detailViewModel.setFavourite(workout)
-            true
+            //zurück navigieren
+            findNavController().navigateUp()
+
+            //TODO: Aufruf der entspr. DB-Funktion
         }
-    }*/
+    }
+
+
+    private fun setupRecyclerView() {
+        //siehe https://discuss.kotlinlang.org/t/kotlin-constructor-of-inner-class-nested-can-be-called-only-with-receiver-of-containing-class/7700
+        adapter = WorkoutDetailAddFragment().SimpleStringRecyclerViewAdapter(
+            arrayListOf(
+                "Hallo",
+                "Hallo2",
+                "Hallo3",
+                "Hallo4",
+                "Hallo5",
+                "Hallo6",
+                "dsgsgg",
+                "Crunches"
+            )
+        )
+        binding.apply {
+            listExercices.adapter = adapter
+            listExercices.layoutManager = LinearLayoutManager(listExercices.context)
+        }
+
+    }
 
 
 
 
-
-    class SimpleStringRecyclerViewAdapter(
+    //"inner" Schlüsselwort, um von innen auf Variablen der äußeren Klasse zugreifen zu können
+    inner class SimpleStringRecyclerViewAdapter(
         private val values: List<String>
     ) : RecyclerView.Adapter<SimpleStringRecyclerViewAdapter.ViewHolder>() {
 
-        class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+        inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
             var boundString: String? = null
             //val image: ImageView = view.findViewById(R.id.avatar)
             val text: TextView = view.findViewById(R.id.workout_title)
 
+            val checkbox: CheckBox = view.findViewById(R.id.checkBox)
+
+
             override fun toString(): String {
                 return super.toString() + " '" + text.text
+            }
+
+            //init-Block, um Listener für Checkbox zu setzen
+            init {
+                checkbox.setOnCheckedChangeListener { checkbox, isChecked ->
+                    //Todo: Statt Titel die ID übergeben
+                    listToAdd.add(text.toString())
+                }
             }
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = LayoutInflater.from(parent.context).inflate(
-                R.layout.routines_view_item, parent, false)
+                R.layout.add_exercice_view_item, parent, false)
             return ViewHolder(view)
         }
 
@@ -129,11 +171,8 @@ class WorkoutDetailExerciceFragment : Fragment() {
                 intent.putExtra(CheeseDetailActivity.EXTRA_NAME, holder.boundString)
                 context.startActivity(intent)*/
 
-                //navigiert zur Detail-Seite und übergibt das jeweilige Workout/die Routine
-                val args = Bundle()
-                args.putParcelable("workout", null)
-                holder.view.findNavController().navigate(R.id.navigation_routine_detail, args)
             }
+
 
         }
 

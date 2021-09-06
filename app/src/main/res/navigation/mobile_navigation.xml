@@ -58,4 +58,16 @@
             app:argType="com.ersiver.gymific.model.Workout" />
             -->
     </fragment>
+
+    <fragment
+        android:id="@+id/navigation_workout_detail_add"
+        android:name="com.example.workout.ui.home.WorkoutDetailAddFragment"
+        android:label="Übungen hinzufügen"
+        tools:layout="@layout/fragment_workout_detail_add">
+        <!--
+        <argument
+            android:name="routine"
+            app:argType="com.ersiver.gymific.model.Workout" />
+            -->
+    </fragment>
 </navigation>
