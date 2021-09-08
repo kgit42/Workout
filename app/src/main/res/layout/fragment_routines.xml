@@ -3,12 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!--
     <data>
         <variable
             name="viewModel"
-            type="com.ersiver.gymific.ui.cardio.CardioViewModel" />
-    </data> -->
+            type="com.example.workout.ui.home.HomeViewModel" />
+    </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -20,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/routines_view_item" />
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>         <!--     app:listData="@{viewModel.cardioUiModel.workouts}" -->
+            tools:listitem="@layout/routines_view_item"
+            app:listData="@{viewModel.}"/>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

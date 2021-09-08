@@ -10,4 +10,5 @@ class ExercicesViewModel : ViewModel() {
         value = "This is dashboard Fragment"
     }
     val text: LiveData<String> = _text
+
 }
