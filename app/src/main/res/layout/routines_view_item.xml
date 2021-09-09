@@ -3,17 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!--
+
     <data>
         <variable
             name="workout"
-            type="com.ersiver.gymific.model.Workout" />
+            type="com.example.workout.db.Workout" />
 
-        <variable
-            name="clickListener"
-            type="android.view.View.OnClickListener"/>
+    <!--
+<variable
+    name="clickListener"
+    type="android.view.View.OnClickListener"/>   -->
 
-    </data>     -->
+</data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/workout_item_container"
         android:layout_width="match_parent"
@@ -50,7 +51,8 @@
             app:layout_constraintStart_toEndOf="@id/workout_image"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
-            tools:text="Crunch" />             <!-- android:text="@{workout.title}" -->
+            tools:text="Crunch"
+             /> <!-- android:text="@{workout.name}" -->
 
         <TextView
             android:id="@+id/workout_category"

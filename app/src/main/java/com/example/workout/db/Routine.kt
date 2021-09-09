@@ -10,5 +10,5 @@ data class Routine(
     @PrimaryKey val rid: Int,
     @ColumnInfo(name = "name") val name: String?,
     @ColumnInfo(name = "rest") val rest: String?,
-    @Embedded @ColumnInfo(name = "exercices_with_break") val exercicesWithBreak: ArrayList<Map<WorkoutEntry, Int>>?
+    // @Embedded /*@ColumnInfo(name = "exercices_with_break")*/ val exercicesWithBreak: WorkoutEntry /*ArrayList<Map<WorkoutEntry, Int>>?*/
 )

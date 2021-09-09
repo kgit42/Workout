@@ -17,6 +17,7 @@ abstract class AppDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: AppDatabase? = null
 
+
         fun getInstance(context: Context): AppDatabase {
             //wechselseitiger Ausschluss: Nur einer kann gleichzeitig Block betreten
             synchronized(this) {

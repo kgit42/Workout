@@ -9,7 +9,10 @@ import androidx.room.PrimaryKey
 @Entity
 data class Exercice(
     @PrimaryKey val eid: Int,
-    @ColumnInfo(name = "first_name") val firstName: String?,
-    @ColumnInfo(name = "last_name") val lastName: String?,
+    @ColumnInfo(name = "name") val name: String?,
+    @ColumnInfo(name = "category") val category: String?,
+    @ColumnInfo(name = "video") val video: String?,
+    @ColumnInfo(name = "thumbnail") val thumbnail: String?,
+    @ColumnInfo(name = "bilateral") val bilateral: Boolean?,
 
 )
