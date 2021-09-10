@@ -5,10 +5,11 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = arrayOf(Exercice::class, Routine::class), version = 1)
+@Database(entities = arrayOf(Exercice::class, Routine::class, Workout::class), version = 2)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun exerciceDao(): ExerciceDao
     abstract fun routineDao(): RoutineDao
+    abstract fun workoutDao(): WorkoutDao
 
     companion object {
 

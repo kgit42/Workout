@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workout.R
 import com.example.workout.databinding.FragmentExercicesBinding
+import com.example.workout.db.Exercice
+import com.example.workout.db.Routine
 import com.example.workout.ui.home.RoutinesFragment
 
 class ExercicesFragment : Fragment() {
@@ -46,6 +48,10 @@ class ExercicesFragment : Fragment() {
         })*/
 
         setupRecyclerView()
+
+        //Observer --> falls es Änderungen in DB gibt
+        exercicesViewModel.getAllExercices().observe(viewLifecycleOwner) { exercices -> adapter.setData(exercices) }
+
         return root
     }
 
@@ -58,7 +64,7 @@ class ExercicesFragment : Fragment() {
 
 
     private fun setupRecyclerView() {
-        adapter = SimpleStringRecyclerViewAdapter(arrayListOf("Hallo", "Hallo2"))
+        adapter = SimpleStringRecyclerViewAdapter(arrayListOf(Exercice(0, "", "", "", "", false)))
         _binding.apply {
             listExercices.adapter = adapter
             listExercices.layoutManager = LinearLayoutManager(listExercices.context)
@@ -68,8 +74,14 @@ class ExercicesFragment : Fragment() {
 }
 
 class SimpleStringRecyclerViewAdapter(
-    private val values: List<String>
+    private var values: List<Exercice>
 ) : RecyclerView.Adapter<SimpleStringRecyclerViewAdapter.ViewHolder>() {
+
+    //um vom ViewModel aus Daten zu ändern
+    fun setData(newData: List<Exercice>) {
+        this.values = newData
+        notifyDataSetChanged()
+    }
 
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         var boundString: String? = null
@@ -88,19 +100,14 @@ class SimpleStringRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.boundString = values[position]
-        holder.text.text = values[position]
+        holder.boundString = values[position].name
+        holder.text.text = values[position].name
 
         holder.view.setOnClickListener { v ->
             val context = v.context
             /*val intent = Intent(context, CheeseDetailActivity::class.java)
             intent.putExtra(CheeseDetailActivity.EXTRA_NAME, holder.boundString)
             context.startActivity(intent)*/
-
-            //navigiert zur Detail-Seite und übergibt das jeweilige Workout/die Routine
-            val args = Bundle()
-            args.putParcelable("workout", null)
-            holder.view.findNavController().navigate(R.id.navigation_routine_detail, args)
         }
 
     }

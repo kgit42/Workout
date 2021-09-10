@@ -17,24 +17,20 @@ import com.example.workout.db.RoutineDao
 import androidx.lifecycle.LiveData
 
 
-
-
 class HomeViewModel(app: Application) : AndroidViewModel(app) {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
-    }
-    val text: LiveData<String> = _text
 
+    /*
     // Create a LiveData with a String
     val currentName: MutableLiveData<String> by lazy {
         //db = AppDatabase.getInstance()
         MutableLiveData<String>()
     }
+     */
+
 
     //Referenz zur Datenbank
     val db = AppDatabase.getInstance(app.applicationContext)
-
 
 
 

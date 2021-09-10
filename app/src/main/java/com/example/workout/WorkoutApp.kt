@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.example.workout.db.AppDatabase
+import com.example.workout.db.Exercice
 import com.example.workout.db.Routine
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -36,14 +37,14 @@ class WorkoutApp : Application() {
     suspend fun prepopulateDatabase() {
 
                 try {
-                    applicationContext.resources.openRawResource(R.raw.routines).use { inputStream ->
+                    applicationContext.resources.openRawResource(R.raw.exercices).use { inputStream ->
                         JsonReader(inputStream.reader()).use { jsonReader ->
-                            val type = object : TypeToken<List<Routine>>() {}.type
-                            val workoutList: List<Routine> = Gson().fromJson(jsonReader, type)
+                            val type = object : TypeToken<List<Exercice>>() {}.type
+                            val exerciceList: List<Exercice> = Gson().fromJson(jsonReader, type)
 
                             //Calls the specified suspending block with a given coroutine context, suspends until it completes, and returns the result.
                             withContext(Dispatchers.IO) {
-                                AppDatabase.getInstance(applicationContext).routineDao().insertAll(workoutList)
+                                AppDatabase.getInstance(applicationContext).exerciceDao().insertAll(exerciceList)
                             }
 
                         }

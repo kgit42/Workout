@@ -30,8 +30,10 @@ class WorkoutDetailAddFragment : Fragment() {
     private lateinit var toolbar: Toolbar
     private var pausedTime: Long = 0
 
+
     //Liste mit IDs der hinzuzufügenden Elemente
     var listToAdd: ArrayList<String> = arrayListOf()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -100,7 +102,7 @@ class WorkoutDetailAddFragment : Fragment() {
             //zurück navigieren
             findNavController().navigateUp()
 
-            //TODO: Aufruf der entspr. DB-Funktion
+            //TODO: Hinzufügen der gewählten Elemente aus listToAdd zu RecyclerView. Drauf achten, dass Elemente nicht bleiben, falls man nicht speichert
         }
     }
 

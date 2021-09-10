@@ -8,10 +8,14 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.workout.R
 import com.example.workout.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
+
 
 class HomeFragment : Fragment() {
 
@@ -21,6 +25,8 @@ class HomeFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
+    private lateinit var tabLayout: TabLayout
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,8 +50,18 @@ class HomeFragment : Fragment() {
 
         //Floating Button Listener
         binding.fab.setOnClickListener { view ->
+
+            if (tabLayout.selectedTabPosition == ROUTINES_PAGE_INDEX){
+
+            }else{
+                findNavController().navigate(com.example.workout.R.id.navigation_workout_detail)
+            }
+
+
+
+            /*
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+                .setAction("Action", null).show() */
         }
 
         return root
@@ -60,8 +76,8 @@ class HomeFragment : Fragment() {
 
 
     private fun setupViewPagerWithTabs() {
-        val tabLayout = binding.tabs
         val viewPager = binding.viewpager
+        tabLayout = binding.tabs
 
         viewPager.adapter = ViewPagerAdapter(this)
 
@@ -69,6 +85,27 @@ class HomeFragment : Fragment() {
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = getTabTitle(position)
         }.attach()
+
+        /*
+        tabLayout.setOnTabSelectedListener(
+            object : TabLayout.ViewPagerOnTabSelectedListener(mViewPager) {
+                override fun onTabSelected(tab: TabLayout.Tab) {
+                    super.onTabSelected(tab)
+                    numTab = tab.position
+                    prefs.edit().putInt("numTab", numTab).apply()
+                }
+            })
+        tabLayout.addOnTabSelectedListener(OnTabSelectedListener {
+
+        })
+
+
+
+        tabLayout.setOnTabSelectedListener(object : OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                val position = tab.position
+            }
+        })*/
     }
 
     private fun getTabTitle(position: Int): String? {
