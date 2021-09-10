@@ -14,6 +14,10 @@ import com.example.workout.db.AppDatabase
 import com.example.workout.db.ExerciceDao
 import com.example.workout.db.Routine
 import com.example.workout.db.RoutineDao
+import androidx.lifecycle.LiveData
+
+
+
 
 class HomeViewModel(app: Application) : AndroidViewModel(app) {
 
@@ -32,64 +36,17 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
     val db = AppDatabase.getInstance(app.applicationContext)
 
 
-    //val exercicesWithBreak: LiveData<List<Routine>> = db.routineDao().getAll()
 
 
 
-
-
-    inner class SimpleStringRecyclerViewAdapter(
-    ) : RecyclerView.Adapter<SimpleStringRecyclerViewAdapter.ViewHolder>() {
-
-        //Aufruf Datenbank
-        private val values: LiveData<List<Routine>> = db.routineDao().getAll()
-
-        inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-            var boundString: String? = null
-            //val image: ImageView = view.findViewById(R.id.avatar)
-            val text: TextView = view.findViewById(R.id.workout_title)
-
-            override fun toString(): String {
-                return super.toString() + " '" + text.text
-            }
-        }
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val view = LayoutInflater.from(parent.context).inflate(
-                R.layout.routines_view_item, parent, false)
-            return ViewHolder(view)
-        }
-
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            //Elvis-Operator für Null-Check:
-            holder.boundString = values.value!![position].name ?: ""
-            holder.text.text = values.value!![position].name ?: ""
-
-            holder.view.setOnLongClickListener { v ->
-                val context = v.context
-                /*val intent = Intent(context, CheeseDetailActivity::class.java)
-                intent.putExtra(CheeseDetailActivity.EXTRA_NAME, holder.boundString)
-                context.startActivity(intent)*/
-
-                //navigiert zur Detail-Seite und übergibt das jeweilige Workout/die Routine
-                val args = Bundle()
-                args.putParcelable("workout", null)
-                holder.view.findNavController().navigate(R.id.navigation_routine_detail, args)
-                return@setOnLongClickListener true
-            }
-
-        }
-
-        override fun getItemCount(): Int {
-            if(values.value == null){
-                return 0
-            }else{
-                return values.value!!.size
-            }
-
-        }
-
+    fun getAllRoutines(): LiveData<List<Routine>> {
+        return db.routineDao().getAll()
     }
+
+
+
+
+
 }
 
 
