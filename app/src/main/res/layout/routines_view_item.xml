@@ -6,8 +6,8 @@
 
     <data>
         <variable
-            name="workout"
-            type="com.example.workout.db.Workout" />
+            name="routine"
+            type="com.example.workout.db.Routine" />
 
     <!--
 <variable
@@ -52,7 +52,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="Crunch"
-             /> <!-- android:text="@{workout.name}" -->
+            android:text="@{routine.name}"
+             /> <!--  -->
 
         <TextView
             android:id="@+id/workout_category"

@@ -1,11 +1,11 @@
 [
   {
-    "id": "1",
+    "rid": "0",
     "name": "Routine 1",
     "rest": "Oberarm"
   },
   {
-    "id": "1",
+    "rid": "1",
     "name": "Routine 2",
     "rest": "Oberarm"
   }

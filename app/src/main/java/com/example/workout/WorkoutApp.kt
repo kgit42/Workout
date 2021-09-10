@@ -9,10 +9,7 @@ import com.example.workout.db.Routine
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.google.gson.stream.JsonReader
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.runInterruptible
+import kotlinx.coroutines.*
 
 
 //Base class for maintaining global application state. You can provide your own implementation by creating
@@ -43,7 +40,12 @@ class WorkoutApp : Application() {
                         JsonReader(inputStream.reader()).use { jsonReader ->
                             val type = object : TypeToken<List<Routine>>() {}.type
                             val workoutList: List<Routine> = Gson().fromJson(jsonReader, type)
-                            AppDatabase.getInstance(applicationContext).routineDao().insertAll(workoutList)
+
+                            //Calls the specified suspending block with a given coroutine context, suspends until it completes, and returns the result.
+                            withContext(Dispatchers.IO) {
+                                AppDatabase.getInstance(applicationContext).routineDao().insertAll(workoutList)
+                            }
+
                         }
                     }
                     Log.v("hello", "success")
