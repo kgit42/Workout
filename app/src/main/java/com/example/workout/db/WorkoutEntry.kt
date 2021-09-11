@@ -12,6 +12,7 @@ data class WorkoutEntry(
     @ColumnInfo(name = "length") val length: Int?,
     @ColumnInfo(name = "multiple_sets") val multipleSets: Boolean,
     @ColumnInfo(name = "priority") val priority: Int?,
-    @ColumnInfo(name = "inner_break") val innerBreak: Int?,
+    @ColumnInfo(name = "inner_rest") val innerRest: Int?,
+    @Embedded val exercice: Exercice
 
 )

@@ -9,8 +9,8 @@ import androidx.room.PrimaryKey
 data class Routine(
     @PrimaryKey val rid: Int,
     @ColumnInfo(name = "name") val name: String?,
-    @ColumnInfo(name = "rest") val rest: String?,
+    @ColumnInfo(name = "rest_workouts") val restWorkouts: String?,
 
-    //@Embedded val exercicesWithBreak: List<Map<WorkoutEntry, Int>>?
+    //@Embedded val exercicesWithRest: List<Map<WorkoutEntry, Int>>?
 
 )
