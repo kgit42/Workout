@@ -10,11 +10,8 @@ import androidx.lifecycle.*
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workout.R
-import com.example.workout.db.AppDatabase
-import com.example.workout.db.ExerciceDao
-import com.example.workout.db.Routine
-import com.example.workout.db.RoutineDao
 import androidx.lifecycle.LiveData
+import com.example.workout.db.*
 
 
 class HomeViewModel(app: Application) : AndroidViewModel(app) {
@@ -32,12 +29,28 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
     //Referenz zur Datenbank
     val db = AppDatabase.getInstance(app.applicationContext)
 
+    //Liste mit IDs der hinzuzufügenden Übungen
+    var listToAdd: ArrayList<Exercice> = arrayListOf()
+
 
 
 
     fun getAllRoutines(): LiveData<List<Routine>> {
         return db.routineDao().getAll()
     }
+
+    fun getAllWorkouts(): LiveData<List<Workout>> {
+        return db.workoutDao().getAll()
+    }
+
+    fun getAllExercices(): LiveData<List<Exercice>> {
+        return db.exerciceDao().getAll()
+    }
+
+    fun getById(wid: Int?): LiveData<Workout> {
+        return db.workoutDao().getById(wid)
+    }
+
 
 
 

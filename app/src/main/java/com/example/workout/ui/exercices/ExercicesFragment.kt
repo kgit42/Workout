@@ -50,7 +50,8 @@ class ExercicesFragment : Fragment() {
         setupRecyclerView()
 
         //Observer --> falls es Änderungen in DB gibt
-        exercicesViewModel.getAllExercices().observe(viewLifecycleOwner) { exercices -> adapter.setData(exercices) }
+        exercicesViewModel.getAllExercices()
+            .observe(viewLifecycleOwner) { exercices -> adapter.setData(exercices) }
 
         return root
     }
@@ -64,6 +65,7 @@ class ExercicesFragment : Fragment() {
 
 
     private fun setupRecyclerView() {
+        //zunächst leere ArrayList erzeugen
         adapter = SimpleStringRecyclerViewAdapter(arrayListOf(Exercice(0, "", "", "", "", false)))
         _binding.apply {
             listExercices.adapter = adapter
@@ -71,50 +73,51 @@ class ExercicesFragment : Fragment() {
         }
     }
 
-}
 
-class SimpleStringRecyclerViewAdapter(
-    private var values: List<Exercice>
-) : RecyclerView.Adapter<SimpleStringRecyclerViewAdapter.ViewHolder>() {
+    class SimpleStringRecyclerViewAdapter(
+        private var values: List<Exercice>
+    ) : RecyclerView.Adapter<SimpleStringRecyclerViewAdapter.ViewHolder>() {
 
-    //um vom ViewModel aus Daten zu ändern
-    fun setData(newData: List<Exercice>) {
-        this.values = newData
-        notifyDataSetChanged()
-    }
-
-    class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        var boundString: String? = null
-        //val image: ImageView = view.findViewById(R.id.avatar)
-        val text: TextView = view.findViewById(R.id.workout_title)
-
-        override fun toString(): String {
-            return super.toString() + " '" + text.text
+        //um vom ViewModel aus Daten zu ändern
+        fun setData(newData: List<Exercice>) {
+            this.values = newData
+            notifyDataSetChanged()
         }
-    }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(
-            R.layout.routines_view_item, parent, false)
-        return ViewHolder(view)
-    }
+        class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+            var boundString: String? = null
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.boundString = values[position].name
-        holder.text.text = values[position].name
+            //val image: ImageView = view.findViewById(R.id.avatar)
+            val text: TextView = view.findViewById(R.id.workout_title)
 
-        holder.view.setOnClickListener { v ->
-            val context = v.context
-            /*val intent = Intent(context, CheeseDetailActivity::class.java)
+            override fun toString(): String {
+                return super.toString() + " '" + text.text
+            }
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+            val view = LayoutInflater.from(parent.context).inflate(
+                R.layout.routines_view_item, parent, false
+            )
+            return ViewHolder(view)
+        }
+
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+            holder.boundString = values[position].name
+            holder.text.text = values[position].name
+
+            holder.view.setOnClickListener { v ->
+                val context = v.context
+                /*val intent = Intent(context, CheeseDetailActivity::class.java)
             intent.putExtra(CheeseDetailActivity.EXTRA_NAME, holder.boundString)
             context.startActivity(intent)*/
+            }
+
         }
 
+
+        override fun getItemCount(): Int = values.size
     }
-
-
-
-    override fun getItemCount(): Int = values.size
 }
 
 

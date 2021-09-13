@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.workout.HelperClass
 import com.example.workout.R
 import com.example.workout.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
@@ -63,6 +64,8 @@ class HomeFragment : Fragment() {
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show() */
         }
+
+        HelperClass.listToAdd.clear()
 
         return root
     }

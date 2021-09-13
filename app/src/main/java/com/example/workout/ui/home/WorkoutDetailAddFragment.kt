@@ -1,6 +1,7 @@
 package com.example.workout.ui.home
 
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.Log
 import android.view.*
 import android.widget.CheckBox
@@ -9,14 +10,17 @@ import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.workout.HelperClass
 import com.example.workout.R
 import com.example.workout.databinding.FragmentWorkoutDetailAddBinding
-import com.example.workout.ui.exercices.SimpleStringRecyclerViewAdapter
+import com.example.workout.db.Exercice
+import com.example.workout.db.WorkoutEntry
 
 class WorkoutDetailAddFragment : Fragment() {
 
@@ -30,15 +34,17 @@ class WorkoutDetailAddFragment : Fragment() {
     private lateinit var toolbar: Toolbar
     private var pausedTime: Long = 0
 
+    private lateinit var homeViewModel: HomeViewModel
 
-    //Liste mit IDs der hinzuzufügenden Elemente
-    var listToAdd: ArrayList<String> = arrayListOf()
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        //Referenz zum ViewModel beschaffen
+        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+
         binding = FragmentWorkoutDetailAddBinding.inflate(inflater, container, false)
         /*binding.apply {
             viewModel = detailViewModel
@@ -47,15 +53,19 @@ class WorkoutDetailAddFragment : Fragment() {
 
         setupRecyclerView()
         setHasOptionsMenu(true)
+
+        //Observer --> falls es Änderungen in DB gibt
+        homeViewModel.getAllExercices().observe(viewLifecycleOwner) { exercices -> adapter.setData(exercices) }
+
+        //zunächst Liste leeren, da anfangs nichts ausgewählt
+        HelperClass._listToAdd.clear()
+
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setupToolbarWithNavigation()
-
-        //Alle Elemente zunächst löschen, wenn Seite neu geöffnet wird
-        listToAdd.clear()
 
         onOptionsItemSelected()
 
@@ -95,31 +105,32 @@ class WorkoutDetailAddFragment : Fragment() {
     }
 
     
-
+    //Speichern-Button
     private fun onOptionsItemSelected() {
         toolbar = binding.toolbarDetail
         toolbar.setOnMenuItemClickListener {
+
+            //Der folgende Abschnitt funktioniert so nicht, da onOptionsSelected augerufen wird, wenn listToAdd noch leer ist
+/*
+            Log.v("hhh", listToAdd.size.toString())
+            //Hinzufügen der gewählten Elemente aus listToAdd zur RecyclerView, aber noch immer nicht zur DB.
+            homeViewModel.listToAdd.addAll(listToAdd)
+*/
+
+            HelperClass.submitList()
+
             //zurück navigieren
             findNavController().navigateUp()
 
-            //TODO: Hinzufügen der gewählten Elemente aus listToAdd zu RecyclerView. Drauf achten, dass Elemente nicht bleiben, falls man nicht speichert
         }
     }
 
 
     private fun setupRecyclerView() {
-        //siehe https://discuss.kotlinlang.org/t/kotlin-constructor-of-inner-class-nested-can-be-called-only-with-receiver-of-containing-class/7700
+        //Warum Instanziierung der Klasse WorkoutDetailAddFragment? --> siehe https://discuss.kotlinlang.org/t/kotlin-constructor-of-inner-class-nested-can-be-called-only-with-receiver-of-containing-class/7700
+        //zunächst leere ArrayList erzeugen
         adapter = WorkoutDetailAddFragment().SimpleStringRecyclerViewAdapter(
-            arrayListOf(
-                "Hallo",
-                "Hallo2",
-                "Hallo3",
-                "Hallo4",
-                "Hallo5",
-                "Hallo6",
-                "dsgsgg",
-                "Crunches"
-            )
+            arrayListOf()
         )
         binding.apply {
             listExercices.adapter = adapter
@@ -133,8 +144,14 @@ class WorkoutDetailAddFragment : Fragment() {
 
     //"inner" Schlüsselwort, um von innen auf Variablen der äußeren Klasse zugreifen zu können
     inner class SimpleStringRecyclerViewAdapter(
-        private val values: List<String>
+        private var values: List<Exercice>
     ) : RecyclerView.Adapter<SimpleStringRecyclerViewAdapter.ViewHolder>() {
+
+        //um vom ViewModel aus Daten zu ändern
+        fun setData(newData: List<Exercice>) {
+            this.values = newData
+            notifyDataSetChanged()
+        }
 
         inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
             var boundString: String? = null
@@ -148,13 +165,12 @@ class WorkoutDetailAddFragment : Fragment() {
                 return super.toString() + " '" + text.text
             }
 
+            /*
             //init-Block, um Listener für Checkbox zu setzen
             init {
                 checkbox.setOnCheckedChangeListener { checkbox, isChecked ->
-                    //Todo: Statt Titel die ID übergeben
-                    listToAdd.add(text.toString())
                 }
-            }
+            }*/
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -164,8 +180,8 @@ class WorkoutDetailAddFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.boundString = values[position]
-            holder.text.text = values[position]
+            holder.boundString = values[position].name
+            holder.text.text = values[position].name
 
             holder.view.setOnClickListener { v ->
                 val context = v.context
@@ -175,6 +191,17 @@ class WorkoutDetailAddFragment : Fragment() {
 
             }
 
+            //Listener für Checkboxes
+            holder.checkbox.setOnCheckedChangeListener {checkbox, isChecked ->
+                if(isChecked){
+                    //Hinzufügen der gewählten Elemente aus listToAdd zur RecyclerView, aber noch immer nicht zur DB.
+                    HelperClass._listToAdd.add(values[position])
+                }else{
+                    //Hinzufügen der gewählten Elemente aus listToAdd zur RecyclerView, aber noch immer nicht zur DB.
+                    HelperClass._listToAdd.remove(values[position])
+                }
+
+            }
 
         }
 

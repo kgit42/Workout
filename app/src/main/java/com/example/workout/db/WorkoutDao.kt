@@ -9,7 +9,6 @@ interface WorkoutDao {
     fun getAll(): LiveData<List<Workout>>
 
     @Query("SELECT * FROM workout WHERE wid = (:wid) ")
-    fun getById(wid: Int): LiveData<Workout>
-
+    fun getById(wid: Int?): LiveData<Workout>
 
 }

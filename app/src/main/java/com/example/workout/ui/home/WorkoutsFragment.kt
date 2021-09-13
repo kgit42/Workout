@@ -8,32 +8,54 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workout.R
+import com.example.workout.db.Routine
+import com.example.workout.db.Workout
 import java.util.ArrayList
 
 class WorkoutsFragment : Fragment() {
+    private lateinit var homeViewModel: HomeViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        //Referenz zum ViewModel beschaffen
+        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+
         val rv = inflater.inflate(
             R.layout.fragment_list,
             container,
             false
         ) as RecyclerView
         rv.layoutManager = LinearLayoutManager(rv.context)
-        rv.adapter = SimpleStringRecyclerViewAdapter(arrayListOf("Hallo", "Hallo2"))
+
+        //zunächst leere ArrayList mit Workouts
+        val adapter =
+            SimpleStringRecyclerViewAdapter(arrayListOf(Workout()))
+        rv.adapter = adapter
+
+
+        //Observer --> falls es Änderungen in DB gibt
+        homeViewModel.getAllWorkouts().observe(viewLifecycleOwner) { workouts -> adapter.setData(workouts) }
 
         return rv
     }
 
     class SimpleStringRecyclerViewAdapter(
-        private val values: List<String>
+        private var values: List<Workout>
     ) : RecyclerView.Adapter<SimpleStringRecyclerViewAdapter.ViewHolder>() {
+
+        //um vom ViewModel aus Daten zu ändern
+        fun setData(newData: List<Workout>) {
+            this.values = newData
+            notifyDataSetChanged()
+        }
 
         class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
             var boundString: String? = null
@@ -52,8 +74,8 @@ class WorkoutsFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.boundString = values[position]
-            holder.text.text = values[position]
+            holder.boundString = values[position].name
+            holder.text.text = values[position].name
 
             holder.view.setOnLongClickListener { v ->
                 val context = v.context
@@ -63,7 +85,7 @@ class WorkoutsFragment : Fragment() {
 
                 //navigiert zur Detail-Seite und übergibt das jeweilige Workout/die Routine
                 val args = Bundle()
-                args.putParcelable("workout", null)
+                args.putInt("wid", values[position].wid)
                 holder.view.findNavController().navigate(R.id.navigation_workout_detail, args)
                 return@setOnLongClickListener true
             }

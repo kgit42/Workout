@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workout.R
 import com.example.workout.databinding.FragmentWorkoutDetailExerciceBinding
-import com.example.workout.ui.exercices.SimpleStringRecyclerViewAdapter
 
 class WorkoutDetailExerciceFragment : Fragment() {
 

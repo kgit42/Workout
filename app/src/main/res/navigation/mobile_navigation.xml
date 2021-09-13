@@ -40,11 +40,12 @@
         android:name="com.example.workout.ui.home.WorkoutDetailFragment"
         android:label="Workout xyz"
         tools:layout="@layout/fragment_workout_detail">
+
         <!--
         <argument
-            android:name="routine"
-            app:argType="com.ersiver.gymific.model.Workout" />
-            -->
+            android:name="workout"
+            app:argType="com.ersiver.gymific.model.Workout" --> />
+
     </fragment>
 
     <fragment

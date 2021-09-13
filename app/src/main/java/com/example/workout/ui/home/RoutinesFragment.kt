@@ -28,6 +28,7 @@ class RoutinesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        //Referenz zum ViewModel beschaffen
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
         val rv = inflater.inflate(
@@ -36,6 +37,8 @@ class RoutinesFragment : Fragment() {
             false
         ) as RecyclerView
         rv.layoutManager = LinearLayoutManager(rv.context)
+
+        //zunächst leere ArrayList mit Routinen
         val adapter = SimpleStringRecyclerViewAdapter(arrayListOf(Routine(0, "", "")))
         rv.adapter = adapter
 
