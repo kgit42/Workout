@@ -12,7 +12,7 @@ interface ExerciceDao {
     fun loadAllByIds(exerciceIds: IntArray): List<Exercice>
 
     @Insert
-    fun insertAll(vararg users: Exercice)
+    fun insertAll(vararg exercice: Exercice)
 
     @Delete
     fun delete(user: Exercice)

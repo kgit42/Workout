@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey
 //Entität mit Default-Werten
 @Entity
 data class Workout(
-    @PrimaryKey val wid: Int = 0,
+    @PrimaryKey(autoGenerate = true) val wid: Int = 0,
     @ColumnInfo(name = "name") val name: String? = "",
     @ColumnInfo(name = "type") val type: Int? = 0,      //0 = Normal; 1 = Supersets
     @ColumnInfo(name = "number_exercices") val numberExercices: Int? = 0,

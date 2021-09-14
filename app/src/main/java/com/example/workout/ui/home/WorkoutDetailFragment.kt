@@ -20,10 +20,13 @@ import android.R
 import android.util.Log
 import android.widget.Button
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.workout.HelperClass
 import com.example.workout.db.Exercice
 import com.example.workout.db.Workout
 import com.example.workout.db.WorkoutEntry
+import kotlinx.coroutines.launch
+import java.lang.Exception
 
 
 class WorkoutDetailFragment : Fragment() {
@@ -75,6 +78,11 @@ class WorkoutDetailFragment : Fragment() {
             binding.toolbarDetail.title = "Neues Workout"
         }
 
+        //Observer --> falls es Änderungen in HelperClass gibt
+        HelperClass.workoutentriesToAdd.observe(viewLifecycleOwner) {
+            list -> list.forEach{element -> adapter.addElement(element)}
+        }
+
 
         setupRecyclerView()
         return binding.root
@@ -84,8 +92,9 @@ class WorkoutDetailFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         setupToolbarWithNavigation()
 
-        /*
         onOptionsItemSelected()
+
+        /*
         detailViewModel.start(workout.id)
 
         detailViewModel.workout.observe(viewLifecycleOwner) { workout ->
@@ -119,13 +128,53 @@ class WorkoutDetailFragment : Fragment() {
         }
     }
 
-/*
+
+    //Speichern-Button
     private fun onOptionsItemSelected() {
+        toolbar = binding.toolbarDetail
         toolbar.setOnMenuItemClickListener {
-            detailViewModel.setFavourite(workout)
-            true
+
+            //Zusammensuchen der nötigen Daten. Abfangen von fehlerhaften Eingaben
+            try {
+                val name = binding.name.text.toString()
+                val anzahl = Integer.parseInt(binding.anzahl.text.toString())
+                val pause1 = Integer.parseInt(binding.pause1.text.toString())
+                val pause2 = Integer.parseInt(binding.pause2.text.toString())
+
+                val exercices = adapter.getElements()
+
+                //Fallunterscheidung je nachdem, ob neues Workout oder Änderung eines bestehenden
+                if(arguments?.getInt("wid") != null){
+                    //homeViewModel.updateWorkout
+                }else{
+                    lifecycleScope.launch {
+                        homeViewModel.createWorkout(
+                            Workout(
+                                0,
+                                name,
+                                0,
+                                anzahl,
+                                pause1,
+                                pause2,
+                                exercices,
+                                arrayListOf()
+                            )
+                        )
+                    }
+                }
+            } catch (e: Exception){
+
+            }
+
+
+
+
+
+            //zurück navigieren
+            findNavController().navigateUp()
+
         }
-    }*/
+    }
 
     private fun setupRecyclerView() {
         adapter = SimpleStringRecyclerViewAdapter(Workout())
@@ -133,13 +182,30 @@ class WorkoutDetailFragment : Fragment() {
             addExerciceList.adapter = adapter
             addExerciceList.layoutManager = LinearLayoutManager(addExerciceList.context)
 
-            HelperClass.listToAdd.forEach{
-                //TODO: DB-Add von WorkoutEntry und ID zurückgeben lassen und in HelperClass zwischenspeichern, aus listToAdd löschen
-                adapter.addElement(WorkoutEntry(0, 55, false, 0, 0, it))
-            }
 
-            //Todo: noch eine foreach-Schleife für die WorkoutEntries
+                HelperClass.listToAdd.forEach{
+                    lifecycleScope.launch{
+                        //Ein neues WorkoutEntry dieser Übung in DB anlegen und ID zurückgeben lassen
+                        var id = homeViewModel.createWorkoutEntry(WorkoutEntry(exercice = it))
 
+                        //Das gerade angelegte Workout der HelperClass hinzufügen sowie aus listToAdd löschen
+                        val workoutentry = WorkoutEntry(id.toInt(), exercice = it)
+
+                        HelperClass.workoutentriesToAdd.value?.add(workoutentry)
+                        HelperClass.workoutentriesToAdd.postValue(HelperClass.workoutentriesToAdd.value)
+                        HelperClass.listToAdd.remove(it)
+
+                        //Neues Element dem Adapter der RecyclerView hinzufügen
+                        //adapter.addElement(workoutentry)
+
+                    }
+
+                }
+
+            //alle hinzuzufügenden Elemente aus HelperClass dem Adapter der RecyclerView hinzufügen
+            /*HelperClass.workoutentriesToAdd.forEach{
+                adapter.addElement(it)
+            }*/
         }
     }
 
@@ -157,7 +223,12 @@ class WorkoutDetailFragment : Fragment() {
         //um einzelne Elemente hinzuzufügen, BEVOR sie evtl. zur DB hinzugefügt werden
         fun addElement(element: WorkoutEntry){
             this.values.exercices.add(element)
+            notifyDataSetChanged()
             notifyItemInserted(values.exercices.size - 1);
+        }
+
+        fun getElements(): ArrayList<WorkoutEntry>{
+            return values.exercices
         }
 
         class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {

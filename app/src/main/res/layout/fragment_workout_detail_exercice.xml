@@ -31,6 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:navigationIcon="@drawable/ic_back"
+                app:menu="@menu/menu_save"
                 app:title="Übung xyz" />
 
 
@@ -83,7 +84,7 @@
 
 
                 <EditText
-                    android:id="@+id/editTextNumber1"
+                    android:id="@+id/anzahl"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

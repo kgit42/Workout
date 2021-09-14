@@ -1,4 +1,11 @@
 package com.example.workout.db
 
-class WorkoutEntryDao {
+import androidx.room.Dao
+import androidx.room.Insert
+
+@Dao
+interface WorkoutEntryDao {
+    //Erstellen eines neuen WorkoutEntries und Zurückgeben der ID
+    @Insert
+    fun insert(workoutentry: WorkoutEntry): Long
 }

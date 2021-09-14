@@ -1,5 +1,7 @@
 package com.example.workout
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.workout.db.Exercice
 import com.example.workout.db.WorkoutEntry
 
@@ -17,7 +19,9 @@ class HelperClass {
         }
 
         //Liste mit hinzuzufügenden WorkoutEntries
-        var workoutentriesToAdd: ArrayList<WorkoutEntry> = arrayListOf()
+        val workoutentriesToAdd = MutableLiveData<ArrayList<WorkoutEntry>>().apply {
+            value = arrayListOf()
+        }
     }
 
 

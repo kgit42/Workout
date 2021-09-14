@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Routine(
-    @PrimaryKey val rid: Int,
+    @PrimaryKey(autoGenerate = true) val rid: Int,
     @ColumnInfo(name = "name") val name: String?,
     @ColumnInfo(name = "rest_workouts") val restWorkouts: String?,
 

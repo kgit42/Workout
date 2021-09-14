@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey
 //Entität mit Default-Werten
 @Entity
 data class Exercice(
-    @PrimaryKey val eid: Int = 0,
+    @PrimaryKey(autoGenerate = true) val eid: Int = 0,
     @ColumnInfo(name = "name") val name: String? = "",
     @ColumnInfo(name = "category") val category: String? = "",
     @ColumnInfo(name = "video") val video: String? = "",

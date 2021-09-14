@@ -12,6 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.workout.R
 import androidx.lifecycle.LiveData
 import com.example.workout.db.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class HomeViewModel(app: Application) : AndroidViewModel(app) {
@@ -28,9 +31,6 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
 
     //Referenz zur Datenbank
     val db = AppDatabase.getInstance(app.applicationContext)
-
-    //Liste mit IDs der hinzuzufügenden Übungen
-    var listToAdd: ArrayList<Exercice> = arrayListOf()
 
 
 
@@ -49,6 +49,14 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
 
     fun getById(wid: Int?): LiveData<Workout> {
         return db.workoutDao().getById(wid)
+    }
+
+    suspend fun createWorkout(workout: Workout): Long {
+        return withContext(Dispatchers.IO) { db.workoutDao().insert(workout) }
+    }
+
+    suspend fun createWorkoutEntry(workoutentry: WorkoutEntry): Long {
+        return withContext(Dispatchers.IO) { db.workoutEntryDao().insert(workoutentry) }
     }
 
 

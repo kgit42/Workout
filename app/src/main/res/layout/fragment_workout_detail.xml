@@ -30,6 +30,7 @@
                 android:id="@+id/toolbar_detail"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                app:menu="@menu/menu_save"
                 app:navigationIcon="@drawable/ic_back"
                 app:title="Workout xyz" />
 
@@ -60,6 +61,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <EditText
+                    android:id="@+id/name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
@@ -81,7 +83,7 @@
 
 
                 <EditText
-                    android:id="@+id/editTextNumber1"
+                    android:id="@+id/anzahl"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -102,7 +104,7 @@
 
 
                 <EditText
-                    android:id="@+id/editTextNumber2"
+                    android:id="@+id/pause1"
                     android:layout_width="175dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -123,7 +125,7 @@
 
 
                 <EditText
-                    android:id="@+id/editTextNumber3"
+                    android:id="@+id/pause2"
                     android:layout_width="175dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
