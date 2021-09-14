@@ -66,7 +66,7 @@ class HomeFragment : Fragment() {
         }
 
         HelperClass.listToAdd.clear()
-        HelperClass.workoutentriesToAdd.value?.clear()
+        HelperClass.workoutentriesToAdd.clear()
 
         return root
     }

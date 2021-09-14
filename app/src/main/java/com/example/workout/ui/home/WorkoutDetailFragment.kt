@@ -26,6 +26,7 @@ import com.example.workout.db.Exercice
 import com.example.workout.db.Workout
 import com.example.workout.db.WorkoutEntry
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.newCoroutineContext
 import java.lang.Exception
 
 
@@ -78,10 +79,13 @@ class WorkoutDetailFragment : Fragment() {
             binding.toolbarDetail.title = "Neues Workout"
         }
 
+        /*
         //Observer --> falls es Änderungen in HelperClass gibt
         HelperClass.workoutentriesToAdd.observe(viewLifecycleOwner) {
             list -> list.forEach{element -> adapter.addElement(element)}
         }
+
+         */
 
 
         setupRecyclerView()
@@ -182,30 +186,52 @@ class WorkoutDetailFragment : Fragment() {
             addExerciceList.adapter = adapter
             addExerciceList.layoutManager = LinearLayoutManager(addExerciceList.context)
 
+            lifecycleScope.launch{
+
+                /*
+                var newWorkoutentriesToAdd = arrayListOf<WorkoutEntry>()
+                HelperClass.workoutentriesToAdd.value?.let { it1 ->
+                    newWorkoutentriesToAdd.addAll(
+                        it1
+                    )
+                }
+                 */
 
                 HelperClass.listToAdd.forEach{
-                    lifecycleScope.launch{
+
                         //Ein neues WorkoutEntry dieser Übung in DB anlegen und ID zurückgeben lassen
                         var id = homeViewModel.createWorkoutEntry(WorkoutEntry(exercice = it))
 
-                        //Das gerade angelegte Workout der HelperClass hinzufügen sowie aus listToAdd löschen
+                        //Das gerade angelegte Workout der HelperClass hinzufügen
                         val workoutentry = WorkoutEntry(id.toInt(), exercice = it)
 
-                        HelperClass.workoutentriesToAdd.value?.add(workoutentry)
-                        HelperClass.workoutentriesToAdd.postValue(HelperClass.workoutentriesToAdd.value)
-                        HelperClass.listToAdd.remove(it)
+                        //newWorkoutentriesToAdd.add(workoutentry)
+                        //HelperClass.listToAdd.remove(it)
 
                         //Neues Element dem Adapter der RecyclerView hinzufügen
                         //adapter.addElement(workoutentry)
 
-                    }
+                        HelperClass.workoutentriesToAdd.add(workoutentry)
 
                 }
 
-            //alle hinzuzufügenden Elemente aus HelperClass dem Adapter der RecyclerView hinzufügen
-            /*HelperClass.workoutentriesToAdd.forEach{
-                adapter.addElement(it)
-            }*/
+                //HelperClass.workoutentriesToAdd.setValue(newWorkoutentriesToAdd)
+                Log.v("hhh", HelperClass.workoutentriesToAdd.toString())
+                //alle hinzuzufügenden Elemente aus HelperClass dem Adapter der RecyclerView hinzufügen
+                HelperClass.workoutentriesToAdd.forEach{
+                    adapter.addElement(it)
+                }
+
+                //Elemente aus listToAdd löschen
+                val iterator = HelperClass.listToAdd.iterator()
+                while(iterator.hasNext()){
+                    var ex = iterator.next()
+                    iterator.remove()
+                }
+
+                }
+
+
         }
     }
 
@@ -223,7 +249,6 @@ class WorkoutDetailFragment : Fragment() {
         //um einzelne Elemente hinzuzufügen, BEVOR sie evtl. zur DB hinzugefügt werden
         fun addElement(element: WorkoutEntry){
             this.values.exercices.add(element)
-            notifyDataSetChanged()
             notifyItemInserted(values.exercices.size - 1);
         }
 
