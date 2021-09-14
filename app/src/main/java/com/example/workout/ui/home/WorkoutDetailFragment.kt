@@ -71,21 +71,20 @@ class WorkoutDetailFragment : Fragment() {
         })
 
         //Observer --> falls es Änderungen in DB gibt
-        //nur wenn bestehendes Workout bearbeitet werden soll, muss mit der Datenbank abgeglichen werden
-        if(arguments?.getInt("wid") != null){
+        //nur wenn bestehendes Workout bearbeitet werden soll, muss mit der Datenbank abgeglichen werden.
+        //Es werden Funktionen zum Füllen der EditTexts sowie der RecyclerView ausgeführt.
+        //Bestehende Daten an den Anfang der Liste setzen, dahinter kommen die neu hinzuzufügenden Elemente.
+        if (arguments?.getInt("wid") != null) {
+
             homeViewModel.getById(arguments?.getInt("wid"))
-                .observe(viewLifecycleOwner) { workout -> adapter.setData(workout) }
-        }else{
+                .observe(viewLifecycleOwner) { workout ->
+                    adapter.addDataToBeginning(workout)
+                    fillWithData(workout)
+                }
+
+        } else {
             binding.toolbarDetail.title = "Neues Workout"
         }
-
-        /*
-        //Observer --> falls es Änderungen in HelperClass gibt
-        HelperClass.workoutentriesToAdd.observe(viewLifecycleOwner) {
-            list -> list.forEach{element -> adapter.addElement(element)}
-        }
-
-         */
 
 
         setupRecyclerView()
@@ -148,9 +147,9 @@ class WorkoutDetailFragment : Fragment() {
                 val exercices = adapter.getElements()
 
                 //Fallunterscheidung je nachdem, ob neues Workout oder Änderung eines bestehenden
-                if(arguments?.getInt("wid") != null){
-                    //homeViewModel.updateWorkout
-                }else{
+                if (arguments?.getInt("wid") != null) {
+                    //TODO: Aus RecyclerView u.a. Daten holen
+                } else {
                     lifecycleScope.launch {
                         homeViewModel.createWorkout(
                             Workout(
@@ -166,12 +165,9 @@ class WorkoutDetailFragment : Fragment() {
                         )
                     }
                 }
-            } catch (e: Exception){
+            } catch (e: Exception) {
 
             }
-
-
-
 
 
             //zurück navigieren
@@ -186,53 +182,48 @@ class WorkoutDetailFragment : Fragment() {
             addExerciceList.adapter = adapter
             addExerciceList.layoutManager = LinearLayoutManager(addExerciceList.context)
 
-            lifecycleScope.launch{
+            lifecycleScope.launch {
 
-                /*
-                var newWorkoutentriesToAdd = arrayListOf<WorkoutEntry>()
-                HelperClass.workoutentriesToAdd.value?.let { it1 ->
-                    newWorkoutentriesToAdd.addAll(
-                        it1
-                    )
-                }
-                 */
+                HelperClass.listToAdd.forEach {
 
-                HelperClass.listToAdd.forEach{
+                    //Ein neues WorkoutEntry dieser Übung in DB anlegen und ID zurückgeben lassen
+                    var id = homeViewModel.createWorkoutEntry(WorkoutEntry(exercice = it))
 
-                        //Ein neues WorkoutEntry dieser Übung in DB anlegen und ID zurückgeben lassen
-                        var id = homeViewModel.createWorkoutEntry(WorkoutEntry(exercice = it))
-
-                        //Das gerade angelegte Workout der HelperClass hinzufügen
-                        val workoutentry = WorkoutEntry(id.toInt(), exercice = it)
-
-                        //newWorkoutentriesToAdd.add(workoutentry)
-                        //HelperClass.listToAdd.remove(it)
-
-                        //Neues Element dem Adapter der RecyclerView hinzufügen
-                        //adapter.addElement(workoutentry)
-
-                        HelperClass.workoutentriesToAdd.add(workoutentry)
+                    //Das gerade angelegte Workout der HelperClass hinzufügen
+                    val workoutentry = WorkoutEntry(id.toInt(), exercice = it)
+                    HelperClass.workoutentriesToAdd.add(workoutentry)
 
                 }
 
                 //HelperClass.workoutentriesToAdd.setValue(newWorkoutentriesToAdd)
-                Log.v("hhh", HelperClass.workoutentriesToAdd.toString())
+                //Log.v("hhh", HelperClass.workoutentriesToAdd.toString())
+
                 //alle hinzuzufügenden Elemente aus HelperClass dem Adapter der RecyclerView hinzufügen
-                HelperClass.workoutentriesToAdd.forEach{
+                HelperClass.workoutentriesToAdd.forEach {
                     adapter.addElement(it)
                 }
 
-                //Elemente aus listToAdd löschen
+                //Elemente aus listToAdd löschen. Verwendung eines Iterators, da es
+                // sonst zu ConcurrentModificationException kommt
                 val iterator = HelperClass.listToAdd.iterator()
-                while(iterator.hasNext()){
+                while (iterator.hasNext()) {
                     var ex = iterator.next()
                     iterator.remove()
                 }
 
-                }
-
+            }
 
         }
+    }
+
+    //füllt EditTexts aus mit bestehenden Daten aus DB
+    fun fillWithData(workout: Workout) {
+        binding.name.setText(workout.name)
+        binding.anzahl.setText(workout.numberExercices.toString())
+        binding.pause1.setText(workout.restExercices.toString())
+        binding.pause2.setText(workout.restSets.toString())
+
+        binding.toolbarDetail.title = workout.name
     }
 
 
@@ -241,18 +232,25 @@ class WorkoutDetailFragment : Fragment() {
     ) : RecyclerView.Adapter<SimpleStringRecyclerViewAdapter.ViewHolder>() {
 
         //um vom ViewModel aus Daten zu ändern
+        fun addDataToBeginning(newData: Workout) {
+            this.values.exercices.addAll(0, newData.exercices)
+            notifyDataSetChanged()
+        }
+
+        /*
         fun setData(newData: Workout) {
             this.values = newData
             notifyDataSetChanged()
         }
+         */
 
         //um einzelne Elemente hinzuzufügen, BEVOR sie evtl. zur DB hinzugefügt werden
-        fun addElement(element: WorkoutEntry){
+        fun addElement(element: WorkoutEntry) {
             this.values.exercices.add(element)
             notifyItemInserted(values.exercices.size - 1);
         }
 
-        fun getElements(): ArrayList<WorkoutEntry>{
+        fun getElements(): ArrayList<WorkoutEntry> {
             return values.exercices
         }
 

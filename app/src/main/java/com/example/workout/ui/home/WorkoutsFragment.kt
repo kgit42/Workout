@@ -83,7 +83,7 @@ class WorkoutsFragment : Fragment() {
                 intent.putExtra(CheeseDetailActivity.EXTRA_NAME, holder.boundString)
                 context.startActivity(intent)*/
 
-                //navigiert zur Detail-Seite und übergibt das jeweilige Workout/die Routine
+                //navigiert zur Detail-Seite und übergibt das jeweilige Workout/die Routine (bzw. die ID)
                 val args = Bundle()
                 args.putInt("wid", values[position].wid)
                 holder.view.findNavController().navigate(R.id.navigation_workout_detail, args)

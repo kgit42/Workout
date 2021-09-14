@@ -11,6 +11,10 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.google.gson.stream.JsonReader
 import kotlinx.coroutines.*
+import android.content.SharedPreferences
+
+
+
 
 
 //Base class for maintaining global application state. You can provide your own implementation by creating
@@ -20,8 +24,10 @@ import kotlinx.coroutines.*
 // other class when the process for your application/package is created.
 
 class WorkoutApp : Application() {
+
     override fun onCreate() {
         super.onCreate()
+
         coroutine()
     }
 
@@ -36,6 +42,10 @@ class WorkoutApp : Application() {
     //Pre-populate database with raw data.
     suspend fun prepopulateDatabase() {
 
+        //Shared Preferences, um nur beim ersten Start Initialisierung der DB auszuführen
+        val prefs = getSharedPreferences("prefs", MODE_PRIVATE)
+        val firstStart = prefs.getBoolean("firstStart", true)
+
                 try {
                     applicationContext.resources.openRawResource(R.raw.exercices).use { inputStream ->
                         JsonReader(inputStream.reader()).use { jsonReader ->
@@ -44,7 +54,19 @@ class WorkoutApp : Application() {
 
                             //Calls the specified suspending block with a given coroutine context, suspends until it completes, and returns the result.
                             withContext(Dispatchers.IO) {
-                                AppDatabase.getInstance(applicationContext).exerciceDao().insertAll(exerciceList)
+                                Log.v("hello1",
+                                    AppDatabase.getInstance(applicationContext).exerciceDao().getAll().value.toString()
+                                )
+                                //(--> nur beim ersten Start)
+                                if(firstStart){
+                                    AppDatabase.getInstance(applicationContext).exerciceDao().insertAll(exerciceList)
+
+                                    val prefs = getSharedPreferences("prefs", MODE_PRIVATE)
+                                    val editor = prefs.edit()
+                                    editor.putBoolean("firstStart", false)
+                                    editor.apply()
+                                }
+
                             }
 
                         }
