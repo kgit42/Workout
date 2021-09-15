@@ -9,6 +9,8 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -17,6 +19,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.workout.HelperClass
 import com.example.workout.R
 import com.example.workout.databinding.FragmentWorkoutDetailExerciceBinding
+import com.example.workout.db.Workout
+import com.example.workout.db.WorkoutEntry
+import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class WorkoutDetailExerciceFragment : Fragment() {
 
@@ -27,12 +33,16 @@ class WorkoutDetailExerciceFragment : Fragment() {
         args.workout
     }*/
     private lateinit var toolbar: Toolbar
-    private var pausedTime: Long = 0
+
+    private lateinit var homeViewModel: HomeViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        //Referenz zum ViewModel beschaffen
+        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+
         binding = FragmentWorkoutDetailExerciceBinding.inflate(inflater, container, false)
         /*binding.apply {
             viewModel = detailViewModel
@@ -42,6 +52,14 @@ class WorkoutDetailExerciceFragment : Fragment() {
         binding.chip1.setOnClickListener {
             // Responds to chip click
         }
+
+
+        fillWithData(HelperClass.getWorkoutEntry(arguments?.getInt("weid")))
+
+            /*homeViewModel.getWorkoutEntryById(arguments?.getInt("weid"))
+                .observe(viewLifecycleOwner) { workoutentry ->
+                    fillWithData(workoutentry)
+                }*/
         
 
         return binding.root
@@ -79,6 +97,21 @@ class WorkoutDetailExerciceFragment : Fragment() {
          */
     }
 
+    fun fillWithData(workoutentry: WorkoutEntry){
+        binding.dauer.setText(workoutentry.length.toString())
+        binding.pause3.setText(workoutentry.innerRest.toString())
+
+        binding.mehrsatz.isChecked = workoutentry.multipleSets
+
+        when(workoutentry.priority){
+            0 -> binding.prio.check(binding.chip1.id)
+            1 -> binding.prio.check(binding.chip2.id)
+            2 -> binding.prio.check(binding.chip3.id)
+        }
+
+        binding.toolbarDetail.title = workoutentry.exercice.name
+    }
+
     private fun setupToolbarWithNavigation() {
         toolbar = binding.toolbarDetail
         toolbar.navigationContentDescription = "Navigate Up"
@@ -92,6 +125,31 @@ class WorkoutDetailExerciceFragment : Fragment() {
     private fun onOptionsItemSelected() {
         toolbar = binding.toolbarDetail
         toolbar.setOnMenuItemClickListener {
+
+            //Zusammensuchen der nötigen Daten. Abfangen von fehlerhaften Eingaben
+            try {
+                val dauer = Integer.parseInt(binding.dauer.text.toString())
+                val pause = Integer.parseInt(binding.pause3.text.toString())
+                val mehrsatz = binding.mehrsatz.isChecked
+                var prio = 0
+
+                when(binding.prio.checkedChipId){
+                    binding.chip1.id -> prio = 0
+                    binding.chip2.id -> prio = 1
+                    binding.chip3.id -> prio = 2
+                }
+
+                //Noch kein DB-Aufruf, da Änderungen noch verworfen werden können
+
+                HelperClass.updateWorkoutEntry(arguments?.getInt("weid"),
+                    dauer,
+                    mehrsatz,
+                    prio,
+                    pause,)
+
+            } catch (e: Exception) {
+
+            }
 
 
             //zurück navigieren

@@ -54,9 +54,6 @@ class WorkoutApp : Application() {
 
                             //Calls the specified suspending block with a given coroutine context, suspends until it completes, and returns the result.
                             withContext(Dispatchers.IO) {
-                                Log.v("hello1",
-                                    AppDatabase.getInstance(applicationContext).exerciceDao().getAll().value.toString()
-                                )
                                 //(--> nur beim ersten Start)
                                 if(firstStart){
                                     AppDatabase.getInstance(applicationContext).exerciceDao().insertAll(exerciceList)

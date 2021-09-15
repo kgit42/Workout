@@ -4,8 +4,12 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.workout.db.Exercice
+import com.example.workout.db.Workout
 import com.example.workout.db.WorkoutEntry
+import com.example.workout.ui.home.WorkoutDetailFragment
 
+//Klasse HelperClass dient als Zwischenspeicher von Daten, die der Nutzer anlegt,
+// die aber noch nicht endgültig in die DB geschrieben werden sollen
 class HelperClass {
 
     companion object {
@@ -28,6 +32,112 @@ class HelperClass {
 
         //Liste mit hinzuzufügenden WorkoutEntries
         var workoutentriesToAdd: ArrayList<WorkoutEntry> = arrayListOf()
+
+        //Liste mit ursprünglichen WorkoutEntries, die ggf. bearbeitet werden
+        var workoutentriesFromDb: ArrayList<WorkoutEntry> = arrayListOf()
+
+        //sorgt dafür, dass Elemente nur einmal von DB zur RecyclerView hinzugefügt werden
+        var addedFromDb = false
+
+        //Referenz zum Adapter
+        lateinit var myAdapter: WorkoutDetailFragment.SimpleStringRecyclerViewAdapter
+
+        //Wenn addedFromDb false ist, werden ihr die Elemente aus der DB hinzugefügt.
+        //Dadurch wird vermieden, dass Liste immer erneut die Elemente übernimmt
+        fun addElementsFromDbIfNotDone(workout: Workout){
+            if(!addedFromDb){
+                workoutentriesFromDb.addAll(workout.exercices)
+            }
+            addedFromDb = true
+        }
+
+        fun setAdapter(adapter: WorkoutDetailFragment.SimpleStringRecyclerViewAdapter){
+            myAdapter = adapter
+        }
+
+        fun updateWorkoutEntry(id: Int?, dauer: Int, mehrsatz: Boolean, prio: Int, pause: Int){
+            //Element suchen in beiden Listen. Wenn gefunden, Schleife abbrechen für bessere Performance
+
+            var found = false
+
+            for ((index, value) in workoutentriesFromDb.withIndex()){
+                if(value.weid == id){
+                    workoutentriesFromDb[index].length = dauer
+                    workoutentriesFromDb[index].multipleSets = mehrsatz
+                    workoutentriesFromDb[index].priority = prio
+                    workoutentriesFromDb[index].innerRest = pause
+                    found = true
+                    break
+                }
+            }
+
+            if(!found){
+                for ((index, value) in workoutentriesToAdd.withIndex()){
+                    if(value.weid == id){
+                        workoutentriesToAdd[index].length = dauer
+                        workoutentriesToAdd[index].multipleSets = mehrsatz
+                        workoutentriesToAdd[index].priority = prio
+                        workoutentriesToAdd[index].innerRest = pause
+
+                        break
+                    }
+                }
+            }
+
+        }
+
+
+
+        fun getWorkoutEntry(id: Int?): WorkoutEntry {
+            //Element suchen in beiden Listen.
+
+            var found = false
+
+            for ((index, value) in workoutentriesFromDb.withIndex()) {
+                if (value.weid == id) {
+                    return workoutentriesFromDb[index]
+                }
+            }
+
+            for ((index, value) in workoutentriesToAdd.withIndex()) {
+                if (value.weid == id) {
+                    return workoutentriesToAdd[index]
+                }
+            }
+
+            return WorkoutEntry(exercice = Exercice())
+        }
+
+
+
+        fun deleteWorkoutEntry(id: Int?) {
+            //Element suchen in beiden Listen. Wenn gefunden, Schleife abbrechen für bessere Performance
+
+            var found = false
+
+            for ((index, value) in workoutentriesFromDb.withIndex()) {
+                if (value.weid == id) {
+                    workoutentriesFromDb.removeAt(index)
+                    myAdapter.addDataToBeginning()
+                    myAdapter.removeElement(value)
+                    found = true
+                    break
+                }
+            }
+
+            if(!found){
+                for ((index, value) in workoutentriesToAdd.withIndex()) {
+                    if (value.weid == id) {
+                        workoutentriesToAdd.removeAt(index)
+                        myAdapter.addDataToBeginning()
+                        myAdapter.removeElement(value)
+                        break
+                    }
+                }
+            }
+
+
+        }
     }
 
 

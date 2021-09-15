@@ -47,18 +47,44 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
         return db.exerciceDao().getAll()
     }
 
-    fun getById(wid: Int?): LiveData<Workout> {
+    /*
+    fun getAllExercicesWithoutExisting(): LiveData<List<Exercice>> {
+        return db.exerciceDao().getAll()
+    }
+     */
+
+    fun getWorkoutById(wid: Int?): LiveData<Workout> {
         return db.workoutDao().getById(wid)
+    }
+
+    fun getWorkoutEntryById(weid: Int?): LiveData<WorkoutEntry> {
+        return db.workoutEntryDao().getById(weid)
     }
 
     suspend fun createWorkout(workout: Workout): Long {
         return withContext(Dispatchers.IO) { db.workoutDao().insert(workout) }
     }
 
+    //erstellt ein neues WorkoutEntry, ID des übergebenen Objektes wird dabei verworfen
     suspend fun createWorkoutEntry(workoutentry: WorkoutEntry): Long {
         return withContext(Dispatchers.IO) { db.workoutEntryDao().insert(workoutentry) }
     }
 
+    /*
+    //updatet das WorkoutEntry anhand der ID
+    suspend fun updateWorkoutEntry(id: Int?, dauer: Int, mehrsatz: Boolean, prio: Int, pause: Int){
+        return withContext(Dispatchers.IO) {db.workoutEntryDao().update(id, dauer, mehrsatz, prio, pause)}
+    }
+     */
+
+    //updatet das Workout anhand der ID (https://developer.android.com/training/data-storage/room/accessing-data)
+    suspend fun updateWorkout(workout: Workout){
+        return withContext(Dispatchers.IO) {db.workoutDao().update(workout)}
+    }
+
+    suspend fun deleteWorkout(id: Int) {
+        return withContext(Dispatchers.IO) { db.workoutDao().delete(id) }
+    }
 
 
 

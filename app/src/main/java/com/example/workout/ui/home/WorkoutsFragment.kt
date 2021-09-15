@@ -1,5 +1,8 @@
 package com.example.workout.ui.home
 
+import android.app.AlertDialog
+import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,14 +10,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.workout.HelperClass
 import com.example.workout.R
 import com.example.workout.db.Routine
 import com.example.workout.db.Workout
+import kotlinx.coroutines.launch
 import java.util.ArrayList
 
 class WorkoutsFragment : Fragment() {
@@ -47,7 +54,7 @@ class WorkoutsFragment : Fragment() {
         return rv
     }
 
-    class SimpleStringRecyclerViewAdapter(
+    inner class SimpleStringRecyclerViewAdapter(
         private var values: List<Workout>
     ) : RecyclerView.Adapter<SimpleStringRecyclerViewAdapter.ViewHolder>() {
 
@@ -57,7 +64,7 @@ class WorkoutsFragment : Fragment() {
             notifyDataSetChanged()
         }
 
-        class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+        inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
             var boundString: String? = null
             //val image: ImageView = view.findViewById(R.id.avatar)
             val text: TextView = view.findViewById(R.id.workout_title)
@@ -77,7 +84,7 @@ class WorkoutsFragment : Fragment() {
             holder.boundString = values[position].name
             holder.text.text = values[position].name
 
-            holder.view.setOnLongClickListener { v ->
+            holder.view.setOnClickListener { v ->
                 val context = v.context
                 /*val intent = Intent(context, CheeseDetailActivity::class.java)
                 intent.putExtra(CheeseDetailActivity.EXTRA_NAME, holder.boundString)
@@ -87,11 +94,25 @@ class WorkoutsFragment : Fragment() {
                 val args = Bundle()
                 args.putInt("wid", values[position].wid)
                 holder.view.findNavController().navigate(R.id.navigation_workout_detail, args)
+            }
+
+            //OnLongClickListener zum Löschen
+            holder.view.setOnLongClickListener{ v ->
+                val dialog = DeleteDialogFragment()
+                val args = Bundle()
+                args.putInt("wid", values[position].wid)
+                dialog.arguments = args
+
+                dialog.show(childFragmentManager, "")
                 return@setOnLongClickListener true
             }
 
         }
 
         override fun getItemCount(): Int = values.size
+
+
+
+
     }
 }

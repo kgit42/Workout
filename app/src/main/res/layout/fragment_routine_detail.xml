@@ -31,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:navigationIcon="@drawable/ic_back"
-                app:title="Workout xyz" />
+                app:title="" />
 
 
         </com.google.android.material.appbar.AppBarLayout>
@@ -81,7 +81,7 @@
 
 
                 <EditText
-                    android:id="@+id/anzahl"
+                    android:id="@+id/anzahl1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

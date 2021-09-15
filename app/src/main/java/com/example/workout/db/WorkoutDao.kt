@@ -15,5 +15,11 @@ interface WorkoutDao {
     @Insert
     fun insert(workout: Workout): Long
 
+    @Update
+    fun update(workout: Workout)
+
+    @Query("DELETE FROM workout WHERE wid = (:wid)")
+    fun delete(wid: Int)
+
 
 }

@@ -17,8 +17,10 @@ import androidx.recyclerview.widget.RecyclerView
 //import com.example.workout.R
 import com.example.workout.databinding.FragmentWorkoutDetailBinding
 import android.R
+import android.app.PendingIntent.getActivity
 import android.util.Log
 import android.widget.Button
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.workout.HelperClass
@@ -28,6 +30,11 @@ import com.example.workout.db.WorkoutEntry
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.newCoroutineContext
 import java.lang.Exception
+import androidx.fragment.app.FragmentActivity
+import android.app.Activity
+import android.app.AlertDialog
+import android.app.Dialog
+import android.content.DialogInterface
 
 
 class WorkoutDetailFragment : Fragment() {
@@ -61,9 +68,16 @@ class WorkoutDetailFragment : Fragment() {
 
         //Listener für den Hinzufügen-Button:
         binding.button.setOnClickListener(View.OnClickListener {
-            //navigiert zur Detail-Seite und übergibt das jeweilige Workout/die Routine
+            //navigiert zur Add-Seite und übergibt ein Array mit den aktuell vorhandenen Excercice IDs,
+            // damit keine doppelt hinzugefügt werden können
             val args = Bundle()
-            args.putParcelable("workout", null)
+            var intarray: IntArray = IntArray(adapter.getElements().size)
+
+            for ((index, value) in adapter.getElements().withIndex()){
+                intarray[index] = value.exercice.eid
+            }
+
+            args.putIntArray("eidArray", intarray)
             findNavController().navigate(
                 com.example.workout.R.id.navigation_workout_detail_add,
                 args
@@ -73,12 +87,14 @@ class WorkoutDetailFragment : Fragment() {
         //Observer --> falls es Änderungen in DB gibt
         //nur wenn bestehendes Workout bearbeitet werden soll, muss mit der Datenbank abgeglichen werden.
         //Es werden Funktionen zum Füllen der EditTexts sowie der RecyclerView ausgeführt.
-        //Bestehende Daten an den Anfang der Liste setzen, dahinter kommen die neu hinzuzufügenden Elemente.
         if (arguments?.getInt("wid") != null) {
 
-            homeViewModel.getById(arguments?.getInt("wid"))
+            homeViewModel.getWorkoutById(arguments?.getInt("wid"))
                 .observe(viewLifecycleOwner) { workout ->
-                    adapter.addDataToBeginning(workout)
+                    HelperClass.addElementsFromDbIfNotDone(workout)
+
+                    //Bestehende Daten an den Anfang der Liste setzen, dahinter kommen die neu hinzuzufügenden Elemente.
+                    adapter.addDataToBeginning()
                     fillWithData(workout)
                 }
 
@@ -91,11 +107,13 @@ class WorkoutDetailFragment : Fragment() {
         return binding.root
     }
 
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setupToolbarWithNavigation()
 
         onOptionsItemSelected()
+
 
         /*
         detailViewModel.start(workout.id)
@@ -140,7 +158,7 @@ class WorkoutDetailFragment : Fragment() {
             //Zusammensuchen der nötigen Daten. Abfangen von fehlerhaften Eingaben
             try {
                 val name = binding.name.text.toString()
-                val anzahl = Integer.parseInt(binding.anzahl.text.toString())
+                val anzahl = Integer.parseInt(binding.anzahl1.text.toString())
                 val pause1 = Integer.parseInt(binding.pause1.text.toString())
                 val pause2 = Integer.parseInt(binding.pause2.text.toString())
 
@@ -148,8 +166,24 @@ class WorkoutDetailFragment : Fragment() {
 
                 //Fallunterscheidung je nachdem, ob neues Workout oder Änderung eines bestehenden
                 if (arguments?.getInt("wid") != null) {
-                    //TODO: Aus RecyclerView u.a. Daten holen
+
+                    //DB-Aufruf
+                    lifecycleScope.launch {
+                        homeViewModel.updateWorkout(
+                            Workout(
+                                arguments?.getInt("wid")!!,
+                                name,
+                                0,
+                                anzahl,
+                                pause1,
+                                pause2,
+                                exercices,
+                                arrayListOf()
+                            )
+                        )
+                    }
                 } else {
+                    //DB-Aufruf
                     lifecycleScope.launch {
                         homeViewModel.createWorkout(
                             Workout(
@@ -182,6 +216,8 @@ class WorkoutDetailFragment : Fragment() {
             addExerciceList.adapter = adapter
             addExerciceList.layoutManager = LinearLayoutManager(addExerciceList.context)
 
+            HelperClass.setAdapter(adapter)
+
             lifecycleScope.launch {
 
                 HelperClass.listToAdd.forEach {
@@ -197,6 +233,7 @@ class WorkoutDetailFragment : Fragment() {
 
                 //HelperClass.workoutentriesToAdd.setValue(newWorkoutentriesToAdd)
                 //Log.v("hhh", HelperClass.workoutentriesToAdd.toString())
+
 
                 //alle hinzuzufügenden Elemente aus HelperClass dem Adapter der RecyclerView hinzufügen
                 HelperClass.workoutentriesToAdd.forEach {
@@ -219,7 +256,7 @@ class WorkoutDetailFragment : Fragment() {
     //füllt EditTexts aus mit bestehenden Daten aus DB
     fun fillWithData(workout: Workout) {
         binding.name.setText(workout.name)
-        binding.anzahl.setText(workout.numberExercices.toString())
+        binding.anzahl1.setText(workout.numberExercices.toString())
         binding.pause1.setText(workout.restExercices.toString())
         binding.pause2.setText(workout.restSets.toString())
 
@@ -227,13 +264,12 @@ class WorkoutDetailFragment : Fragment() {
     }
 
 
-    class SimpleStringRecyclerViewAdapter(
+    inner class SimpleStringRecyclerViewAdapter(
         private var values: Workout
     ) : RecyclerView.Adapter<SimpleStringRecyclerViewAdapter.ViewHolder>() {
 
-        //um vom ViewModel aus Daten zu ändern
-        fun addDataToBeginning(newData: Workout) {
-            this.values.exercices.addAll(0, newData.exercices)
+        fun addDataToBeginning() {
+            this.values.exercices.addAll(0, HelperClass.workoutentriesFromDb)
             notifyDataSetChanged()
         }
 
@@ -250,15 +286,21 @@ class WorkoutDetailFragment : Fragment() {
             notifyItemInserted(values.exercices.size - 1);
         }
 
+        fun removeElement(element: WorkoutEntry){
+            this.values.exercices.remove(element)
+            notifyDataSetChanged()
+        }
+
         fun getElements(): ArrayList<WorkoutEntry> {
             return values.exercices
         }
 
-        class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+        inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
             var boundString: String? = null
 
             //val image: ImageView = view.findViewById(R.id.avatar)
             val text: TextView = view.findViewById(com.example.workout.R.id.workout_title)
+            val category: TextView = view.findViewById(com.example.workout.R.id.workout_category)
 
             override fun toString(): String {
                 return super.toString() + " '" + text.text
@@ -275,6 +317,7 @@ class WorkoutDetailFragment : Fragment() {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             holder.boundString = values.exercices[position].exercice.name
             holder.text.text = values.exercices[position].exercice.name
+            holder.category.text = values.exercices[position].exercice.category
 
             holder.view.setOnClickListener { v ->
                 val context = v.context
@@ -284,14 +327,26 @@ class WorkoutDetailFragment : Fragment() {
 
                 //navigiert zur Detail-Seite und übergibt die jeweilige Übung
                 val args = Bundle()
-                args.putParcelable("workout", null)
+                args.putInt("weid", values.exercices[position].weid)
                 holder.view.findNavController()
                     .navigate(com.example.workout.R.id.navigation_workout_detail_exercice, args)
+            }
+
+            //OnLongClickListener zum Löschen
+            holder.view.setOnLongClickListener{ v ->
+                val dialog = DeleteDialogFragment()
+                val args = Bundle()
+                args.putInt("weid", values.exercices[position].weid)
+                dialog.arguments = args
+
+                dialog.show(childFragmentManager, "")
+                return@setOnLongClickListener true
             }
 
         }
 
         override fun getItemCount(): Int = values.exercices.size
+
     }
 }
 

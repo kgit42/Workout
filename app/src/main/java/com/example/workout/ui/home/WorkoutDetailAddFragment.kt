@@ -55,7 +55,9 @@ class WorkoutDetailAddFragment : Fragment() {
         setHasOptionsMenu(true)
 
         //Observer --> falls es Änderungen in DB gibt
-        homeViewModel.getAllExercices().observe(viewLifecycleOwner) { exercices -> adapter.setData(exercices) }
+        //Filter-Methode, um nur neue Excercices anzuzeigen
+        homeViewModel.getAllExercices().observe(viewLifecycleOwner) { exercices ->
+            adapter.setData(exercices.filter { excercice -> arguments?.getIntArray("eidArray")?.contains(excercice.eid) == false }) }
 
         //zunächst Liste leeren, da anfangs nichts ausgewählt
         HelperClass._listToAdd.clear()

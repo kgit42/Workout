@@ -67,6 +67,8 @@ class HomeFragment : Fragment() {
 
         HelperClass.listToAdd.clear()
         HelperClass.workoutentriesToAdd.clear()
+        HelperClass.workoutentriesFromDb.clear()
+        HelperClass.addedFromDb = false
 
         return root
     }
