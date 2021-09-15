@@ -214,6 +214,7 @@ class WorkoutDetailFragment : Fragment() {
         adapter = SimpleStringRecyclerViewAdapter(Workout())
         binding.apply {
             addExerciceList.adapter = adapter
+            addExerciceList.isNestedScrollingEnabled = false
             addExerciceList.layoutManager = LinearLayoutManager(addExerciceList.context)
 
             HelperClass.setAdapter(adapter)

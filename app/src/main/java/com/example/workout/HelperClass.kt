@@ -118,7 +118,7 @@ class HelperClass {
             for ((index, value) in workoutentriesFromDb.withIndex()) {
                 if (value.weid == id) {
                     workoutentriesFromDb.removeAt(index)
-                    myAdapter.addDataToBeginning()
+                    //myAdapter.addDataToBeginning()
                     myAdapter.removeElement(value)
                     found = true
                     break
@@ -129,7 +129,7 @@ class HelperClass {
                 for ((index, value) in workoutentriesToAdd.withIndex()) {
                     if (value.weid == id) {
                         workoutentriesToAdd.removeAt(index)
-                        myAdapter.addDataToBeginning()
+                        //myAdapter.addDataToBeginning()
                         myAdapter.removeElement(value)
                         break
                     }

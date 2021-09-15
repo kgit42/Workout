@@ -93,6 +93,7 @@ class RoutineDetailFragment : Fragment() {
     private fun setupRecyclerView() {
         adapter = SimpleStringRecyclerViewAdapter(arrayListOf("Hallo", "Hallo2", "Hallo3", "Hallo4", "Hallo5", "Hallo6"))
         binding.apply {
+            addExerciceList.isNestedScrollingEnabled = false
             addExerciceList.adapter = adapter
             addExerciceList.layoutManager = LinearLayoutManager(addExerciceList.context)
         }
