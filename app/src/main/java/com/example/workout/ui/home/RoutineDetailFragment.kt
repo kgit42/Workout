@@ -8,10 +8,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workout.R
@@ -22,7 +20,7 @@ class RoutineDetailFragment : Fragment() {
     private lateinit var menuItem: MenuItem
     //private val args: RoutineDetailFragmentArgs by navArgs()
     private lateinit var binding: FragmentRoutineDetailBinding
-    private lateinit var adapter: SimpleStringRecyclerViewAdapter
+    private lateinit var adapter: MyRecyclerViewAdapter
     /*private val workout: Workout by lazy {
         args.workout
     }*/
@@ -91,7 +89,7 @@ class RoutineDetailFragment : Fragment() {
     }*/
 
     private fun setupRecyclerView() {
-        adapter = SimpleStringRecyclerViewAdapter(arrayListOf("Hallo", "Hallo2", "Hallo3", "Hallo4", "Hallo5", "Hallo6"))
+        adapter = MyRecyclerViewAdapter(arrayListOf("Hallo", "Hallo2", "Hallo3", "Hallo4", "Hallo5", "Hallo6"))
         binding.apply {
             addExerciceList.isNestedScrollingEnabled = false
             addExerciceList.adapter = adapter
@@ -102,9 +100,9 @@ class RoutineDetailFragment : Fragment() {
 
 
 
-    class SimpleStringRecyclerViewAdapter(
+    class MyRecyclerViewAdapter(
         private val values: List<String>
-    ) : RecyclerView.Adapter<SimpleStringRecyclerViewAdapter.ViewHolder>() {
+    ) : RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder>() {
 
         class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
             var boundString: String? = null

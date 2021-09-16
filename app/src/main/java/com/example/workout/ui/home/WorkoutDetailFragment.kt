@@ -8,33 +8,19 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 //import com.example.workout.R
 import com.example.workout.databinding.FragmentWorkoutDetailBinding
-import android.R
-import android.app.PendingIntent.getActivity
-import android.util.Log
-import android.widget.Button
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.workout.HelperClass
-import com.example.workout.db.Exercice
 import com.example.workout.db.Workout
 import com.example.workout.db.WorkoutEntry
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.newCoroutineContext
 import java.lang.Exception
-import androidx.fragment.app.FragmentActivity
-import android.app.Activity
-import android.app.AlertDialog
-import android.app.Dialog
-import android.content.DialogInterface
 
 
 class WorkoutDetailFragment : Fragment() {
@@ -42,7 +28,7 @@ class WorkoutDetailFragment : Fragment() {
     private lateinit var menuItem: MenuItem
 
     private lateinit var binding: FragmentWorkoutDetailBinding
-    private lateinit var adapter: SimpleStringRecyclerViewAdapter
+    private lateinit var adapter: MyRecyclerViewAdapter
 
     private lateinit var homeViewModel: HomeViewModel
 
@@ -50,7 +36,6 @@ class WorkoutDetailFragment : Fragment() {
         args.workout
     }*/
     private lateinit var toolbar: Toolbar
-    private var pausedTime: Long = 0
 
 
     override fun onCreateView(
@@ -211,7 +196,7 @@ class WorkoutDetailFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        adapter = SimpleStringRecyclerViewAdapter(Workout())
+        adapter = MyRecyclerViewAdapter(Workout())
         binding.apply {
             addExerciceList.adapter = adapter
             addExerciceList.isNestedScrollingEnabled = false
@@ -265,9 +250,9 @@ class WorkoutDetailFragment : Fragment() {
     }
 
 
-    inner class SimpleStringRecyclerViewAdapter(
+    inner class MyRecyclerViewAdapter(
         private var values: Workout
-    ) : RecyclerView.Adapter<SimpleStringRecyclerViewAdapter.ViewHolder>() {
+    ) : RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder>() {
 
         fun addDataToBeginning() {
             this.values.exercices.addAll(0, HelperClass.workoutentriesFromDb)
@@ -295,6 +280,8 @@ class WorkoutDetailFragment : Fragment() {
         fun getElements(): ArrayList<WorkoutEntry> {
             return values.exercices
         }
+
+
 
         inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
             var boundString: String? = null

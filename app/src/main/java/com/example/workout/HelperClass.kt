@@ -1,8 +1,5 @@
 package com.example.workout
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.workout.db.Exercice
 import com.example.workout.db.Workout
 import com.example.workout.db.WorkoutEntry
@@ -40,7 +37,7 @@ class HelperClass {
         var addedFromDb = false
 
         //Referenz zum Adapter
-        lateinit var myAdapter: WorkoutDetailFragment.SimpleStringRecyclerViewAdapter
+        lateinit var myAdapter: WorkoutDetailFragment.MyRecyclerViewAdapter
 
         //Wenn addedFromDb false ist, werden ihr die Elemente aus der DB hinzugefügt.
         //Dadurch wird vermieden, dass Liste immer erneut die Elemente übernimmt
@@ -51,7 +48,7 @@ class HelperClass {
             addedFromDb = true
         }
 
-        fun setAdapter(adapter: WorkoutDetailFragment.SimpleStringRecyclerViewAdapter){
+        fun setAdapter(adapter: WorkoutDetailFragment.MyRecyclerViewAdapter){
             myAdapter = adapter
         }
 

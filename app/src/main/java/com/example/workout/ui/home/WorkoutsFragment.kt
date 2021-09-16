@@ -1,28 +1,17 @@
 package com.example.workout.ui.home
 
-import android.app.AlertDialog
-import android.app.Dialog
-import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.workout.HelperClass
 import com.example.workout.R
-import com.example.workout.db.Routine
 import com.example.workout.db.Workout
-import kotlinx.coroutines.launch
-import java.util.ArrayList
 
 class WorkoutsFragment : Fragment() {
     private lateinit var homeViewModel: HomeViewModel
@@ -44,7 +33,7 @@ class WorkoutsFragment : Fragment() {
 
         //zunächst leere ArrayList mit Workouts
         val adapter =
-            SimpleStringRecyclerViewAdapter(arrayListOf(Workout()))
+            MyRecyclerViewAdapter(arrayListOf(Workout()))
         rv.adapter = adapter
 
 
@@ -54,9 +43,9 @@ class WorkoutsFragment : Fragment() {
         return rv
     }
 
-    inner class SimpleStringRecyclerViewAdapter(
+    inner class MyRecyclerViewAdapter(
         private var values: List<Workout>
-    ) : RecyclerView.Adapter<SimpleStringRecyclerViewAdapter.ViewHolder>() {
+    ) : RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder>() {
 
         //um vom ViewModel aus Daten zu ändern
         fun setData(newData: List<Workout>) {

@@ -1,33 +1,26 @@
 package com.example.workout.ui.home
 
 import android.os.Bundle
-import android.os.SystemClock
-import android.util.Log
 import android.view.*
 import android.widget.CheckBox
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workout.HelperClass
 import com.example.workout.R
 import com.example.workout.databinding.FragmentWorkoutDetailAddBinding
 import com.example.workout.db.Exercice
-import com.example.workout.db.WorkoutEntry
 
 class WorkoutDetailAddFragment : Fragment() {
 
     private lateinit var menuItem: MenuItem
     //private val args: WorkoutDetailAddFragmentArgs by navArgs()
     private lateinit var binding: FragmentWorkoutDetailAddBinding
-    private lateinit var adapter: SimpleStringRecyclerViewAdapter
+    private lateinit var adapter: MyRecyclerViewAdapter
     /*private val workout: Workout by lazy {
         args.workout
     }*/
@@ -131,7 +124,7 @@ class WorkoutDetailAddFragment : Fragment() {
     private fun setupRecyclerView() {
         //Warum Instanziierung der Klasse WorkoutDetailAddFragment? --> siehe https://discuss.kotlinlang.org/t/kotlin-constructor-of-inner-class-nested-can-be-called-only-with-receiver-of-containing-class/7700
         //zunächst leere ArrayList erzeugen
-        adapter = WorkoutDetailAddFragment().SimpleStringRecyclerViewAdapter(
+        adapter = WorkoutDetailAddFragment().MyRecyclerViewAdapter(
             arrayListOf()
         )
         binding.apply {
@@ -145,9 +138,9 @@ class WorkoutDetailAddFragment : Fragment() {
 
 
     //"inner" Schlüsselwort, um von innen auf Variablen der äußeren Klasse zugreifen zu können
-    inner class SimpleStringRecyclerViewAdapter(
+    inner class MyRecyclerViewAdapter(
         private var values: List<Exercice>
-    ) : RecyclerView.Adapter<SimpleStringRecyclerViewAdapter.ViewHolder>() {
+    ) : RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder>() {
 
         //um vom ViewModel aus Daten zu ändern
         fun setData(newData: List<Exercice>) {

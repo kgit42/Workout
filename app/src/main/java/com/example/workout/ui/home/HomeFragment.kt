@@ -106,7 +106,6 @@ class HomeFragment : Fragment() {
         })
 
 
-
         tabLayout.setOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 val position = tab.position

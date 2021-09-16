@@ -1,23 +1,17 @@
 package com.example.workout.ui.home
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workout.R
 import com.example.workout.db.Routine
-import com.example.workout.ui.exercices.ExercicesViewModel
-import java.util.ArrayList
 
 class RoutinesFragment : Fragment() {
 
@@ -39,7 +33,7 @@ class RoutinesFragment : Fragment() {
         rv.layoutManager = LinearLayoutManager(rv.context)
 
         //zunächst leere ArrayList mit Routinen
-        val adapter = SimpleStringRecyclerViewAdapter(arrayListOf(Routine(0, "", "")))
+        val adapter = MyRecyclerViewAdapter(arrayListOf(Routine(0, "", "")))
         rv.adapter = adapter
 
 
@@ -50,9 +44,9 @@ class RoutinesFragment : Fragment() {
     }
 
 
-    class SimpleStringRecyclerViewAdapter(
+    class MyRecyclerViewAdapter(
         private var values: List<Routine>
-    ) : RecyclerView.Adapter<SimpleStringRecyclerViewAdapter.ViewHolder>() {
+    ) : RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder>() {
 
         //um vom ViewModel aus Daten zu ändern
         fun setData(newData: List<Routine>) {
