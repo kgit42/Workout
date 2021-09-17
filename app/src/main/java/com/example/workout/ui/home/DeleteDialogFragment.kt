@@ -32,6 +32,7 @@ class DeleteDialogFragment : DialogFragment() {
                     DialogInterface.OnClickListener { dialog, id ->
                         //Fallunterscheidung, je nachdem, was gelöscht werden soll
 
+                        //Workout löschen
                         if(arguments?.getInt("wid") != 0){
                             //DB-Aufruf
                             lifecycleScope.launch {
@@ -39,6 +40,7 @@ class DeleteDialogFragment : DialogFragment() {
                             }
                         }
 
+                        //Workoutentry löschen
                         if(arguments?.getInt("weid") != 0){
                             HelperClass.deleteWorkoutEntry(arguments?.getInt("weid"))
 

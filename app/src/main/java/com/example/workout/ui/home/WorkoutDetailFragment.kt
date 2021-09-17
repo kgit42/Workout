@@ -71,7 +71,8 @@ class WorkoutDetailFragment : Fragment() {
 
         //Observer --> falls es Änderungen in DB gibt
         //nur wenn bestehendes Workout bearbeitet werden soll, muss mit der Datenbank abgeglichen werden.
-        //Es werden Funktionen zum Füllen der EditTexts sowie der RecyclerView ausgeführt.
+        //Es werden Funktionen zum Füllen der EditTexts sowie der RecyclerView ausgeführt. Außerdem wird Inhalt von DB in HelperClass
+        //abgelegt.
         if (arguments?.getInt("wid") != null) {
 
             homeViewModel.getWorkoutById(arguments?.getInt("wid"))

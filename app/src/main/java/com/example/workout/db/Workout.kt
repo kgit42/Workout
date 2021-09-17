@@ -17,5 +17,4 @@ data class Workout(
     @ColumnInfo(name = "rest_sets") val restSets: Int? = 0,
     val exercices: ArrayList<WorkoutEntry> = arrayListOf(),
     val exercicesSuper: ArrayList<WorkoutEntry> = arrayListOf()
-
 )

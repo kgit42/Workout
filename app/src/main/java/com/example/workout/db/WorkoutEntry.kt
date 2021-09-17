@@ -14,5 +14,4 @@ data class WorkoutEntry(
     @ColumnInfo(name = "priority") var priority: Int = 0,
     @ColumnInfo(name = "inner_rest") var innerRest: Int = 10,
     @Embedded val exercice: Exercice
-
 )

@@ -15,5 +15,4 @@ data class Exercice(
     @ColumnInfo(name = "video") val video: String? = "",
     @ColumnInfo(name = "thumbnail") val thumbnail: String? = "",
     @ColumnInfo(name = "bilateral") val bilateral: Boolean? = false,
-
 )
