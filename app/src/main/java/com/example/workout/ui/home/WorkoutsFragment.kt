@@ -1,15 +1,18 @@
 package com.example.workout.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.workout.CastActivity
 import com.example.workout.R
 import com.example.workout.db.Workout
 
@@ -43,6 +46,8 @@ class WorkoutsFragment : Fragment() {
         return rv
     }
 
+
+
     inner class MyRecyclerViewAdapter(
         private var values: List<Workout>
     ) : RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder>() {
@@ -57,6 +62,8 @@ class WorkoutsFragment : Fragment() {
             var boundString: String? = null
             //val image: ImageView = view.findViewById(R.id.avatar)
             val text: TextView = view.findViewById(R.id.workout_title)
+
+            val startButton: Button = view.findViewById(R.id.buttonPlay)
 
             override fun toString(): String {
                 return super.toString() + " '" + text.text
@@ -75,9 +82,6 @@ class WorkoutsFragment : Fragment() {
 
             holder.view.setOnClickListener { v ->
                 val context = v.context
-                /*val intent = Intent(context, CheeseDetailActivity::class.java)
-                intent.putExtra(CheeseDetailActivity.EXTRA_NAME, holder.boundString)
-                context.startActivity(intent)*/
 
                 //navigiert zur Detail-Seite und übergibt das jeweilige Workout/die Routine (bzw. die ID)
                 val args = Bundle()
@@ -94,6 +98,13 @@ class WorkoutsFragment : Fragment() {
 
                 dialog.show(childFragmentManager, "")
                 return@setOnLongClickListener true
+            }
+
+            //Start-Button OnClickListener
+            holder.startButton.setOnClickListener{v ->
+                val intent = Intent(context, CastActivity::class.java)
+                //intent.putExtra(CastActivity.EXTRA_NAME, holder.boundString)
+                context?.startActivity(intent)
             }
 
         }

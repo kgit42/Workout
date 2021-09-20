@@ -65,13 +65,12 @@
             app:layout_constraintTop_toBottomOf="@+id/workout_title"
             tools:text="Abs" /> <!--             android:text="@{workout.category}" -->
 
-
-        <Button
-            android:id="@+id/buttonPlay"
+        <TextView
+            android:id="@+id/workout_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Start"
             app:layout_constraintBaseline_toBaselineOf="@id/workout_title"
-            app:layout_constraintEnd_toEndOf="parent" />    <!--             app:timeFormatted="@{workout.time}" -->
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="1min" />    <!--             app:timeFormatted="@{workout.time}" -->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

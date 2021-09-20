@@ -20,6 +20,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/workouts_view_item" />
+            tools:listitem="@layout/basic_view_item" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>         <!--     app:listData="@{viewModel.cardioUiModel.workouts}" -->
 </layout>
