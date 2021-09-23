@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.widget.Button
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -11,9 +12,13 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.workout.databinding.ActivityCastBinding
+import com.google.android.gms.cast.Cast
+import com.google.android.gms.cast.CastDevice
 import com.google.android.gms.cast.MediaLoadRequestData
 import com.google.android.gms.cast.framework.*
 import com.google.android.gms.cast.framework.media.RemoteMediaClient
+import com.google.gson.Gson
+import java.io.IOException
 
 class CastActivity : AppCompatActivity() {
 
@@ -25,12 +30,35 @@ class CastActivity : AppCompatActivity() {
     private val mSessionManagerListener: SessionManagerListener<CastSession> =
         SessionManagerListenerImpl()
 
+    private val mCustomChannel: CustomChannel = CustomChannel()
+
+
+
     private inner class SessionManagerListenerImpl : SessionManagerListener<CastSession> {
         override fun onSessionStarted(session: CastSession?, sessionId: String) {
+            //CustomChannel bei der CastSession registrieren
 
+            mCastSession = session
+
+            try {
+                mCastSession?.setMessageReceivedCallbacks(
+                    mCustomChannel.namespace,
+                    mCustomChannel)
+            } catch (e: IOException) {
+                Log.e("hhh", "Exception while creating channel", e)
+            } catch (e: Exception){
+                Log.e("hhh", "Exception", e)
+            }
+
+            //Nachricht über Custom Channel senden
+            //Muss im JSON-Format sein; Nicht-JSON-Strings funktionieren nicht
+            val string = "test"
+            val outputJson: String = Gson().toJson(string)
+            sendMessage(outputJson)
         }
 
         override fun onSessionStarting(p0: CastSession?) {
+
             Log.v("hhh", "Cast Session starting...")
         }
 
@@ -65,6 +93,9 @@ class CastActivity : AppCompatActivity() {
     }
 
 
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -78,13 +109,29 @@ class CastActivity : AppCompatActivity() {
         mSessionManager = castContext.sessionManager
 
 
+        val pauseButton: Button = findViewById(R.id.buttonPause)
+        pauseButton.setOnClickListener{ v ->
+            val outputJson: String = Gson().toJson("test2")
+            sendMessage(outputJson)
+        }
+
+
+
+        //Generierung der Routine
+        if(intent.extras?.get("type") == 1){    //Fall es nur ein Workout ist
+
+        }
+
 
     }
 
     override fun onResume() {
         super.onResume()
         mCastSession = mSessionManager.currentCastSession
-        //mCastSession.sendMessage("fff")
+
+
+
+
         mSessionManager.addSessionManagerListener(mSessionManagerListener, CastSession::class.java)
     }
 
@@ -109,6 +156,27 @@ class CastActivity : AppCompatActivity() {
     }
 
 
+
+    private fun sendMessage(message: String) {
+        if (mCustomChannel != null) {
+            try {
+                mCastSession?.sendMessage(mCustomChannel.namespace, message)
+                    ?.setResultCallback { status ->
+                        if (!status.isSuccess) {
+                            Log.e("hhh", "Sending message failed")
+                        }else{
+                            Log.v("hhh", "Sending successful")
+                        }
+                    }
+            } catch (e: Exception) {
+                Log.e("hhh", "Exception while sending message", e)
+            }
+        }
+    }
+
+
+
+
     /*
     private fun loadRemoteMedia(position: Int, autoPlay: Boolean) {
         if (mCastSession == null) {
@@ -129,4 +197,20 @@ class CastActivity : AppCompatActivity() {
                 .setCurrentTime(position.toLong()).build()
         )
     }*/
+}
+
+
+
+
+
+
+
+class CustomChannel : Cast.MessageReceivedCallback {
+    val namespace: String
+        //Namespace
+        get() = "urn:x-cast:com.example.custom"
+
+    override fun onMessageReceived(castDevice: CastDevice, namespace: String, message: String) {
+        Log.v("hhh", "onMessageReceived: $message")
+    }
 }

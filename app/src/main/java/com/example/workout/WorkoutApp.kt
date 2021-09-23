@@ -66,9 +66,9 @@ class WorkoutApp : Application() {
 
                         }
                     }
-                    Log.v("hello", "success")
+                    Log.v("hhh", "success")
                 } catch (e: Exception) {
-                    Log.v("hello", "failure$e")
+                    Log.v("hhh", "failure$e")
                 }
 
     }

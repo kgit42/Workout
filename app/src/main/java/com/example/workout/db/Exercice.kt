@@ -12,7 +12,7 @@ data class Exercice(
     @PrimaryKey(autoGenerate = true) val eid: Int = 0,
     @ColumnInfo(name = "name") val name: String? = "",
     @ColumnInfo(name = "category") val category: String? = "",
-    @ColumnInfo(name = "video") val video: String? = "",
-    @ColumnInfo(name = "thumbnail") val thumbnail: String? = "",
+    @ColumnInfo(name = "animation") val animation: String? = "",
+    @ColumnInfo(name = "audio") val audio: String? = "",
     @ColumnInfo(name = "bilateral") val bilateral: Boolean? = false,
 )

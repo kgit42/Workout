@@ -103,7 +103,7 @@ class WorkoutsFragment : Fragment() {
             //Start-Button OnClickListener
             holder.startButton.setOnClickListener{v ->
                 val intent = Intent(context, CastActivity::class.java)
-                //intent.putExtra(CastActivity.EXTRA_NAME, holder.boundString)
+                intent.putExtra("type", 1)
                 context?.startActivity(intent)
             }
 

@@ -1,50 +1,50 @@
 [
   {
-    "eid": "0",
+    "eid": "1",
     "name": "Bizeps-Curls",
     "category": "Oberarm",
-    "video": "",
-    "thumbnail": "",
-    "bilateral": "false"
-  },
-  {
-    "eid": "1",
-    "name": "Squats",
-    "category": "Quadrizeps",
-    "video": "",
-    "thumbnail": "",
+    "animation": "",
+    "audio": "",
     "bilateral": "false"
   },
   {
     "eid": "2",
-    "name": "Crunches",
-    "category": "Bauch",
-    "video": "",
-    "thumbnail": "",
+    "name": "Squats",
+    "category": "Quadrizeps",
+    "animation": "",
+    "audio": "",
     "bilateral": "false"
   },
   {
     "eid": "3",
-    "name": "Bankdrücken",
-    "category": "Brust",
-    "video": "",
-    "thumbnail": "",
+    "name": "Crunches",
+    "category": "Bauch",
+    "animation": "",
+    "audio": "",
     "bilateral": "false"
   },
   {
     "eid": "4",
-    "name": "Beinheben",
-    "category": "Bauch",
-    "video": "",
-    "thumbnail": "",
+    "name": "Bankdrücken",
+    "category": "Brust",
+    "animation": "",
+    "audio": "",
     "bilateral": "false"
   },
   {
     "eid": "5",
+    "name": "Beinheben",
+    "category": "Bauch",
+    "animation": "",
+    "audio": "",
+    "bilateral": "false"
+  },
+  {
+    "eid": "6",
     "name": "Superman",
     "category": "Unterer Rücken",
-    "video": "",
-    "thumbnail": "",
+    "animation": "",
+    "audio": "",
     "bilateral": "false"
   }
 ]
