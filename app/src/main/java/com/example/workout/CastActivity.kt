@@ -214,3 +214,13 @@ class CustomChannel : Cast.MessageReceivedCallback {
         Log.v("hhh", "onMessageReceived: $message")
     }
 }
+
+class CustomChannel2 : Cast.MessageReceivedCallback {
+    val namespace: String
+        //Namespace
+        get() = "urn:x-cast:com.example.custom2"
+
+    override fun onMessageReceived(castDevice: CastDevice, namespace: String, message: String) {
+        Log.v("hhh", "onMessageReceived: $message")
+    }
+}
