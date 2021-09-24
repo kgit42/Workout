@@ -31,6 +31,7 @@ class CastActivity : AppCompatActivity() {
         SessionManagerListenerImpl()
 
     private val mCustomChannel: CustomChannel = CustomChannel()
+    private val mCustomChannel2: CustomChannel2 = CustomChannel2()
 
 
 
@@ -109,6 +110,7 @@ class CastActivity : AppCompatActivity() {
         mSessionManager = castContext.sessionManager
 
 
+
         val pauseButton: Button = findViewById(R.id.buttonPause)
         pauseButton.setOnClickListener{ v ->
             val outputJson: String = Gson().toJson("test2")
@@ -116,11 +118,6 @@ class CastActivity : AppCompatActivity() {
         }
 
 
-
-        //Generierung der Routine
-        if(intent.extras?.get("type") == 1){    //Fall es nur ein Workout ist
-
-        }
 
 
     }
@@ -143,7 +140,7 @@ class CastActivity : AppCompatActivity() {
 
 
 
-
+    //Cast-Button anzeigen
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
         menuInflater.inflate(R.menu.menu_cast, menu)
@@ -204,7 +201,7 @@ class CastActivity : AppCompatActivity() {
 
 
 
-
+//Erster Channel
 class CustomChannel : Cast.MessageReceivedCallback {
     val namespace: String
         //Namespace
@@ -215,6 +212,7 @@ class CustomChannel : Cast.MessageReceivedCallback {
     }
 }
 
+//Zweiter Channel
 class CustomChannel2 : Cast.MessageReceivedCallback {
     val namespace: String
         //Namespace

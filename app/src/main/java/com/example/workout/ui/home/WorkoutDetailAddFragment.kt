@@ -48,9 +48,9 @@ class WorkoutDetailAddFragment : Fragment() {
         setHasOptionsMenu(true)
 
         //Observer --> falls es Änderungen in DB gibt
-        //Filter-Methode, um nur neue Excercices anzuzeigen
+        //Filter-Methode, um nur neue Exercices anzuzeigen
         homeViewModel.getAllExercices().observe(viewLifecycleOwner) { exercices ->
-            adapter.setData(exercices.filter { excercice -> arguments?.getIntArray("eidArray")?.contains(excercice.eid) == false }) }
+            adapter.setData(exercices.filter { exercice -> arguments?.getIntArray("eidArray")?.contains(exercice.eid) == false }) }
 
         //zunächst Liste leeren, da anfangs nichts ausgewählt
         HelperClass._listToAdd.clear()
@@ -105,7 +105,8 @@ class WorkoutDetailAddFragment : Fragment() {
         toolbar = binding.toolbarDetail
         toolbar.setOnMenuItemClickListener {
 
-            //Der folgende Abschnitt funktioniert so nicht, da onOptionsSelected augerufen wird, wenn listToAdd noch leer ist
+            //Der folgende Abschnitt funktioniert so nicht, da onOptionsSelected und damit setOnMenuItemClickListener
+            // augerufen wird, wenn listToAdd noch leer ist
 /*
             Log.v("hhh", listToAdd.size.toString())
             //Hinzufügen der gewählten Elemente aus listToAdd zur RecyclerView, aber noch immer nicht zur DB.

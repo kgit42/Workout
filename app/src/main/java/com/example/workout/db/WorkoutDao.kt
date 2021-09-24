@@ -11,6 +11,9 @@ interface WorkoutDao {
     @Query("SELECT * FROM workout WHERE wid = (:wid) ")
     fun getById(wid: Int?): LiveData<Workout>
 
+    @Query("SELECT * FROM workout WHERE wid = (:wid) ")
+    fun getByIdAsync(wid: Int?): Workout
+
     //Erstellen eines neuen Workouts und Zurückgeben der ID
     @Insert
     fun insert(workout: Workout): Long

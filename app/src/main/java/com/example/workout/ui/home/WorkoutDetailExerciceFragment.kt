@@ -1,9 +1,12 @@
 package com.example.workout.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
@@ -99,9 +102,16 @@ class WorkoutDetailExerciceFragment : Fragment() {
 
     fun fillWithData(workoutentry: WorkoutEntry){
         binding.dauer.setText(workoutentry.length.toString())
-        binding.pause3.setText(workoutentry.innerRest.toString())
 
-        binding.mehrsatz.isChecked = workoutentry.multipleSets
+        //nur anzeigen, wenn bilaterale Übung
+        if(!workoutentry.exercice.bilateral!!){
+            binding.pause3.visibility = INVISIBLE
+        }else{
+            binding.pause3.setText(workoutentry.innerRest.toString())
+        }
+
+
+        binding.mehrsatz.isChecked = workoutentry.multipleSets == true
 
         when(workoutentry.priority){
             0 -> binding.prio.check(binding.chip1.id)
@@ -128,8 +138,13 @@ class WorkoutDetailExerciceFragment : Fragment() {
 
             //Zusammensuchen der nötigen Daten. Abfangen von fehlerhaften Eingaben
             try {
+                val pause: Int?
+                if(binding.pause3.visibility == VISIBLE){
+                    pause = Integer.parseInt(binding.pause3.text.toString())
+                }else{
+                    pause = null
+                }
                 val dauer = Integer.parseInt(binding.dauer.text.toString())
-                val pause = Integer.parseInt(binding.pause3.text.toString())
                 val mehrsatz = binding.mehrsatz.isChecked
                 var prio = 0
 
@@ -148,7 +163,7 @@ class WorkoutDetailExerciceFragment : Fragment() {
                     pause,)
 
             } catch (e: Exception) {
-
+                Log.v("hhh", "Error", e)
             }
 
 

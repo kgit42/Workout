@@ -31,7 +31,9 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_exercices"
         android:layout_width="match_parent"
-        android:layout_height="619dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="55dp"
+        android:scrollbars="vertical"
         app:layout_constraintTop_toBottomOf="@id/appbar" />
 
 

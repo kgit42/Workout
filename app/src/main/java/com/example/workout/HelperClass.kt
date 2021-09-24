@@ -52,7 +52,7 @@ class HelperClass {
             myAdapter = adapter
         }
 
-        fun updateWorkoutEntry(id: Int?, dauer: Int, mehrsatz: Boolean, prio: Int, pause: Int){
+        fun updateWorkoutEntry(id: Int?, dauer: Int?, mehrsatz: Boolean?, prio: Int?, pause: Int?){
             //Element suchen in beiden Listen. Wenn gefunden, Schleife abbrechen für bessere Performance
 
             var found = false

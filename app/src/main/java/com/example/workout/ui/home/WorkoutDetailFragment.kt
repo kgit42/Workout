@@ -1,6 +1,7 @@
 package com.example.workout.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -53,7 +54,7 @@ class WorkoutDetailFragment : Fragment() {
 
         //Listener für den Hinzufügen-Button:
         binding.button.setOnClickListener(View.OnClickListener {
-            //navigiert zur Add-Seite und übergibt ein Array mit den aktuell vorhandenen Excercice IDs,
+            //navigiert zur Add-Seite und übergibt ein Array mit den aktuell vorhandenen Exercice IDs,
             // damit keine doppelt hinzugefügt werden können
             val args = Bundle()
             var intarray: IntArray = IntArray(adapter.getElements().size)
@@ -144,11 +145,16 @@ class WorkoutDetailFragment : Fragment() {
             //Zusammensuchen der nötigen Daten. Abfangen von fehlerhaften Eingaben
             try {
                 val name = binding.name.text.toString()
-                val anzahl = Integer.parseInt(binding.anzahl1.text.toString())
+                var anzahl = Integer.parseInt(binding.anzahl1.text.toString())
                 val pause1 = Integer.parseInt(binding.pause1.text.toString())
                 val pause2 = Integer.parseInt(binding.pause2.text.toString())
 
                 val exercices = adapter.getElements()
+
+                //Wenn eingestellte Übungsanzahl > als Anzahl hinzugefügte Übungen, Wert ändern
+                if(anzahl > exercices.size){
+                    anzahl = exercices.size
+                }
 
                 //Fallunterscheidung je nachdem, ob neues Workout oder Änderung eines bestehenden
                 if (arguments?.getInt("wid") != null) {
@@ -186,7 +192,7 @@ class WorkoutDetailFragment : Fragment() {
                     }
                 }
             } catch (e: Exception) {
-
+                Log.v("hhh", "Error", e)
             }
 
 

@@ -87,6 +87,12 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
     }
 
 
+    //im Gegensatz zur anderen getWorkoutById-Methode nebenläufige Ausführung
+    suspend fun getWorkoutByIdAsync(wid: Int): Workout {
+        return withContext(Dispatchers.IO) { db.workoutDao().getByIdAsync(wid) }
+    }
+
+
 
 
 
