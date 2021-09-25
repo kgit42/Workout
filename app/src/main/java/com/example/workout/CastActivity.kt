@@ -53,9 +53,7 @@ class CastActivity : AppCompatActivity() {
 
             //Nachricht über Custom Channel senden
             //Muss im JSON-Format sein; Nicht-JSON-Strings funktionieren nicht
-            val string = "test"
-            val outputJson: String = Gson().toJson(string)
-            sendMessage(outputJson)
+            sendMessage(intent.getStringExtra("routineJson").toString())
         }
 
         override fun onSessionStarting(p0: CastSession?) {

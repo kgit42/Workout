@@ -161,15 +161,15 @@ class WorkoutsFragment : Fragment() {
             //so oft wiederholen, wie in Workout eingestellt
             loop@ while(exerciceCounter < workout.numberExercices!!){
                 //zufällige Übung auswählen
-                val randomExcercice = listForRandomChoice.get(Random().nextInt(listForRandomChoice.size))
+                val randomExercice = listForRandomChoice.get(Random().nextInt(listForRandomChoice.size))
 
                 //Alle Vorkommen der eben ausgewählten Übung aus Liste löschen, damit Übung nicht doppelt vorkommt.
-                listForRandomChoice.removeAll(Collections.singleton(randomExcercice))
+                listForRandomChoice.removeAll(Collections.singleton(randomExercice))
 
                 //passendes WorkoutEntry-Element finden
                 lateinit var entry: WorkoutEntry
                 for((index, value) in workout.exercices.withIndex()) {
-                    if(value.exercice.eid == randomExcercice.eid){
+                    if(value.exercice.eid == randomExercice.eid){
                         entry = value
                         break
                     }
@@ -202,7 +202,7 @@ class WorkoutsFragment : Fragment() {
                         }
 
                         json.workouts[0].exercices.add(ExerciceModel(
-                            randomExcercice.eid.toString(),
+                            randomExercice.eid.toString(),
                             newLength.toString(), power, entry.innerRest.toString()
                         ))
                         exerciceCounter++
@@ -262,7 +262,7 @@ class WorkoutsFragment : Fragment() {
 
             val intent = Intent(context, CastActivity::class.java)
             //Generiertes Workout übergeben
-            intent.putExtra("fdgd", "dfgd")
+            intent.putExtra("routineJson", result)
             context?.startActivity(intent)
 
 
