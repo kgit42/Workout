@@ -52,11 +52,11 @@ class WorkoutsFragment : Fragment() {
 
 
         //Observer --> falls es Änderungen in DB gibt
-        homeViewModel.getAllWorkouts().observe(viewLifecycleOwner) { workouts -> adapter.setData(workouts) }
+        homeViewModel.getAllWorkouts()
+            .observe(viewLifecycleOwner) { workouts -> adapter.setData(workouts) }
 
         return rv
     }
-
 
 
     inner class MyRecyclerViewAdapter(
@@ -71,6 +71,7 @@ class WorkoutsFragment : Fragment() {
 
         inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
             var boundString: String? = null
+
             //val image: ImageView = view.findViewById(R.id.avatar)
             val text: TextView = view.findViewById(R.id.workout_title)
 
@@ -84,7 +85,8 @@ class WorkoutsFragment : Fragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = LayoutInflater.from(parent.context).inflate(
-                R.layout.workouts_view_item, parent, false)
+                R.layout.workouts_view_item, parent, false
+            )
             return ViewHolder(view)
         }
 
@@ -102,7 +104,7 @@ class WorkoutsFragment : Fragment() {
             }
 
             //OnLongClickListener zum Löschen
-            holder.view.setOnLongClickListener{ v ->
+            holder.view.setOnLongClickListener { v ->
                 val dialog = DeleteDialogFragment()
                 val args = Bundle()
                 args.putInt("wid", values[position].wid)
@@ -113,7 +115,7 @@ class WorkoutsFragment : Fragment() {
             }
 
             //Start-Button OnClickListener
-            holder.startButton.setOnClickListener{v ->
+            holder.startButton.setOnClickListener { v ->
 
                 //Ladesymbol einblenden
                 holder.startButton.visibility = View.INVISIBLE
@@ -130,18 +132,17 @@ class WorkoutsFragment : Fragment() {
         override fun getItemCount(): Int = values.size
 
 
-
-
     }
 
 
     //Nebenläufige Generierung des Workouts
-    private fun generateWorkout(wid: Int){
+    private fun generateWorkout(wid: Int) {
 
         lifecycleScope.launch {
             var workout = homeViewModel.getWorkoutByIdAsync(wid)
             var exerciceCounter = 0
-            var json = CommunicationModel("", arrayListOf(WorkoutModel(workout.name, "", arrayListOf())))
+            var json =
+                CommunicationModel("-", arrayListOf(WorkoutModel(workout.name, "", arrayListOf())))
 
             //Liste, in der alle Übungen des Workouts in der der Priorität entsprechenden Quantität vertreten sind
             //1-fach, 5-fach, bzw. 25-fach
@@ -150,104 +151,139 @@ class WorkoutsFragment : Fragment() {
             for ((index, value) in workout.exercices.withIndex()) {
                 when (value.priority) {
                     0 -> listForRandomChoice.add(value.exercice)
-                    1 -> for(i in 1..5) {listForRandomChoice.add(value.exercice)}
-                    2 -> for(i in 1..25) {listForRandomChoice.add(value.exercice)}
+                    1 -> for (i in 1..5) {
+                        listForRandomChoice.add(value.exercice)
+                    }
+                    2 -> for (i in 1..25) {
+                        listForRandomChoice.add(value.exercice)
+                    }
                     else -> {
-
                     }
                 }
             }
 
             //so oft wiederholen, wie in Workout eingestellt
-            loop@ while(exerciceCounter < workout.numberExercices!!){
+            //Schleife benennen, um aus ihr ausbrechen zu können
+            loop@ while (exerciceCounter < workout.numberExercices!!) {
                 //zufällige Übung auswählen
-                val randomExercice = listForRandomChoice.get(Random().nextInt(listForRandomChoice.size))
+                val randomExercice =
+                    listForRandomChoice.get(Random().nextInt(listForRandomChoice.size))
 
                 //Alle Vorkommen der eben ausgewählten Übung aus Liste löschen, damit Übung nicht doppelt vorkommt.
                 listForRandomChoice.removeAll(Collections.singleton(randomExercice))
 
+                //Falls die Liste nun aber leer, die eingestellte Übungszahl jedoch noch nicht erreicht ist,
+                //muss die Liste neu gefüllt werden
+                if(listForRandomChoice.size == 0){
+                    for ((index, value) in workout.exercices.withIndex()) {
+                        when (value.priority) {
+                            0 -> listForRandomChoice.add(value.exercice)
+                            1 -> for (i in 1..5) {
+                                listForRandomChoice.add(value.exercice)
+                            }
+                            2 -> for (i in 1..25) {
+                                listForRandomChoice.add(value.exercice)
+                            }
+                            else -> {
+                            }
+                        }
+                    }
+                }
+
                 //passendes WorkoutEntry-Element finden
                 lateinit var entry: WorkoutEntry
-                for((index, value) in workout.exercices.withIndex()) {
-                    if(value.exercice.eid == randomExercice.eid){
+                for ((index, value) in workout.exercices.withIndex()) {
+                    if (value.exercice.eid == randomExercice.eid) {
                         entry = value
                         break
                     }
                 }
 
-                if(entry.multipleSets == true){
+                var sets = 0
+                if (entry.multipleSets == true) {
                     //zufällige Anzahl an Sätzen. 1 bis 4.
                     val min = 1
                     val max = 4
                     var randomNum: Int = ThreadLocalRandom.current().nextInt(min, max + 1)
+                    sets = randomNum
+                } else {
+                    sets = 1
+                }
 
-                    var power = false
+                var power = false
 
-                    //Die ausgewählten Übungen hinzufügen
-                    for(j in 1..randomNum){
+                //Die ausgewählten Übungen hinzufügen
+                for (j in 1..sets) {
 
-                        //10% Chance, dass Pause zwischen Sätzen wegfällt --> Supersatz. Stattdessen 1 Satz weniger
-                        //nicht bei letztem Satz
-                        var newLength: Int? = entry.length
-                        if(j != randomNum){
-                            if (Math.random() < 0.1){
-                                newLength = entry.length?.times(2)
-                                randomNum--
-                            }
-                        }
-
-                        //Übung kürzer, wenn power gesetzt
-                        if(power){
-                            newLength = newLength?.times(0.75)?.toInt()
-                        }
-
-                        json.workouts[0].exercices.add(ExerciceModel(
-                            randomExercice.eid.toString(),
-                            newLength.toString(), power, entry.innerRest.toString()
-                        ))
-                        exerciceCounter++
-
-                        //äußere while-Schleife beenden, wenn eingestellte Übungsanzahl erreicht
-                        if(exerciceCounter == workout.numberExercices){
-                            break@loop
-                        }
-
-                        //Im letzten Satz kann power auf true gesetzt werden. Chance beträgt 50%.
-                        //Pause dann um 50% länger, daher wird es schon in der vorletzten Iteration gesetzt
-                        power = j == randomNum - 1 && Math.random() > 0.5
-
-                        //Pause hinzufügen, aber nur, wenn nicht letzter Satz der Übung
-                        if(j != randomNum && !power){
-                            json.workouts[0].exercices.add(ExerciceModel("0", workout.restSets.toString(), null, null))
-                        }else if(j != randomNum && power){
-                            var newRest = workout.restSets?.times(1.5)
-                            json.workouts[0].exercices.add(ExerciceModel("0", newRest.toString(), null, null))
+                    //20% Chance, dass Pause zwischen Sätzen wegfällt --> Supersatz. Stattdessen 1 Satz weniger
+                    //nicht bei letztem Satz und nicht, wenn nur 1 Satz
+                    var newLength: Int? = entry.length
+                    if (j != sets && sets != 1) {
+                        if (Math.random() < 0.2) {
+                            newLength = entry.length?.times(2)
+                            sets--
                         }
                     }
 
+                    //Übung kürzer, wenn power gesetzt
+                    if (power) {
+                        newLength = newLength?.times(0.75)?.toInt()
+                    }
+
+                    json.workouts[0].exercices.add(
+                        ExerciceModel(
+                            randomExercice.eid.toString(),
+                            newLength.toString(), power, entry.innerRest.toString(), j.toString()
+                        )
+                    )
+                    exerciceCounter++
+
+                    //äußere while-Schleife beenden, wenn eingestellte Übungsanzahl erreicht
+                    if (exerciceCounter == workout.numberExercices) {
+                        break@loop
+                    }
+
+                    //Im letzten Satz kann power auf true gesetzt werden. Chance beträgt 50%.
+                    //Pause dann um 50% länger, daher wird es schon in der vorletzten Iteration gesetzt.
+                    //Demnach mindestens 2 Sätze nötig.
+                    power = j == sets - 1 && Math.random() > 0.5
+
+                    //Pause hinzufügen, aber nur, wenn nicht letzter Satz der Übung
+                    if (j != sets && !power) {
+                        json.workouts[0].exercices.add(
+                            ExerciceModel(
+                                "0",
+                                workout.restSets.toString(),
+                                null,
+                                null,
+                                null
+                            )
+                        )
+                    } else if (j != sets && power) {
+                        var newRest = workout.restSets?.times(1.5)?.toInt()
+                        json.workouts[0].exercices.add(
+                            ExerciceModel(
+                                "0",
+                                newRest.toString(),
+                                null,
+                                null,
+                                null
+                            )
+                        )
+                    }
                 }
+
 
                 //Pause nach Übung hinzufügen
-                //10% Chance, dass Pause zwischen Übungen wegfällt bzw. nur 10 Sekunden beträgt --> Supersatz.
+                //25% Chance, dass Pause zwischen Übungen wegfällt bzw. nur 10 Sekunden beträgt --> Supersatz.
                 var newRest2 = workout.restExercices
-                if(Math.random() < 0.1){
-                   newRest2 = 10
+                if (Math.random() < 0.25) {
+                    newRest2 = 10
                 }
 
-                json.workouts[0].exercices.add(ExerciceModel("0", newRest2.toString(), null, null))
+                json.workouts[0].exercices.add(ExerciceModel("0", newRest2.toString(), null, null, null))
 
             }
-
-
-
-
-
-
-
-
-
-
-
 
 
             val gson = Gson()
@@ -255,9 +291,6 @@ class WorkoutsFragment : Fragment() {
 
 
             Log.v("hhh", result)
-
-
-
 
 
             val intent = Intent(context, CastActivity::class.java)

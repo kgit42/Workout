@@ -37,6 +37,8 @@ class CastActivity : AppCompatActivity() {
 
     private inner class SessionManagerListenerImpl : SessionManagerListener<CastSession> {
         override fun onSessionStarted(session: CastSession?, sessionId: String) {
+            Log.v("hhh", "Cast Session started with sessionId $sessionId")
+
             //CustomChannel bei der CastSession registrieren
 
             mCastSession = session
@@ -57,36 +59,43 @@ class CastActivity : AppCompatActivity() {
         }
 
         override fun onSessionStarting(p0: CastSession?) {
-
             Log.v("hhh", "Cast Session starting...")
         }
 
         override fun onSessionEnded(session: CastSession?, error: Int) {
+            Log.v("hhh", "Error ${error.toString()}")
+
             //Bei Beenden der Session Activity beenden
             finish()
         }
 
         override fun onSessionEnding(p0: CastSession?) {
+            Log.v("hhh", "Cast Session ending...")
 
         }
 
         override fun onSessionResumed(session: CastSession?, wasSuspended: Boolean) {
+            Log.v("hhh", "Cast Session resumed. wasSuspended = $wasSuspended")
 
         }
 
         override fun onSessionResuming(p0: CastSession?, p1: String) {
+            Log.v("hhh", "Cast Session resuming...")
 
         }
 
         override fun onSessionResumeFailed(p0: CastSession?, p1: Int) {
+            Log.v("hhh", "Cast Session resume failed.")
 
         }
 
         override fun onSessionStartFailed(p0: CastSession?, p1: Int) {
+            Log.v("hhh", "Cast Session start failed.")
 
         }
 
         override fun onSessionSuspended(p0: CastSession?, p1: Int) {
+            Log.v("hhh", "Cast Session suspended")
 
         }
     }

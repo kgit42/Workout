@@ -151,11 +151,6 @@ class WorkoutDetailFragment : Fragment() {
 
                 val exercices = adapter.getElements()
 
-                //Wenn eingestellte Übungsanzahl > als Anzahl hinzugefügte Übungen, Wert ändern
-                if(anzahl > exercices.size){
-                    anzahl = exercices.size
-                }
-
                 //Fallunterscheidung je nachdem, ob neues Workout oder Änderung eines bestehenden
                 if (arguments?.getInt("wid") != null) {
 

@@ -22,7 +22,8 @@ data class ExerciceModel(
     val eid: String,
     val length: String,
     val power: Boolean?,
-    val rest: String?
+    val rest: String?,
+    val set: String?
 )
 
 
