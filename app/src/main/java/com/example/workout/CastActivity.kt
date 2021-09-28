@@ -4,7 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.view.View
 import android.widget.Button
+import android.widget.ProgressBar
+import android.widget.TextView
+import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -19,6 +23,8 @@ import com.google.android.gms.cast.framework.*
 import com.google.android.gms.cast.framework.media.RemoteMediaClient
 import com.google.gson.Gson
 import java.io.IOException
+import org.json.JSONObject
+
 
 class CastActivity : AppCompatActivity() {
 
@@ -33,33 +39,49 @@ class CastActivity : AppCompatActivity() {
     private val mCustomChannel: CustomChannel = CustomChannel()
     private val mCustomChannel2: CustomChannel2 = CustomChannel2()
 
+    private var pauseButton: Button? = null
 
 
     private inner class SessionManagerListenerImpl : SessionManagerListener<CastSession> {
         override fun onSessionStarted(session: CastSession?, sessionId: String) {
             Log.v("hhh", "Cast Session started with sessionId $sessionId")
 
-            //CustomChannel bei der CastSession registrieren
+            //CustomChannels bei der CastSession registrieren
 
             mCastSession = session
 
             try {
                 mCastSession?.setMessageReceivedCallbacks(
                     mCustomChannel.namespace,
-                    mCustomChannel)
+                    mCustomChannel
+                )
             } catch (e: IOException) {
-                Log.e("hhh", "Exception while creating channel", e)
-            } catch (e: Exception){
+                Log.e("hhh", "Exception while creating channel 1", e)
+            } catch (e: Exception) {
+                Log.e("hhh", "Exception", e)
+            }
+
+            try {
+                mCastSession?.setMessageReceivedCallbacks(
+                    mCustomChannel2.namespace,
+                    mCustomChannel2
+                )
+            } catch (e: IOException) {
+                Log.e("hhh", "Exception while creating channel 2", e)
+            } catch (e: Exception) {
                 Log.e("hhh", "Exception", e)
             }
 
             //Nachricht über Custom Channel senden
             //Muss im JSON-Format sein; Nicht-JSON-Strings funktionieren nicht
-            sendMessage(intent.getStringExtra("routineJson").toString())
+            sendMessage(intent.getStringExtra("routineJson").toString(), 1)
         }
 
         override fun onSessionStarting(p0: CastSession?) {
             Log.v("hhh", "Cast Session starting...")
+
+            //Ladesymbol einblenden
+            showLoading()
         }
 
         override fun onSessionEnded(session: CastSession?, error: Int) {
@@ -77,10 +99,46 @@ class CastActivity : AppCompatActivity() {
         override fun onSessionResumed(session: CastSession?, wasSuspended: Boolean) {
             Log.v("hhh", "Cast Session resumed. wasSuspended = $wasSuspended")
 
+            //CustomChannels bei der CastSession registrieren
+            //Keine weitere Nachricht mit Workout senden, da Session fortgeführt wurde.
+
+            mCastSession = session
+
+            try {
+                mCastSession?.setMessageReceivedCallbacks(
+                    mCustomChannel.namespace,
+                    mCustomChannel
+                )
+            } catch (e: IOException) {
+                Log.e("hhh", "Exception while creating channel 1", e)
+            } catch (e: Exception) {
+                Log.e("hhh", "Exception", e)
+            }
+
+            try {
+                mCastSession?.setMessageReceivedCallbacks(
+                    mCustomChannel2.namespace,
+                    mCustomChannel2
+                )
+            } catch (e: IOException) {
+                Log.e("hhh", "Exception while creating channel 2", e)
+            } catch (e: Exception) {
+                Log.e("hhh", "Exception", e)
+            }
+
+            //Fernbedienung einblenden
+            hideMessageAndShowButtons()
+
+            //Ladesymbol ausblenden
+            hideLoading()
+
         }
 
         override fun onSessionResuming(p0: CastSession?, p1: String) {
             Log.v("hhh", "Cast Session resuming...")
+
+            //Ladesymbol einblenden
+            showLoading()
 
         }
 
@@ -101,9 +159,6 @@ class CastActivity : AppCompatActivity() {
     }
 
 
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -116,15 +171,49 @@ class CastActivity : AppCompatActivity() {
         val castContext = CastContext.getSharedInstance(this)
         mSessionManager = castContext.sessionManager
 
+        pauseButton = findViewById(R.id.buttonPause)
 
 
-        val pauseButton: Button = findViewById(R.id.buttonPause)
-        pauseButton.setOnClickListener{ v ->
-            val outputJson: String = Gson().toJson("test2")
-            sendMessage(outputJson)
+        //OnClickListener der Buttons:
+
+
+        pauseButton?.setOnClickListener { v ->
+            if (pauseButton?.text == "Pause") {
+                val outputJson: String = Gson().toJson("PAUSE")
+                sendMessage(outputJson, 2)
+            } else {
+                val outputJson: String = Gson().toJson("CONTINUE")
+                sendMessage(outputJson, 2)
+            }
+
+        }
+
+        val skipButton: Button = findViewById(R.id.buttonSkip)
+        skipButton.setOnClickListener { v ->
+            val outputJson: String = Gson().toJson("SKIP")
+            sendMessage(outputJson, 2)
+        }
+
+        val stopButton: Button = findViewById(R.id.buttonStop)
+
+        //Ein einfacher Klick auf Stopp zeigt Snackbar
+        stopButton.setOnClickListener { v ->
+            Snackbar.make(v, "Zum Stoppen gedrückt halten", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show()
+
+        }
+        stopButton.setOnLongClickListener { v ->
+            val outputJson: String = Gson().toJson("STOP")
+            sendMessage(outputJson, 2)
+            return@setOnLongClickListener true
         }
 
 
+        val backButton: Button = findViewById(R.id.buttonBack)
+        backButton.setOnClickListener { v ->
+            val outputJson: String = Gson().toJson("BACK")
+            sendMessage(outputJson, 2)
+        }
 
 
     }
@@ -133,7 +222,10 @@ class CastActivity : AppCompatActivity() {
         super.onResume()
         mCastSession = mSessionManager.currentCastSession
 
-
+        //Fernbedienung anzeigen, wenn Activity fortgeführt wird
+        if (mCastSession != null) {
+            hideMessageAndShowButtons()
+        }
 
 
         mSessionManager.addSessionManagerListener(mSessionManagerListener, CastSession::class.java)
@@ -141,10 +233,13 @@ class CastActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        mSessionManager.removeSessionManagerListener(mSessionManagerListener, CastSession::class.java)
+
+        mSessionManager.removeSessionManagerListener(
+            mSessionManagerListener,
+            CastSession::class.java
+        )
         mCastSession = null
     }
-
 
 
     //Cast-Button anzeigen
@@ -160,25 +255,66 @@ class CastActivity : AppCompatActivity() {
     }
 
 
-
-    private fun sendMessage(message: String) {
-        if (mCustomChannel != null) {
-            try {
-                mCastSession?.sendMessage(mCustomChannel.namespace, message)
-                    ?.setResultCallback { status ->
-                        if (!status.isSuccess) {
-                            Log.e("hhh", "Sending message failed")
-                        }else{
-                            Log.v("hhh", "Sending successful")
+    private fun sendMessage(message: String, channelNumber: Int) {
+        if (channelNumber == 1) {
+            if (mCustomChannel != null) {
+                try {
+                    mCastSession?.sendMessage(mCustomChannel.namespace, message)
+                        ?.setResultCallback { status ->
+                            if (!status.isSuccess) {
+                                Log.e("hhh", "Sending message failed")
+                            } else {
+                                Log.v("hhh", "Sending successful")
+                            }
                         }
-                    }
-            } catch (e: Exception) {
-                Log.e("hhh", "Exception while sending message", e)
+                } catch (e: Exception) {
+                    Log.e("hhh", "Exception while sending message on channel 1", e)
+                }
+            }
+        } else if (channelNumber == 2) {
+            if (mCustomChannel2 != null) {
+                try {
+                    mCastSession?.sendMessage(mCustomChannel2.namespace, message)
+                        ?.setResultCallback { status ->
+                            if (!status.isSuccess) {
+                                Log.e("hhh", "Sending message failed")
+                            } else {
+                                Log.v("hhh", "Sending successful")
+                            }
+                        }
+                } catch (e: Exception) {
+                    Log.e("hhh", "Exception while sending message on channel 2", e)
+                }
             }
         }
+
     }
 
+    private fun hideMessageAndShowButtons() {
+        val skipButton: Button = findViewById(R.id.buttonSkip)
+        val pauseButton: Button = findViewById(R.id.buttonPause)
+        val backButton: Button = findViewById(R.id.buttonBack)
+        val stopButton: Button = findViewById(R.id.buttonStop)
+        val message: TextView = findViewById(R.id.message)
+        skipButton.visibility = View.VISIBLE
+        pauseButton.visibility = View.VISIBLE
+        backButton.visibility = View.VISIBLE
+        stopButton.visibility = View.VISIBLE
 
+        message.visibility = View.INVISIBLE
+
+
+    }
+
+    private fun showLoading(){
+        val progressbar: ProgressBar = findViewById(R.id.progressBar2)
+        progressbar.visibility = View.VISIBLE
+    }
+
+    private fun hideLoading(){
+        val progressbar: ProgressBar = findViewById(R.id.progressBar2)
+        progressbar.visibility = View.INVISIBLE
+    }
 
 
     /*
@@ -201,31 +337,61 @@ class CastActivity : AppCompatActivity() {
                 .setCurrentTime(position.toLong()).build()
         )
     }*/
-}
 
 
+    //Erster Channel
+    inner class CustomChannel : Cast.MessageReceivedCallback {
+        val namespace: String
+            //Namespace
+            get() = "urn:x-cast:com.example.custom"
+
+        override fun onMessageReceived(castDevice: CastDevice, namespace: String, message: String) {
+            Log.v("hhh", "onMessageReceived (Channel 1): $message")
+
+            hideMessageAndShowButtons()
+            //Ladesymbol ausblenden
+            hideLoading()
+
+        }
+    }
+
+    //Zweiter Channel
+    inner class CustomChannel2 : Cast.MessageReceivedCallback {
+        val namespace: String
+            //Namespace
+            get() = "urn:x-cast:com.example.custom2"
+
+        override fun onMessageReceived(castDevice: CastDevice, namespace: String, message: String) {
+            Log.v("hhh", "onMessageReceived (Channel 2): $message")
+
+            //Annahme einer Nachricht in JSON:
+            val obj = JSONObject(message)
+
+            try {
+                if (obj.getString("pause") == "OK") {
+                    pauseButton?.text = "Weiter"
+                }
+            } catch (e: Exception) {
+
+            }
+
+            try {
+                if (obj.getString("continue") == "OK") {
+                    pauseButton?.text = "Pause"
+                }
+            } catch (e: Exception) {
+
+            }
 
 
-
-
-//Erster Channel
-class CustomChannel : Cast.MessageReceivedCallback {
-    val namespace: String
-        //Namespace
-        get() = "urn:x-cast:com.example.custom"
-
-    override fun onMessageReceived(castDevice: CastDevice, namespace: String, message: String) {
-        Log.v("hhh", "onMessageReceived: $message")
+        }
     }
 }
 
-//Zweiter Channel
-class CustomChannel2 : Cast.MessageReceivedCallback {
-    val namespace: String
-        //Namespace
-        get() = "urn:x-cast:com.example.custom2"
 
-    override fun onMessageReceived(castDevice: CastDevice, namespace: String, message: String) {
-        Log.v("hhh", "onMessageReceived: $message")
-    }
-}
+
+
+
+
+
+

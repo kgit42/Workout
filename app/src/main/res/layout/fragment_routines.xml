@@ -15,7 +15,7 @@
         tools:context=".ui.favourite.FavouriteFragment">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/cardio_list"
+            android:id="@+id/workout_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

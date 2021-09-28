@@ -1,5 +1,6 @@
 package com.example.workout.ui.home
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -56,6 +57,27 @@ class WorkoutsFragment : Fragment() {
             .observe(viewLifecycleOwner) { workouts -> adapter.setData(workouts) }
 
         return rv
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+
+        //Ladesymbole ausblenden und Start-Buttons wieder einblenden
+        val recyclerview: RecyclerView? = view?.findViewById(R.id.recyclerview)
+        for (j in 0..(recyclerview?.layoutManager?.itemCount!!)){
+            recyclerview.layoutManager!!.findViewByPosition(j)?.findViewById<ProgressBar>(R.id.progress_loader)?.visibility = View.INVISIBLE
+            recyclerview.layoutManager!!.findViewByPosition(j)?.findViewById<Button>(R.id.buttonPlay)?.visibility = View.VISIBLE
+        }
+
+
+    }
+
+
+    override fun onPause() {
+        super.onPause()
+
+        Log.v("hhh", "onPause")
     }
 
 
@@ -121,7 +143,7 @@ class WorkoutsFragment : Fragment() {
                 holder.startButton.visibility = View.INVISIBLE
                 holder.progressbar.visibility = View.VISIBLE
 
-                //Workout generieren
+                //Workout generieren.
                 generateWorkout(values[position].wid)
 
 
@@ -293,6 +315,7 @@ class WorkoutsFragment : Fragment() {
             Log.v("hhh", result)
 
 
+
             val intent = Intent(context, CastActivity::class.java)
             //Generiertes Workout übergeben
             intent.putExtra("routineJson", result)
@@ -300,7 +323,5 @@ class WorkoutsFragment : Fragment() {
 
 
         }
-
     }
-
 }
