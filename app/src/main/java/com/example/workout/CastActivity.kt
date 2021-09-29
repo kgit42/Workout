@@ -145,6 +145,9 @@ class CastActivity : AppCompatActivity() {
         override fun onSessionResumeFailed(p0: CastSession?, p1: Int) {
             Log.v("hhh", "Cast Session resume failed.")
 
+            //Ladesymbol ausblenden
+            hideLoading()
+
         }
 
         override fun onSessionStartFailed(p0: CastSession?, p1: Int) {
@@ -223,7 +226,7 @@ class CastActivity : AppCompatActivity() {
         mCastSession = mSessionManager.currentCastSession
 
         //Fernbedienung anzeigen, wenn Activity fortgeführt wird
-        if (mCastSession != null) {
+        if (mCastSession?.isConnected == true) {
             hideMessageAndShowButtons()
         }
 
@@ -263,6 +266,8 @@ class CastActivity : AppCompatActivity() {
                         ?.setResultCallback { status ->
                             if (!status.isSuccess) {
                                 Log.e("hhh", "Sending message failed")
+                                Snackbar.make(binding.root, "Senden fehlgeschlagen", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show()
                             } else {
                                 Log.v("hhh", "Sending successful")
                             }
@@ -278,6 +283,8 @@ class CastActivity : AppCompatActivity() {
                         ?.setResultCallback { status ->
                             if (!status.isSuccess) {
                                 Log.e("hhh", "Sending message failed")
+                                Snackbar.make(binding.root, "Senden fehlgeschlagen", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show()
                             } else {
                                 Log.v("hhh", "Sending successful")
                             }
