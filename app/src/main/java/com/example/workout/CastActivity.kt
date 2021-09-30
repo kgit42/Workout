@@ -191,6 +191,7 @@ class CastActivity : AppCompatActivity() {
 
 
         pauseButton?.setOnClickListener { v ->
+            /*
             if (pauseButton?.text == "Pause") {
                 val outputJson: String = Gson().toJson("PAUSE")
                 sendMessage(outputJson, 2)
@@ -198,6 +199,9 @@ class CastActivity : AppCompatActivity() {
                 val outputJson: String = Gson().toJson("CONTINUE")
                 sendMessage(outputJson, 2)
             }
+             */
+            val outputJson: String = Gson().toJson("PAUSE")
+            sendMessage(outputJson, 2)
 
         }
 
@@ -330,7 +334,7 @@ class CastActivity : AppCompatActivity() {
         val stopButton: Button = findViewById(R.id.buttonStop)
         val message: TextView = findViewById(R.id.message)
         skipButton.visibility = View.INVISIBLE
-        //pauseButton.visibility = View.INVISIBLE
+        pauseButton.visibility = View.INVISIBLE
         backButton.visibility = View.INVISIBLE
         stopButton.visibility = View.INVISIBLE
 
@@ -347,6 +351,7 @@ class CastActivity : AppCompatActivity() {
         progressbar.visibility = View.INVISIBLE
     }
 
+    /*
     private fun changeTextPauseButton(){
             if(pauseButton?.text == "Weiter"){
                 pauseButton?.text = "Pause"
@@ -355,6 +360,7 @@ class CastActivity : AppCompatActivity() {
             }
 
     }
+     */
 
 
 
@@ -405,6 +411,7 @@ class CastActivity : AppCompatActivity() {
         override fun onMessageReceived(castDevice: CastDevice, namespace: String, message: String) {
             Log.v("hhh", "onMessageReceived (Channel 2): $message")
 
+            /*
             //Annahme einer Nachricht in JSON:
             val obj = JSONObject(message)
 
@@ -425,6 +432,7 @@ class CastActivity : AppCompatActivity() {
             } catch (e: Exception) {
 
             }
+             */
 
 
         }
