@@ -10,6 +10,10 @@ import com.example.workout.ui.home.WorkoutDetailFragment
 class HelperClass {
 
     companion object {
+
+
+
+
         //Liste mit eventl. hinzuzufügenden Übungen
         var _listToAdd: ArrayList<Exercice> = arrayListOf()
 

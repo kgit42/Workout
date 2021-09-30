@@ -77,7 +77,7 @@ class WorkoutsFragment : Fragment() {
     override fun onPause() {
         super.onPause()
 
-        Log.v("hhh", "onPause")
+        //Log.v("hhh", "onPause")
     }
 
 

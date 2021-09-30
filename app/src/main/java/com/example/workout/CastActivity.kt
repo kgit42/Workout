@@ -85,10 +85,13 @@ class CastActivity : AppCompatActivity() {
         }
 
         override fun onSessionEnded(session: CastSession?, error: Int) {
-            Log.v("hhh", "Error ${error.toString()}")
+            Log.v("hhh", "Cast Session ended with error ${error.toString()}")
+
+            //Fernbedienung ausblenden
+            showMessageAndHideButtons()
 
             //Bei Beenden der Session Activity beenden
-            finish()
+            //finish()
         }
 
         override fun onSessionEnding(p0: CastSession?) {
@@ -144,6 +147,8 @@ class CastActivity : AppCompatActivity() {
 
         override fun onSessionResumeFailed(p0: CastSession?, p1: Int) {
             Log.v("hhh", "Cast Session resume failed.")
+            Snackbar.make(binding.root, "Cast Session resume failed.", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show()
 
             //Ladesymbol ausblenden
             hideLoading()
@@ -152,6 +157,11 @@ class CastActivity : AppCompatActivity() {
 
         override fun onSessionStartFailed(p0: CastSession?, p1: Int) {
             Log.v("hhh", "Cast Session start failed.")
+            Snackbar.make(binding.root, "Cast Session start failed.", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show()
+
+            //Ladesymbol ausblenden
+            hideLoading()
 
         }
 
@@ -230,12 +240,13 @@ class CastActivity : AppCompatActivity() {
             hideMessageAndShowButtons()
         }
 
-
         mSessionManager.addSessionManagerListener(mSessionManagerListener, CastSession::class.java)
     }
 
+
     override fun onPause() {
         super.onPause()
+
 
         mSessionManager.removeSessionManagerListener(
             mSessionManagerListener,
@@ -243,6 +254,7 @@ class CastActivity : AppCompatActivity() {
         )
         mCastSession = null
     }
+
 
 
     //Cast-Button anzeigen
@@ -309,8 +321,20 @@ class CastActivity : AppCompatActivity() {
         stopButton.visibility = View.VISIBLE
 
         message.visibility = View.INVISIBLE
+    }
 
+    private fun showMessageAndHideButtons() {
+        val skipButton: Button = findViewById(R.id.buttonSkip)
+        val pauseButton: Button = findViewById(R.id.buttonPause)
+        val backButton: Button = findViewById(R.id.buttonBack)
+        val stopButton: Button = findViewById(R.id.buttonStop)
+        val message: TextView = findViewById(R.id.message)
+        skipButton.visibility = View.INVISIBLE
+        //pauseButton.visibility = View.INVISIBLE
+        backButton.visibility = View.INVISIBLE
+        stopButton.visibility = View.INVISIBLE
 
+        message.visibility = View.VISIBLE
     }
 
     private fun showLoading(){
@@ -322,6 +346,16 @@ class CastActivity : AppCompatActivity() {
         val progressbar: ProgressBar = findViewById(R.id.progressBar2)
         progressbar.visibility = View.INVISIBLE
     }
+
+    private fun changeTextPauseButton(){
+            if(pauseButton?.text == "Weiter"){
+                pauseButton?.text = "Pause"
+            }else{
+                pauseButton?.text = "Weiter"
+            }
+
+    }
+
 
 
     /*
@@ -374,9 +408,11 @@ class CastActivity : AppCompatActivity() {
             //Annahme einer Nachricht in JSON:
             val obj = JSONObject(message)
 
+            //Die Beschriftung des Pause-Buttons ändern:
+
             try {
                 if (obj.getString("pause") == "OK") {
-                    pauseButton?.text = "Weiter"
+                    changeTextPauseButton()
                 }
             } catch (e: Exception) {
 
@@ -384,7 +420,7 @@ class CastActivity : AppCompatActivity() {
 
             try {
                 if (obj.getString("continue") == "OK") {
-                    pauseButton?.text = "Pause"
+                    changeTextPauseButton()
                 }
             } catch (e: Exception) {
 
