@@ -5,7 +5,7 @@ import com.google.gson.Gson
 
 import com.google.gson.reflect.TypeToken
 
-
+//Converters werden von Android anhand Signatur passend angewendet, d. h. Name nicht wichtig
 object Converters {
     @TypeConverter
     fun fromString(value: String?): ArrayList<WorkoutEntry> {

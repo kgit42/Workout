@@ -7,13 +7,14 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workout.HelperClass
 import com.example.workout.HelperClassRoutine
 import com.example.workout.R
-import com.example.workout.databinding.FragmentWorkoutDetailAddBinding
+import com.example.workout.databinding.FragmentRoutineDetailAddBinding
 import com.example.workout.db.Exercice
 import com.example.workout.db.Workout
 
@@ -21,7 +22,7 @@ class RoutineDetailAddFragment : Fragment() {
 
     private lateinit var menuItem: MenuItem
     //private val args: WorkoutDetailAddFragmentArgs by navArgs()
-    private lateinit var binding: FragmentWorkoutDetailAddBinding
+    private lateinit var binding: FragmentRoutineDetailAddBinding
     private lateinit var adapter: MyRecyclerViewAdapter
     /*private val workout: Workout by lazy {
         args.workout
@@ -40,7 +41,7 @@ class RoutineDetailAddFragment : Fragment() {
         //Referenz zum ViewModel beschaffen
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
-        binding = FragmentWorkoutDetailAddBinding.inflate(inflater, container, false)
+        binding = FragmentRoutineDetailAddBinding.inflate(inflater, container, false)
         /*binding.apply {
             viewModel = detailViewModel
             lifecycleOwner = viewLifecycleOwner
@@ -125,7 +126,7 @@ class RoutineDetailAddFragment : Fragment() {
                 HelperClassRoutine.workoutsToAdd.add(values[position])
 
                 //zurück navigieren
-                findNavController().navigateUp()
+                holder.view.findNavController().navigateUp()
 
             }
 

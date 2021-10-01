@@ -193,7 +193,7 @@ class WorkoutsFragment : Fragment() {
                 listForRandomChoice.removeAll(Collections.singleton(randomExercice))
 
                 //Falls die Liste nun aber leer, die eingestellte Übungszahl jedoch noch nicht erreicht ist,
-                //muss die Liste neu gefüllt werden
+                //muss die Liste neu gefüllt werden, Übungen also doppelt drankommen.
                 if(listForRandomChoice.size == 0){
                     for ((index, value) in workout.exercices.withIndex()) {
                         when (value.priority) {

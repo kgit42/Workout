@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workout.HelperClassRoutine
+import com.example.workout.R
 import com.example.workout.databinding.FragmentRoutineDetailBinding
 import com.example.workout.db.Routine
 import com.example.workout.db.Workout
@@ -51,7 +52,7 @@ class RoutineDetailFragment : Fragment() {
             //navigiert zur Add-Seite
 
             findNavController().navigate(
-                com.example.workout.R.id.navigation_routine_detail_add
+                R.id.navigation_routine_detail_add
             )
         })
 
