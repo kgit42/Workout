@@ -36,6 +36,19 @@
     </fragment>
 
     <fragment
+        android:id="@+id/navigation_routine_detail_add"
+        android:name="com.example.workout.ui.home.RoutineDetailAddFragment"
+        android:label="Workouts hinzufügen"
+        tools:layout="@layout/fragment_routine_detail_add">
+        <!--
+        <argument
+            android:name="routine"
+            app:argType="com.ersiver.gymific.model.Workout" />
+            -->
+    </fragment>
+
+
+    <fragment
         android:id="@+id/navigation_workout_detail"
         android:name="com.example.workout.ui.home.WorkoutDetailFragment"
         android:label="Workout xyz"

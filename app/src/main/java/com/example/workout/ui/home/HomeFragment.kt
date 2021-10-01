@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.workout.HelperClass
+import com.example.workout.HelperClassRoutine
 import com.example.workout.R
 import com.example.workout.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
@@ -53,7 +54,7 @@ class HomeFragment : Fragment() {
         binding.fab.setOnClickListener { view ->
 
             if (tabLayout.selectedTabPosition == ROUTINES_PAGE_INDEX){
-
+                findNavController().navigate(com.example.workout.R.id.navigation_routine_detail)
             }else{
                 findNavController().navigate(com.example.workout.R.id.navigation_workout_detail)
             }
@@ -69,6 +70,10 @@ class HomeFragment : Fragment() {
         HelperClass.workoutentriesToAdd.clear()
         HelperClass.workoutentriesFromDb.clear()
         HelperClass.addedFromDb = false
+
+        HelperClassRoutine.workoutsToAdd.clear()
+        HelperClassRoutine.workoutsFromDb.clear()
+        HelperClassRoutine.addedFromDb = false
 
         return root
     }

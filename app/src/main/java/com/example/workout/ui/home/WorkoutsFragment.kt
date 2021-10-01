@@ -1,6 +1,5 @@
 package com.example.workout.ui.home
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -21,7 +20,6 @@ import com.example.workout.db.Exercice
 import com.example.workout.db.Workout
 import com.example.workout.db.WorkoutEntry
 import kotlinx.coroutines.launch
-import org.json.JSONObject
 import com.google.gson.Gson
 import java.util.*
 import java.util.concurrent.ThreadLocalRandom
@@ -107,7 +105,7 @@ class WorkoutsFragment : Fragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = LayoutInflater.from(parent.context).inflate(
-                R.layout.workouts_view_item, parent, false
+                R.layout.workouts_routines_view_item, parent, false
             )
             return ViewHolder(view)
         }

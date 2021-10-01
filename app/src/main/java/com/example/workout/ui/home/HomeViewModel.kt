@@ -57,12 +57,20 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
         return db.workoutDao().getById(wid)
     }
 
+    fun getRoutineById(rid: Int?): LiveData<Routine> {
+        return db.routineDao().getById(rid)
+    }
+
     fun getWorkoutEntryById(weid: Int?): LiveData<WorkoutEntry> {
         return db.workoutEntryDao().getById(weid)
     }
 
     suspend fun createWorkout(workout: Workout): Long {
         return withContext(Dispatchers.IO) { db.workoutDao().insert(workout) }
+    }
+
+    suspend fun createRoutine(routine: Routine): Long {
+        return withContext(Dispatchers.IO) { db.routineDao().insert(routine) }
     }
 
     //erstellt ein neues WorkoutEntry, ID des übergebenen Objektes wird dabei verworfen
@@ -82,8 +90,17 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
         return withContext(Dispatchers.IO) {db.workoutDao().update(workout)}
     }
 
+    //updatet die Routine anhand der ID (https://developer.android.com/training/data-storage/room/accessing-data)
+    suspend fun updateRoutine(routine: Routine){
+        return withContext(Dispatchers.IO) {db.routineDao().update(routine)}
+    }
+
     suspend fun deleteWorkout(id: Int) {
         return withContext(Dispatchers.IO) { db.workoutDao().delete(id) }
+    }
+
+    suspend fun deleteRoutine(id: Int) {
+        return withContext(Dispatchers.IO) { db.routineDao().delete(id) }
     }
 
 

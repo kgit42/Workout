@@ -18,4 +18,18 @@ object Converters {
         val gson = Gson()
         return gson.toJson(list)
     }
+
+    @TypeConverter
+    fun fromString2(value: String?): ArrayList<Workout> {
+        val listType = object : TypeToken<ArrayList<Workout?>?>() {}.type
+        return Gson().fromJson(value, listType)
+    }
+
+    @TypeConverter
+    fun fromArrayList2(list: ArrayList<Workout?>?): String {
+        val gson = Gson()
+        return gson.toJson(list)
+    }
+
+
 }

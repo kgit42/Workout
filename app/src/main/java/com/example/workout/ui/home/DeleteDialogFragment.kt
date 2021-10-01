@@ -12,6 +12,7 @@ import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.workout.HelperClass
+import com.example.workout.HelperClassRoutine
 import com.example.workout.R
 import com.example.workout.db.Workout
 import kotlinx.coroutines.launch
@@ -40,9 +41,24 @@ class DeleteDialogFragment : DialogFragment() {
                             }
                         }
 
-                        //Workoutentry löschen
+                        //Workoutentry löschen (noch nicht aus DB)
                         if(arguments?.getInt("weid") != 0){
                             HelperClass.deleteWorkoutEntry(arguments?.getInt("weid"))
+
+                        }
+
+                        //Routine löschen
+                        if(arguments?.getInt("rid") != 0){
+                            //DB-Aufruf
+                            lifecycleScope.launch {
+                                homeViewModel.deleteRoutine(arguments?.getInt("rid")!!)
+                            }
+                        }
+
+
+                        //Workout aus Routine löschen (noch nicht aus DB)
+                        if(arguments?.getInt("wid+") != 0){
+                            HelperClassRoutine.deleteWorkout(arguments?.getInt("wid+"))
 
                         }
 

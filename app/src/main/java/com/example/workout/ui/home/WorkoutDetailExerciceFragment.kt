@@ -162,6 +162,7 @@ class WorkoutDetailExerciceFragment : Fragment() {
                     prio,
                     pause,)
 
+
             } catch (e: Exception) {
                 Log.v("hhh", "Error", e)
             }

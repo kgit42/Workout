@@ -11,10 +11,7 @@ class HelperClass {
 
     companion object {
 
-
-
-
-        //Liste mit eventl. hinzuzufügenden Übungen
+        //Liste mit eventl. hinzuzufügenden Übungen (Häkchen gesetzt, aber noch nicht gespeichert)
         var _listToAdd: ArrayList<Exercice> = arrayListOf()
 
         //Liste mit hinzuzufügenden Übungen
@@ -43,7 +40,7 @@ class HelperClass {
         //Referenz zum Adapter
         lateinit var myAdapter: WorkoutDetailFragment.MyRecyclerViewAdapter
 
-        //Wenn addedFromDb false ist, werden ihr die Elemente aus der DB hinzugefügt.
+        //Wenn addedFromDb false ist, werden der Liste workoutentriesFromDb die Elemente aus der DB hinzugefügt.
         //Dadurch wird vermieden, dass Liste immer erneut die Elemente übernimmt
         fun addElementsFromDbIfNotDone(workout: Workout){
             if(!addedFromDb){

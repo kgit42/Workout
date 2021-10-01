@@ -299,7 +299,7 @@ class WorkoutDetailFragment : Fragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = LayoutInflater.from(parent.context).inflate(
-                com.example.workout.R.layout.routines_view_item, parent, false
+                com.example.workout.R.layout.view_item, parent, false
             )
             return ViewHolder(view)
         }

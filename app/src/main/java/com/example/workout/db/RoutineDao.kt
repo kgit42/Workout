@@ -11,4 +11,17 @@ interface RoutineDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertAll(list: List<Routine>)
 
+    @Query("SELECT * FROM routine WHERE rid = (:rid) ")
+    fun getById(rid: Int?): LiveData<Routine>
+
+    @Update
+    fun update(routine: Routine)
+
+    //Erstellen einer neuen Routine und Zurückgeben der ID
+    @Insert
+    fun insert(routine: Routine): Long
+
+    @Query("DELETE FROM routine WHERE rid = (:rid)")
+    fun delete(rid: Int)
+
 }

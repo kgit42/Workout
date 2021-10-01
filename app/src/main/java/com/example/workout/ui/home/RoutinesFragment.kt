@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -33,7 +35,7 @@ class RoutinesFragment : Fragment() {
         rv.layoutManager = LinearLayoutManager(rv.context)
 
         //zunächst leere ArrayList mit Routinen
-        val adapter = MyRecyclerViewAdapter(arrayListOf(Routine(0, "", "")))
+        val adapter = MyRecyclerViewAdapter(arrayListOf(Routine()))
         rv.adapter = adapter
 
 
@@ -44,7 +46,7 @@ class RoutinesFragment : Fragment() {
     }
 
 
-    class MyRecyclerViewAdapter(
+    inner class MyRecyclerViewAdapter(
         private var values: List<Routine>
     ) : RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder>() {
 
@@ -54,10 +56,14 @@ class RoutinesFragment : Fragment() {
             notifyDataSetChanged()
         }
 
-        class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+        inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
             var boundString: String? = null
+
             //val image: ImageView = view.findViewById(R.id.avatar)
             val text: TextView = view.findViewById(R.id.workout_title)
+
+            val startButton: Button = view.findViewById(R.id.buttonPlay)
+            val progressbar: ProgressBar = view.findViewById(R.id.progress_loader)
 
             override fun toString(): String {
                 return super.toString() + " '" + text.text
@@ -66,29 +72,45 @@ class RoutinesFragment : Fragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = LayoutInflater.from(parent.context).inflate(
-                R.layout.routines_view_item, parent, false)
+                R.layout.workouts_routines_view_item, parent, false)
             return ViewHolder(view)
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            //Elvis-Operator für Null-Check:
             holder.boundString = values[position].name
             holder.text.text = values[position].name
 
             holder.view.setOnClickListener { v ->
                 val context = v.context
-                /*val intent = Intent(context, CheeseDetailActivity::class.java)
-                intent.putExtra(CheeseDetailActivity.EXTRA_NAME, holder.boundString)
-                context.startActivity(intent)*/
 
                 //navigiert zur Detail-Seite und übergibt das jeweilige Workout/die Routine
                 val args = Bundle()
-                args.putParcelable("workout", null)
+                args.putInt("rid", values[position].rid)
                 holder.view.findNavController().navigate(R.id.navigation_routine_detail, args)
             }
 
+            //OnLongClickListener zum Löschen
             holder.view.setOnLongClickListener { v ->
+                val dialog = DeleteDialogFragment()
+                val args = Bundle()
+                args.putInt("rid", values[position].rid)
+                dialog.arguments = args
+
+                dialog.show(childFragmentManager, "")
                 return@setOnLongClickListener true
+            }
+
+            //Start-Button OnClickListener
+            holder.startButton.setOnClickListener { v ->
+
+                //Ladesymbol einblenden
+                holder.startButton.visibility = View.INVISIBLE
+                holder.progressbar.visibility = View.VISIBLE
+
+                //Workout generieren.
+
+
+
             }
 
         }

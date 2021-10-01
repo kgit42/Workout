@@ -4,17 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
 
-    <data>
-        <variable
-            name="routine"
-            type="com.example.workout.db.Routine" />
-
-    <!--
-<variable
-    name="clickListener"
-    type="android.view.View.OnClickListener"/>   -->
-
-</data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/workout_item_container"
         android:layout_width="match_parent"
@@ -25,7 +14,7 @@
         android:paddingStart="16dp"
         android:paddingTop="12dp"
         android:paddingEnd="16dp"
-        android:paddingBottom="12dp">           <!-- android:onClick="@{clickListener}" -->
+        android:paddingBottom="12dp">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/workout_image"
@@ -37,7 +26,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearanceOverlay="@style/ShapeAppearance.MaterialComponents.MediumComponent"
-            /> <!-- tools:src="@drawable/arms_a" -->     <!--             app:srcImage="@{workout.iconCode}" -->
+            />
 
         <TextView
             android:id="@+id/workout_title"
@@ -52,8 +41,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="Crunch"
-            android:text="@{routine.name}"
-             /> <!--  -->
+             />
 
         <TextView
             android:id="@+id/workout_category"
@@ -66,7 +54,7 @@
             app:layout_constraintEnd_toStartOf="@id/workout_time"
             app:layout_constraintStart_toEndOf="@id/workout_image"
             app:layout_constraintTop_toBottomOf="@+id/workout_title"
-            tools:text="Abs" /> <!--             android:text="@{workout.category}" -->
+            tools:text="Abs" />
 
         <TextView
             android:id="@+id/workout_time"
@@ -74,6 +62,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintBaseline_toBaselineOf="@id/workout_title"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:text="1min" />    <!--             app:timeFormatted="@{workout.time}" -->
+            tools:text="1min" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
