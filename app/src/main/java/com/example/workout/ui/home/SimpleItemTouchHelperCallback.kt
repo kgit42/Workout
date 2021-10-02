@@ -38,11 +38,11 @@ class SimpleItemTouchHelperCallback(adapter: ItemTouchHelperAdapter) :
     ItemTouchHelper.Callback() {
     private val mAdapter: ItemTouchHelperAdapter
     override fun isLongPressDragEnabled(): Boolean {
-        return true
+        return false
     }
 
     override fun isItemViewSwipeEnabled(): Boolean {
-        return true
+        return false
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -80,7 +80,7 @@ class SimpleItemTouchHelperCallback(adapter: ItemTouchHelperAdapter) :
         return true
     }
 
-
+/*
     override fun onChildDraw(
         c: Canvas,
         recyclerView: RecyclerView,
@@ -101,6 +101,9 @@ class SimpleItemTouchHelperCallback(adapter: ItemTouchHelperAdapter) :
         }
     }
 
+ */
+
+    /*
     override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
         // We only want the active item to change
         if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
@@ -115,6 +118,8 @@ class SimpleItemTouchHelperCallback(adapter: ItemTouchHelperAdapter) :
         }
         super.onSelectedChanged(viewHolder, actionState)
     }
+
+     */
 
     override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
         super.clearView(recyclerView, viewHolder)

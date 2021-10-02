@@ -183,6 +183,7 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
 
             HelperClassRoutine.setAdapter(adapter)
 
+            //Drag N Drop-Funktionalität
             val callback: ItemTouchHelper.Callback = SimpleItemTouchHelperCallback(adapter)
             mItemTouchHelper = ItemTouchHelper(callback)
             mItemTouchHelper!!.attachToRecyclerView(addWorkoutsList)
@@ -291,6 +292,7 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
                 return@setOnLongClickListener true
             }
 
+            //OnTouchListener registrieren für Drag N Drop
             holder.handleView.setOnTouchListener { v, event ->
                 if (event.getActionMasked() ==
                     MotionEvent.ACTION_DOWN
@@ -302,6 +304,7 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
 
         }
 
+        //Callback, wenn Position eines Elementes geändert
         override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
             val prev: Workout = values.workouts.removeAt(fromPosition)
             values.workouts.add(if (toPosition > fromPosition) toPosition - 1 else toPosition, prev)
