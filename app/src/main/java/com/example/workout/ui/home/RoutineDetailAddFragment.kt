@@ -3,6 +3,7 @@ package com.example.workout.ui.home
 import android.os.Bundle
 import android.view.*
 import android.widget.CheckBox
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -17,6 +18,14 @@ import com.example.workout.R
 import com.example.workout.databinding.FragmentRoutineDetailAddBinding
 import com.example.workout.db.Exercice
 import com.example.workout.db.Workout
+import android.view.MotionEvent
+
+import androidx.core.view.MotionEventCompat
+
+import android.view.View.OnTouchListener
+import androidx.core.view.DragStartHelper
+import androidx.recyclerview.widget.ItemTouchHelper
+
 
 class RoutineDetailAddFragment : Fragment() {
 
@@ -83,14 +92,19 @@ class RoutineDetailAddFragment : Fragment() {
             listExercices.layoutManager = LinearLayoutManager(listExercices.context)
         }
 
+
+
+
     }
+
 
 
 
 
     //"inner" Schlüsselwort, um von innen auf Variablen der äußeren Klasse zugreifen zu können
     inner class MyRecyclerViewAdapter(
-        private var values: List<Workout>
+        //Konstruktor:
+        private var values: List<Workout>,
     ) : RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder>() {
 
         //um vom ViewModel aus Daten zu ändern
@@ -132,8 +146,12 @@ class RoutineDetailAddFragment : Fragment() {
 
         }
 
+
         override fun getItemCount(): Int = values.size
     }
 
 }
+
+
+
 

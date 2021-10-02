@@ -2,16 +2,15 @@ package com.example.workout.ui.home
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workout.HelperClassRoutine
@@ -22,7 +21,7 @@ import com.example.workout.db.Workout
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class RoutineDetailFragment : Fragment() {
+class RoutineDetailFragment : Fragment(), OnDragStartListener {
 
     private lateinit var menuItem: MenuItem
 
@@ -32,6 +31,8 @@ class RoutineDetailFragment : Fragment() {
     private lateinit var homeViewModel: HomeViewModel
 
     private lateinit var toolbar: Toolbar
+
+    private var mItemTouchHelper: ItemTouchHelper? = null
 
 
     override fun onCreateView(
@@ -174,13 +175,17 @@ class RoutineDetailFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        adapter = MyRecyclerViewAdapter(Routine())
+        adapter = MyRecyclerViewAdapter(Routine(), this)
         binding.apply {
             addWorkoutsList.adapter = adapter
             addWorkoutsList.isNestedScrollingEnabled = false
             addWorkoutsList.layoutManager = LinearLayoutManager(addWorkoutsList.context)
 
             HelperClassRoutine.setAdapter(adapter)
+
+            val callback: ItemTouchHelper.Callback = SimpleItemTouchHelperCallback(adapter)
+            mItemTouchHelper = ItemTouchHelper(callback)
+            mItemTouchHelper!!.attachToRecyclerView(addWorkoutsList)
 
             lifecycleScope.launch {
 
@@ -203,9 +208,15 @@ class RoutineDetailFragment : Fragment() {
     }
 
 
+    override fun onDragStarted(viewHolder: RecyclerView.ViewHolder?) {
+        mItemTouchHelper!!.startDrag(viewHolder!!)
+    }
+
+
     inner class MyRecyclerViewAdapter(
-        private var values: Routine
-    ) : RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder>() {
+        private var values: Routine,
+        private var mDragStartListener: OnDragStartListener
+    ) : RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder>(), ItemTouchHelperAdapter {
 
         fun addDataToBeginning() {
             this.values.workouts.addAll(0, HelperClassRoutine.workoutsFromDb)
@@ -243,6 +254,8 @@ class RoutineDetailFragment : Fragment() {
             val text: TextView = view.findViewById(com.example.workout.R.id.workout_title)
             val category: TextView = view.findViewById(com.example.workout.R.id.workout_category)
 
+            val handleView: ImageView = view.findViewById((R.id.handle))
+
             override fun toString(): String {
                 return super.toString() + " '" + text.text
             }
@@ -250,7 +263,7 @@ class RoutineDetailFragment : Fragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = LayoutInflater.from(parent.context).inflate(
-                com.example.workout.R.layout.view_item, parent, false
+                com.example.workout.R.layout.reorder_view_item, parent, false
             )
             return ViewHolder(view)
         }
@@ -278,11 +291,33 @@ class RoutineDetailFragment : Fragment() {
                 return@setOnLongClickListener true
             }
 
+            holder.handleView.setOnTouchListener { v, event ->
+                if (event.getActionMasked() ==
+                    MotionEvent.ACTION_DOWN
+                ) {
+                    mDragStartListener.onDragStarted(holder)
+                }
+                false
+            }
+
+        }
+
+        override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
+            val prev: Workout = values.workouts.removeAt(fromPosition)
+            values.workouts.add(if (toPosition > fromPosition) toPosition - 1 else toPosition, prev)
+            notifyItemMoved(fromPosition, toPosition)
+
+            return true
         }
 
         override fun getItemCount(): Int = values.workouts.size
 
     }
 
+}
+
+
+interface OnDragStartListener {
+    fun onDragStarted(viewHolder: RecyclerView.ViewHolder?)
 }
 
