@@ -1,11 +1,8 @@
 package com.example.workout.db
 
-import androidx.room.ColumnInfo
-import androidx.room.Embedded
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
 
-@Entity
+@Entity()
 data class Routine(
     @PrimaryKey(autoGenerate = true) val rid: Int = 0,
     @ColumnInfo(name = "name") val name: String? = "",

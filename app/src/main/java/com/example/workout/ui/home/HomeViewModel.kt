@@ -39,6 +39,10 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
         return db.routineDao().getAll()
     }
 
+    suspend fun getAllRoutinesAsync(): List<Routine> {
+        return withContext(Dispatchers.IO) { db.routineDao().getAllAsync() }
+    }
+
     fun getAllWorkouts(): LiveData<List<Workout>> {
         return db.workoutDao().getAll()
     }
@@ -107,6 +111,11 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
     //im Gegensatz zur anderen getWorkoutById-Methode nebenläufige Ausführung
     suspend fun getWorkoutByIdAsync(wid: Int): Workout {
         return withContext(Dispatchers.IO) { db.workoutDao().getByIdAsync(wid) }
+    }
+
+    //im Gegensatz zur anderen getRoutineById-Methode nebenläufige Ausführung
+    suspend fun getRoutineByIdAsync(rid: Int): Routine {
+        return withContext(Dispatchers.IO) { db.routineDao().getByIdAsync(rid) }
     }
 
 

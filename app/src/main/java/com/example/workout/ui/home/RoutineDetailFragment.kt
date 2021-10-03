@@ -18,6 +18,7 @@ import com.example.workout.R
 import com.example.workout.databinding.FragmentRoutineDetailBinding
 import com.example.workout.db.Routine
 import com.example.workout.db.Workout
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
@@ -137,6 +138,14 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
 
                 val exercices = adapter.getElements()
 
+                /*
+                //Leere Liste vermeiden, würde später zu Fehler führen
+                if(exercices.size == 0){
+                    return@setOnMenuItemClickListener false
+                }
+
+                 */
+
                 //Fallunterscheidung je nachdem, ob neues Workout oder Änderung eines bestehenden
                 if (arguments?.getInt("rid") != null) {
 
@@ -166,6 +175,8 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
                 }
             } catch (e: Exception) {
                 Log.v("hhh", "Error", e)
+                Snackbar.make(requireView(), "Die Eingaben sind fehlerhaft.", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show()
             }
 
 
@@ -266,13 +277,6 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             holder.boundString = values.workouts[position].name
             holder.text.text = values.workouts[position].name
-
-            holder.view.setOnClickListener { v ->
-                val context = v.context
-                /*val intent = Intent(context, CheeseDetailActivity::class.java)
-                intent.putExtra(CheeseDetailActivity.EXTRA_NAME, holder.boundString)
-                context.startActivity(intent)*/
-            }
 
             //OnLongClickListener zum Löschen
             holder.view.setOnLongClickListener{ v ->

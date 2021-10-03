@@ -20,6 +20,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.workout.HelperClass
 import com.example.workout.db.Workout
 import com.example.workout.db.WorkoutEntry
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
@@ -101,31 +102,6 @@ class WorkoutDetailFragment : Fragment() {
 
         onOptionsItemSelected()
 
-
-        /*
-        detailViewModel.start(workout.id)
-
-        detailViewModel.workout.observe(viewLifecycleOwner) { workout ->
-            updateMenuItemIcon(workout.isSaved)
-        }
-
-        detailViewModel.workoutTimeMillis.observe(viewLifecycleOwner) { workoutTimeMillis ->
-            binding.workoutProgress.setDuration(workoutTimeMillis)
-        }
-
-        detailViewModel.savedPausedTime.observe(viewLifecycleOwner) { savedPausedTime ->
-            detailViewModel.manageTimer(savedPausedTime)
-        }
-
-        detailViewModel.runningTime.observe(viewLifecycleOwner) {
-            binding.workoutProgress.updateProgressBar(it)
-        }
-
-        detailViewModel.pausedWorkoutTimeMillis.observe(viewLifecycleOwner) {
-            pausedTime = it
-        }
-
-         */
     }
 
     private fun setupToolbarWithNavigation() {
@@ -150,6 +126,14 @@ class WorkoutDetailFragment : Fragment() {
                 val pause2 = Integer.parseInt(binding.pause2.text.toString())
 
                 val exercices = adapter.getElements()
+
+                /*
+                //Leere Liste vermeiden, würde später zu Fehler führen
+                if(exercices.size == 0){
+                    return@setOnMenuItemClickListener false
+                }
+
+                 */
 
                 //Fallunterscheidung je nachdem, ob neues Workout oder Änderung eines bestehenden
                 if (arguments?.getInt("wid") != null) {
@@ -188,6 +172,8 @@ class WorkoutDetailFragment : Fragment() {
                 }
             } catch (e: Exception) {
                 Log.v("hhh", "Error", e)
+                Snackbar.make(requireView(), "Die Eingaben sind fehlerhaft.", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show()
             }
 
 

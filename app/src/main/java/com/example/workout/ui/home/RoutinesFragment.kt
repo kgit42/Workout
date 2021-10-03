@@ -9,11 +9,15 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.workout.Generator
 import com.example.workout.R
 import com.example.workout.db.Routine
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.launch
 
 class RoutinesFragment : Fragment() {
 
@@ -43,6 +47,24 @@ class RoutinesFragment : Fragment() {
         homeViewModel.getAllRoutines().observe(viewLifecycleOwner) { routines -> adapter.setData(routines) }
 
         return rv
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+
+        //Ladesymbole ausblenden und Start-Buttons wieder einblenden
+        hideLoadingAndShowStartButtons()
+
+
+    }
+
+    private fun hideLoadingAndShowStartButtons(){
+        val recyclerview: RecyclerView? = view?.findViewById(R.id.recyclerview)
+        for (j in 0..(recyclerview?.layoutManager?.itemCount!!)){
+            recyclerview.layoutManager!!.findViewByPosition(j)?.findViewById<ProgressBar>(R.id.progress_loader)?.visibility = View.INVISIBLE
+            recyclerview.layoutManager!!.findViewByPosition(j)?.findViewById<Button>(R.id.buttonPlay)?.visibility = View.VISIBLE
+        }
     }
 
 
@@ -80,6 +102,7 @@ class RoutinesFragment : Fragment() {
             holder.boundString = values[position].name
             holder.text.text = values[position].name
 
+
             holder.view.setOnClickListener { v ->
                 val context = v.context
 
@@ -108,8 +131,7 @@ class RoutinesFragment : Fragment() {
                 holder.progressbar.visibility = View.VISIBLE
 
                 //Workout generieren.
-
-
+                generateRoutineAndStartActivity(values[position].rid)
 
             }
 
@@ -119,6 +141,23 @@ class RoutinesFragment : Fragment() {
                 return values.size
 
         }
+
+    }
+
+    private fun generateRoutineAndStartActivity(rid: Int) {
+        //Wenn keine Workouts in der Routine, nicht starten
+        lifecycleScope.launch{
+            var routine = homeViewModel.getRoutineByIdAsync(rid)
+            if(routine.workouts.size == 0){
+                hideLoadingAndShowStartButtons()
+                Snackbar.make(requireView(), "Fehler: Routine ist leer.", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show()
+            }else{
+                val generator = Generator(homeViewModel, rid, null, context)
+                generator.generateRoutineAndStartActivity()
+            }
+        }
+
 
     }
 }

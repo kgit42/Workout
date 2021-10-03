@@ -46,7 +46,6 @@
             android:ellipsize="end"
             android:textAppearance="?attr/textAppearanceHeadline6"
             app:layout_constraintBottom_toTopOf="@+id/workout_category"
-            app:layout_constraintEnd_toStartOf="@id/workout_time"
             app:layout_constraintStart_toEndOf="@id/workout_image"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
@@ -60,24 +59,18 @@
             android:ellipsize="end"
             android:textAppearance="?attr/textAppearanceBody2"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/workout_time"
             app:layout_constraintStart_toEndOf="@id/workout_image"
             app:layout_constraintTop_toBottomOf="@+id/workout_title"
             tools:text="Abs" /> <!--             android:text="@{workout.category}" -->
 
-        <TextView
-            android:id="@+id/workout_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBaseline_toBaselineOf="@id/workout_title"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:text="1min" /> <!--             app:timeFormatted="@{workout.time}" -->
+        <!--             app:timeFormatted="@{workout.time}" -->
 
         <CheckBox
             android:id="@+id/checkBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

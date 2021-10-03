@@ -1,13 +1,10 @@
 package com.example.workout.db
 
 import android.location.Address
-import androidx.room.ColumnInfo
-import androidx.room.Embedded
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
 
 //Entität mit Default-Werten
-@Entity
+@Entity()
 data class Workout(
     @PrimaryKey(autoGenerate = true) val wid: Int = 0,
     @ColumnInfo(name = "name") val name: String? = "",
