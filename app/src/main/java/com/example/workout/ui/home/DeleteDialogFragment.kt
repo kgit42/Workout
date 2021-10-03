@@ -16,6 +16,7 @@ import com.example.workout.HelperClassRoutine
 import com.example.workout.R
 import com.example.workout.db.Routine
 import com.example.workout.db.Workout
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class DeleteDialogFragment : DialogFragment() {
@@ -37,25 +38,18 @@ class DeleteDialogFragment : DialogFragment() {
                         //Workout löschen
                         if(arguments?.getInt("wid") != 0){
                             //DB-Aufruf
-                            lifecycleScope.launch {
+                            lifecycleScope.launch(Dispatchers.IO) {
                                 homeViewModel.deleteWorkout(arguments?.getInt("wid")!!)
-
-                                Log.v("hhh", "sdg")
 
                                 //Workout auch aus allen Routinen löschen
                                 val routines = homeViewModel.getAllRoutinesAsync()
                                 Log.v("hhh", routines.toString())
-                                Log.v("hhh", "fgh")
 
                                 routines.forEach { routine ->
-                                    Log.v("hhh", routine.name.toString())
                                     var workouts = routine.workouts
 
                                     workouts.forEach { workout ->
-                                        Log.v("hhh", workout.wid.toString())
-                                        Log.v("hhh", arguments?.getInt("wid").toString())
                                         if(workout.wid == arguments?.getInt("wid")!!){
-                                            Log.v("hhh", workout.wid.toString())
                                             workouts.remove(workout)
                                         }
                                     }
