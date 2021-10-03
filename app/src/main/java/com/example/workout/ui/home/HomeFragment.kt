@@ -71,8 +71,7 @@ class HomeFragment : Fragment() {
         HelperClass.workoutentriesFromDb.clear()
         HelperClass.addedFromDb = false
 
-        HelperClassRoutine.workoutsToAdd.clear()
-        HelperClassRoutine.workoutsFromDb.clear()
+        HelperClassRoutine.allWorkouts.clear()
         HelperClassRoutine.addedFromDb = false
 
         return root

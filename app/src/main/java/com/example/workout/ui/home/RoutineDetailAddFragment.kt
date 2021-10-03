@@ -137,7 +137,7 @@ class RoutineDetailAddFragment : Fragment() {
 
             holder.view.setOnClickListener { v ->
 
-                HelperClassRoutine.workoutsToAdd.add(values[position])
+                HelperClassRoutine.allWorkouts.add(values[position])
 
                 //zurück navigieren
                 holder.view.findNavController().navigateUp()

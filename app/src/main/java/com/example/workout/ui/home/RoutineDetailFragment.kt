@@ -65,10 +65,11 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
 
             homeViewModel.getRoutineById(arguments?.getInt("rid"))
                 .observe(viewLifecycleOwner) { routine ->
-                    HelperClassRoutine.addElementsFromDbIfNotDone(routine)
+                    HelperClassRoutine.addElementsFromDbIfNotDoneToBeginning(routine)
 
-                    //Bestehende Daten an den Anfang der Liste setzen, dahinter kommen die neu hinzuzufügenden Elemente.
-                    adapter.addDataToBeginning()
+                    //RecyclerView aktualisieren
+                    setupRecyclerView()
+
                     fillWithData(routine)
                 }
 
@@ -188,14 +189,12 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
             mItemTouchHelper = ItemTouchHelper(callback)
             mItemTouchHelper!!.attachToRecyclerView(addWorkoutsList)
 
-            lifecycleScope.launch {
 
                 //alle hinzuzufügenden Elemente aus HelperClass dem Adapter der RecyclerView hinzufügen
-                HelperClassRoutine.workoutsToAdd.forEach {
+                HelperClassRoutine.allWorkouts.forEach {
                     adapter.addElement(it)
                 }
 
-            }
 
         }
     }
@@ -218,11 +217,6 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
         private var values: Routine,
         private var mDragStartListener: OnDragStartListener
     ) : RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder>(), ItemTouchHelperAdapter {
-
-        fun addDataToBeginning() {
-            this.values.workouts.addAll(0, HelperClassRoutine.workoutsFromDb)
-            notifyDataSetChanged()
-        }
 
         /*
         fun setData(newData: Workout) {
@@ -307,7 +301,9 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
         //Callback, wenn Position eines Elementes geändert
         override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
             val prev: Workout = values.workouts.removeAt(fromPosition)
+            HelperClassRoutine.allWorkouts.removeAt(fromPosition)
             values.workouts.add(if (toPosition > fromPosition) toPosition - 1 else toPosition, prev)
+            HelperClassRoutine.allWorkouts.add(if (toPosition > fromPosition) toPosition - 1 else toPosition, prev)
             notifyItemMoved(fromPosition, toPosition)
 
             return true
