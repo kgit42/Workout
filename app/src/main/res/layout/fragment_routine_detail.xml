@@ -92,8 +92,8 @@
                         android:layout_weight="1"
                         android:ems="10"
                         android:hint="Pause zwischen Workouts"
-                        android:text="120"
                         android:inputType="number"
+                        android:text="120"
                         android:textSize="14sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>

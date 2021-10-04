@@ -125,6 +125,14 @@ class WorkoutDetailFragment : Fragment() {
                 val pause1 = Integer.parseInt(binding.pause1.text.toString())
                 val pause2 = Integer.parseInt(binding.pause2.text.toString())
 
+                if(pause1 < 5 || pause2 < 5){
+                    throw Exception()
+                }
+
+                if(anzahl < 0) {
+                    throw Exception()
+                }
+
                 val exercices = adapter.getElements()
 
                 /*

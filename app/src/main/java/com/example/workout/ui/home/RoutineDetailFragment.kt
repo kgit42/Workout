@@ -136,6 +136,10 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
                 val name = binding.nameRoutine.text.toString()
                 val pause1 = Integer.parseInt(binding.restWorkouts.text.toString())
 
+                if(pause1 < 5){
+                    throw Exception()
+                }
+
                 val exercices = adapter.getElements()
 
                 /*
