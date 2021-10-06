@@ -1,11 +1,14 @@
 package com.example.workout.ui.home
 
+import android.content.Context
+import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -18,11 +21,14 @@ import com.example.workout.databinding.FragmentWorkoutDetailBinding
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.workout.HelperClass
+import com.example.workout.R
 import com.example.workout.db.Workout
 import com.example.workout.db.WorkoutEntry
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import java.lang.Exception
+import android.graphics.drawable.Drawable
+import androidx.core.content.ContextCompat
 
 
 class WorkoutDetailFragment : Fragment() {
@@ -130,6 +136,10 @@ class WorkoutDetailFragment : Fragment() {
                 }
 
                 if(anzahl < 0) {
+                    throw Exception()
+                }
+
+                if(name == "") {
                     throw Exception()
                 }
 
@@ -282,7 +292,7 @@ class WorkoutDetailFragment : Fragment() {
         inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
             var boundString: String? = null
 
-            //val image: ImageView = view.findViewById(R.id.avatar)
+            val image: ImageView = view.findViewById(com.example.workout.R.id.workout_image)
             val text: TextView = view.findViewById(com.example.workout.R.id.workout_title)
             val category: TextView = view.findViewById(com.example.workout.R.id.workout_category)
 
@@ -302,6 +312,16 @@ class WorkoutDetailFragment : Fragment() {
             holder.boundString = values.exercices[position].exercice.name
             holder.text.text = values.exercices[position].exercice.name
             holder.category.text = values.exercices[position].exercice.category
+
+            //Bild suchen
+            val res: Resources = resources
+            val mDrawableName1 = values.exercices[position].exercice.animation
+            //Dateiendung entfernen
+            val mDrawableName = mDrawableName1?.substring(0, mDrawableName1.lastIndexOf('.'))
+            val resID: Int = res.getIdentifier(mDrawableName, "drawable", context?.getPackageName())
+            val drawable: Drawable? = ContextCompat.getDrawable(context!!, resID)
+            //Bild setzen
+            holder.image.setImageDrawable(drawable)
 
             holder.view.setOnClickListener { v ->
                 val context = v.context

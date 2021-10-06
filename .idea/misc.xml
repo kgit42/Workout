@@ -11,6 +11,7 @@
         <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/layout/activity_generator.xml" value="0.15677083333333333" />
         <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/layout/activity_main.xml" value="0.23097826086956522" />
         <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/layout/add_exercice_view_item.xml" value="0.2977777777777778" />
+        <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/layout/basic_view_item.xml" value="0.11979166666666667" />
         <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/layout/content.xml" value="0.33061594202898553" />
         <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/layout/content_cast.xml" value="0.16354166666666667" />
         <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/layout/fragment_dashboard.xml" value="0.23097826086956522" />
@@ -31,6 +32,8 @@
         <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/layout/fragment_workouts.xml" value="0.16354166666666667" />
         <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/layout/reorder_view_item.xml" value="0.17708333333333334" />
         <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/layout/routines_view_item.xml" value="0.2977777777777778" />
+        <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/layout/view_item.xml" value="0.11979166666666667" />
+        <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/layout/workouts_routines_view_item.xml" value="0.11979166666666667" />
         <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/layout/workouts_view_item.xml" value="0.16354166666666667" />
         <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/menu/bottom_nav_menu.xml" value="0.30416666666666664" />
         <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/menu/menu_cast.xml" value="0.17083333333333334" />

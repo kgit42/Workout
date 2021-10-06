@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -97,7 +98,7 @@ class WorkoutsFragment : Fragment() {
         inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
             var boundString: String? = null
 
-            //val image: ImageView = view.findViewById(R.id.avatar)
+            val image: ImageView = view.findViewById(R.id.workout_image)
             val text: TextView = view.findViewById(R.id.workout_title)
 
             val startButton: Button = view.findViewById(R.id.buttonPlay)
@@ -118,6 +119,8 @@ class WorkoutsFragment : Fragment() {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             holder.boundString = values[position].name
             holder.text.text = values[position].name
+
+            holder.image.setImageResource(R.drawable.ic_baseline_fitness_center_24)
 
             holder.view.setOnClickListener { v ->
                 val context = v.context

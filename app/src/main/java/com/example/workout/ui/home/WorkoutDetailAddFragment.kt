@@ -15,6 +15,16 @@ import com.example.workout.HelperClass
 import com.example.workout.R
 import com.example.workout.databinding.FragmentWorkoutDetailAddBinding
 import com.example.workout.db.Exercice
+import android.widget.CompoundButton
+
+
+//für RecyclerView muss zusätzlich gespeichert werden, ob das Element gewählt ist.
+data class ExerciceWrapper(
+    var exercice: Exercice,
+    var selected: Boolean
+)
+
+
 
 class WorkoutDetailAddFragment : Fragment() {
 
@@ -51,7 +61,8 @@ class WorkoutDetailAddFragment : Fragment() {
         //Observer --> falls es Änderungen in DB gibt
         //Filter-Methode, um nur neue Exercices anzuzeigen
         homeViewModel.getAllExercices().observe(viewLifecycleOwner) { exercices ->
-            adapter.setData(exercices.filter { exercice -> arguments?.getIntArray("eidArray")?.contains(exercice.eid) == false }) }
+            adapter.setData(exercices.filter { exercice ->
+                arguments?.getIntArray("eidArray")?.contains(exercice.eid) == false }) }
 
         //zunächst Liste leeren, da anfangs nichts ausgewählt
         HelperClass._listToAdd.clear()
@@ -141,12 +152,16 @@ class WorkoutDetailAddFragment : Fragment() {
 
     //"inner" Schlüsselwort, um von innen auf Variablen der äußeren Klasse zugreifen zu können
     inner class MyRecyclerViewAdapter(
-        private var values: List<Exercice>
+        private var values: MutableList<ExerciceWrapper>
     ) : RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder>() {
 
         //um vom ViewModel aus Daten zu ändern
         fun setData(newData: List<Exercice>) {
-            this.values = newData
+            this.values.clear()
+            newData.forEach{
+                this.values.add(ExerciceWrapper(it, false))
+            }
+            //this.values = newData
             notifyDataSetChanged()
         }
 
@@ -177,8 +192,8 @@ class WorkoutDetailAddFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.boundString = values[position].name
-            holder.text.text = values[position].name
+            holder.boundString = values[position].exercice.name
+            holder.text.text = values[position].exercice.name
 
             holder.view.setOnClickListener { v ->
                 val context = v.context
@@ -188,14 +203,27 @@ class WorkoutDetailAddFragment : Fragment() {
 
             }
 
+            //zunächst alten Listener entfernen:
+            holder.checkbox.setOnCheckedChangeListener(null)
+
+            //Häkchen setzen, falls es vorher gesetzt war:
+            holder.checkbox.isChecked = values[position].selected
+
+
             //Listener für Checkboxes
             holder.checkbox.setOnCheckedChangeListener {checkbox, isChecked ->
                 if(isChecked){
-                    //Hinzufügen der gewählten Elemente aus listToAdd zur RecyclerView, aber noch immer nicht zur DB.
-                    HelperClass._listToAdd.add(values[position])
+                    //Hinzufügen der gewählten Elemente zu _listToAdd, aber noch nicht zur DB.
+                    HelperClass._listToAdd.add(values[position].exercice)
+
+                    //im ExerciceWrapper speichern, dass gesetzt
+                    values[position].selected = true
                 }else{
-                    //Hinzufügen der gewählten Elemente aus listToAdd zur RecyclerView, aber noch immer nicht zur DB.
-                    HelperClass._listToAdd.remove(values[position])
+                    //Hinzufügen der gewählten Elemente zu _listToAdd, aber noch nicht zur DB.
+                    HelperClass._listToAdd.remove(values[position].exercice)
+
+                    //im ExerciceWrapper speichern, dass nicht gesetzt
+                    values[position].selected = false
                 }
 
             }

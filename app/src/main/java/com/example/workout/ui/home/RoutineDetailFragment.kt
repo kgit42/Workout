@@ -140,6 +140,10 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
                     throw Exception()
                 }
 
+                if(name == "") {
+                    throw Exception()
+                }
+
                 val exercices = adapter.getElements()
 
                 /*

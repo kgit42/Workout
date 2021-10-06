@@ -3,7 +3,7 @@
     "eid": "1",
     "name": "Bizeps-Curls",
     "category": "Oberarm",
-    "animation": "",
+    "animation": "biceps_curls.gif",
     "audio": "",
     "bilateral": "false"
   },
@@ -11,7 +11,7 @@
     "eid": "2",
     "name": "Squats",
     "category": "Quadrizeps",
-    "animation": "",
+    "animation": "squats.gif",
     "audio": "",
     "bilateral": "false"
   },
@@ -19,7 +19,7 @@
     "eid": "3",
     "name": "Crunches",
     "category": "Bauch",
-    "animation": "",
+    "animation": "crunches.gif",
     "audio": "",
     "bilateral": "false"
   },
@@ -27,7 +27,7 @@
     "eid": "4",
     "name": "Bankdrücken",
     "category": "Brust",
-    "animation": "",
+    "animation": "bench_press.gif",
     "audio": "",
     "bilateral": "false"
   },
@@ -35,7 +35,7 @@
     "eid": "5",
     "name": "Beinheben",
     "category": "Bauch",
-    "animation": "",
+    "animation": "leg_raises.gif",
     "audio": "",
     "bilateral": "false"
   },
@@ -43,7 +43,7 @@
     "eid": "6",
     "name": "Superman",
     "category": "Unterer Rücken",
-    "animation": "",
+    "animation": "superman.gif",
     "audio": "",
     "bilateral": "false"
   },
@@ -51,8 +51,50 @@
     "eid": "7",
     "name": "Split Squats",
     "category": "Quadrizeps",
-    "animation": "",
+    "animation": "split_squats.gif",
+    "audio": "",
+    "bilateral": "true"
+  },
+  {
+    "eid": "8",
+    "name": "Rumänisches Kreuzheben",
+    "category": "Unterer Rücken",
+    "animation": "deadlift.gif",
+    "audio": "",
+    "bilateral": "false"
+  },
+  {
+    "eid": "9",
+    "name": "Schulterdrücken",
+    "category": "Schulter",
+    "animation": "shoulder_press.gif",
+    "audio": "",
+    "bilateral": "false"
+  },
+  {
+    "eid": "10",
+    "name": "Liegestütze",
+    "category": "Brust",
+    "animation": "push_ups.gif",
+    "audio": "",
+    "bilateral": "false"
+  },
+  {
+    "eid": "11",
+    "name": "Dips",
+    "category": "Trizeps",
+    "animation": "dips.gif",
+    "audio": "",
+    "bilateral": "false"
+  },
+  {
+    "eid": "12",
+    "name": "Wadenheben",
+    "category": "Waden",
+    "animation": "calf_raises.gif",
     "audio": "",
     "bilateral": "true"
   }
+
+
 ]
