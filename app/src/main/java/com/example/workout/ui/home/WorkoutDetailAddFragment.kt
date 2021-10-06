@@ -195,19 +195,17 @@ class WorkoutDetailAddFragment : Fragment() {
             holder.boundString = values[position].exercice.name
             holder.text.text = values[position].exercice.name
 
-            holder.view.setOnClickListener { v ->
-                val context = v.context
-                /*val intent = Intent(context, CheeseDetailActivity::class.java)
-                intent.putExtra(CheeseDetailActivity.EXTRA_NAME, holder.boundString)
-                context.startActivity(intent)*/
-
-            }
-
             //zunächst alten Listener entfernen:
             holder.checkbox.setOnCheckedChangeListener(null)
 
             //Häkchen setzen, falls es vorher gesetzt war:
             holder.checkbox.isChecked = values[position].selected
+
+            holder.view.setOnClickListener { v ->
+                //Wert switchen
+                holder.checkbox.isChecked = !holder.checkbox.isChecked
+
+            }
 
 
             //Listener für Checkboxes
