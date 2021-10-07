@@ -82,8 +82,9 @@ class RoutinesFragment : Fragment() {
         inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
             var boundString: String? = null
 
-            val image: ImageView = view.findViewById(R.id.workout_image)
-            val text: TextView = view.findViewById(R.id.workout_title)
+            val image: ImageView = view.findViewById(R.id.item_image)
+            val text: TextView = view.findViewById(R.id.item_title)
+            val category: TextView = view.findViewById(R.id.item_category)
 
             val startButton: Button = view.findViewById(R.id.buttonPlay)
             val progressbar: ProgressBar = view.findViewById(R.id.progress_loader)
@@ -102,6 +103,31 @@ class RoutinesFragment : Fragment() {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             holder.boundString = values[position].name
             holder.text.text = values[position].name
+
+            //Anzahl der Übungen insgesamt berechnen
+            var counter = 0
+            values[position].workouts.forEach{
+                counter += it.exercices.size
+            }
+
+            var numberWorkouts = values[position].workouts.size
+
+            var string1: String
+            var string2: String
+
+            if(counter > 1){
+                string2 = "Übungen"
+            }else{
+                string2 = "Übung"
+            }
+
+            if(numberWorkouts > 1){
+                string1 = "Workouts"
+            }else{
+                string1 = "Workout"
+            }
+
+            holder.category.text = "$numberWorkouts $string1, $counter $string2"
 
             holder.image.setImageResource(R.drawable.ic_baseline_view_carousel_24)
 

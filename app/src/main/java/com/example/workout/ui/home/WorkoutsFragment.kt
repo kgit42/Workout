@@ -1,8 +1,6 @@
 package com.example.workout.ui.home
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,15 +15,10 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workout.*
-import com.example.workout.db.Exercice
 import com.example.workout.db.Workout
-import com.example.workout.db.WorkoutEntry
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
-import com.google.gson.Gson
 import java.util.*
-import java.util.concurrent.ThreadLocalRandom
-import kotlin.collections.ArrayList
 
 
 class WorkoutsFragment : Fragment() {
@@ -98,8 +91,9 @@ class WorkoutsFragment : Fragment() {
         inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
             var boundString: String? = null
 
-            val image: ImageView = view.findViewById(R.id.workout_image)
-            val text: TextView = view.findViewById(R.id.workout_title)
+            val image: ImageView = view.findViewById(R.id.item_image)
+            val text: TextView = view.findViewById(R.id.item_title)
+            val category: TextView = view.findViewById(R.id.item_category)
 
             val startButton: Button = view.findViewById(R.id.buttonPlay)
             val progressbar: ProgressBar = view.findViewById(R.id.progress_loader)
@@ -119,6 +113,15 @@ class WorkoutsFragment : Fragment() {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             holder.boundString = values[position].name
             holder.text.text = values[position].name
+
+            val numberExercices = values[position].exercices.size
+            if(numberExercices > 1){
+                holder.category.text = "$numberExercices Übungen"
+            }else{
+                holder.category.text = "$numberExercices Übung"
+            }
+
+
 
             holder.image.setImageResource(R.drawable.ic_baseline_fitness_center_24)
 

@@ -1,7 +1,8 @@
 package com.example.workout.ui.home
 
+import android.content.res.Resources
+import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.CheckBox
 import android.widget.TextView
@@ -15,7 +16,8 @@ import com.example.workout.HelperClass
 import com.example.workout.R
 import com.example.workout.databinding.FragmentWorkoutDetailAddBinding
 import com.example.workout.db.Exercice
-import android.widget.CompoundButton
+import android.widget.ImageView
+import androidx.core.content.ContextCompat
 
 
 //für RecyclerView muss zusätzlich gespeichert werden, ob das Element gewählt ist.
@@ -23,8 +25,6 @@ data class ExerciceWrapper(
     var exercice: Exercice,
     var selected: Boolean
 )
-
-
 
 class WorkoutDetailAddFragment : Fragment() {
 
@@ -135,9 +135,9 @@ class WorkoutDetailAddFragment : Fragment() {
 
 
     private fun setupRecyclerView() {
-        //Warum Instanziierung der Klasse WorkoutDetailAddFragment? --> siehe https://discuss.kotlinlang.org/t/kotlin-constructor-of-inner-class-nested-can-be-called-only-with-receiver-of-containing-class/7700
+
         //zunächst leere ArrayList erzeugen
-        adapter = WorkoutDetailAddFragment().MyRecyclerViewAdapter(
+        adapter = MyRecyclerViewAdapter(
             arrayListOf()
         )
         binding.apply {
@@ -167,8 +167,9 @@ class WorkoutDetailAddFragment : Fragment() {
 
         inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
             var boundString: String? = null
-            //val image: ImageView = view.findViewById(R.id.avatar)
-            val text: TextView = view.findViewById(R.id.workout_title)
+            val image: ImageView = view.findViewById(R.id.item_image)
+            val text: TextView = view.findViewById(R.id.item_title)
+            val category: TextView = view.findViewById(R.id.item_category)
 
             val checkbox: CheckBox = view.findViewById(R.id.checkBox)
 
@@ -194,6 +195,17 @@ class WorkoutDetailAddFragment : Fragment() {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             holder.boundString = values[position].exercice.name
             holder.text.text = values[position].exercice.name
+            holder.category.text = values[position].exercice.category
+
+            //Bild suchen
+            val res: Resources = resources
+            val mDrawableName1 = values[position].exercice.animation
+            //Dateiendung entfernen
+            val mDrawableName = mDrawableName1?.substring(0, mDrawableName1.lastIndexOf('.'))
+            val resID: Int = res.getIdentifier(mDrawableName, "drawable", context?.getPackageName())
+            val drawable: Drawable? = ContextCompat.getDrawable(context!!, resID)
+            //Bild setzen
+            holder.image.setImageDrawable(drawable)
 
             //zunächst alten Listener entfernen:
             holder.checkbox.setOnCheckedChangeListener(null)

@@ -1,6 +1,5 @@
 package com.example.workout.ui.home
 
-import android.content.Context
 import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
@@ -21,7 +20,6 @@ import com.example.workout.databinding.FragmentWorkoutDetailBinding
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.workout.HelperClass
-import com.example.workout.R
 import com.example.workout.db.Workout
 import com.example.workout.db.WorkoutEntry
 import com.google.android.material.snackbar.Snackbar
@@ -292,9 +290,9 @@ class WorkoutDetailFragment : Fragment() {
         inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
             var boundString: String? = null
 
-            val image: ImageView = view.findViewById(com.example.workout.R.id.workout_image)
-            val text: TextView = view.findViewById(com.example.workout.R.id.workout_title)
-            val category: TextView = view.findViewById(com.example.workout.R.id.workout_category)
+            val image: ImageView = view.findViewById(com.example.workout.R.id.item_image)
+            val text: TextView = view.findViewById(com.example.workout.R.id.item_title)
+            val category: TextView = view.findViewById(com.example.workout.R.id.item_category)
 
             override fun toString(): String {
                 return super.toString() + " '" + text.text

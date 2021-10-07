@@ -64,16 +64,5 @@
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="1min" />
 
-        <ImageView
-            android:id="@+id/handle"
-            android:layout_width="?listPreferredItemHeight"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical|right"
-            android:scaleType="center"
-            android:src="@drawable/ic_baseline_reorder_24"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

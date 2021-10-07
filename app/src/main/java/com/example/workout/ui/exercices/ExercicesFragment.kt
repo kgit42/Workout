@@ -1,10 +1,14 @@
 package com.example.workout.ui.exercices
 
+import android.content.res.Resources
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -58,7 +62,7 @@ class ExercicesFragment : Fragment() {
 
     private fun setupRecyclerView() {
         //zunächst leere ArrayList erzeugen
-        adapter = SimpleStringRecyclerViewAdapter(arrayListOf(Exercice(0, "", "", "", "", false)))
+        adapter = SimpleStringRecyclerViewAdapter(arrayListOf())
         _binding.apply {
             listExercices.adapter = adapter
             listExercices.layoutManager = LinearLayoutManager(listExercices.context)
@@ -66,7 +70,7 @@ class ExercicesFragment : Fragment() {
     }
 
 
-    class SimpleStringRecyclerViewAdapter(
+    inner class SimpleStringRecyclerViewAdapter(
         private var values: List<Exercice>
     ) : RecyclerView.Adapter<SimpleStringRecyclerViewAdapter.ViewHolder>() {
 
@@ -76,11 +80,13 @@ class ExercicesFragment : Fragment() {
             notifyDataSetChanged()
         }
 
-        class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+        inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
             var boundString: String? = null
 
-            //val image: ImageView = view.findViewById(R.id.avatar)
-            val text: TextView = view.findViewById(R.id.workout_title)
+            val image: ImageView = view.findViewById(R.id.item_image)
+            val text: TextView = view.findViewById(R.id.item_title)
+            val category: TextView = view.findViewById(com.example.workout.R.id.item_category)
+
 
             override fun toString(): String {
                 return super.toString() + " '" + text.text
@@ -97,12 +103,21 @@ class ExercicesFragment : Fragment() {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             holder.boundString = values[position].name
             holder.text.text = values[position].name
+            holder.category.text = values[position].category
+
+
+            //Bild suchen
+            val res: Resources = resources
+            val mDrawableName1 = values[position].animation
+            //Dateiendung entfernen
+            val mDrawableName = mDrawableName1?.substring(0, mDrawableName1.lastIndexOf('.'))
+            val resID: Int = res.getIdentifier(mDrawableName, "drawable", context?.getPackageName())
+            val drawable: Drawable? = ContextCompat.getDrawable(context!!, resID)
+            //Bild setzen
+            holder.image.setImageDrawable(drawable)
 
             holder.view.setOnClickListener { v ->
-                val context = v.context
-                /*val intent = Intent(context, CheeseDetailActivity::class.java)
-            intent.putExtra(CheeseDetailActivity.EXTRA_NAME, holder.boundString)
-            context.startActivity(intent)*/
+
             }
 
         }

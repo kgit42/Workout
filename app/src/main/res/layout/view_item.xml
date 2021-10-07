@@ -17,7 +17,7 @@
         android:paddingBottom="12dp">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/workout_image"
+            android:id="@+id/item_image"
             android:layout_width="62dp"
             android:layout_height="62dp"
             android:contentDescription=""
@@ -29,22 +29,22 @@
             />
 
         <TextView
-            android:id="@+id/workout_title"
+            android:id="@+id/item_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:ellipsize="end"
             android:textAppearance="?attr/textAppearanceHeadline6"
-            app:layout_constraintBottom_toTopOf="@+id/workout_category"
+            app:layout_constraintBottom_toTopOf="@+id/item_category"
             app:layout_constraintEnd_toStartOf="@id/workout_time"
-            app:layout_constraintStart_toEndOf="@id/workout_image"
+            app:layout_constraintStart_toEndOf="@id/item_image"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="Crunch"
              />
 
         <TextView
-            android:id="@+id/workout_category"
+            android:id="@+id/item_category"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -52,15 +52,15 @@
             android:textAppearance="?attr/textAppearanceBody2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/workout_time"
-            app:layout_constraintStart_toEndOf="@id/workout_image"
-            app:layout_constraintTop_toBottomOf="@+id/workout_title"
+            app:layout_constraintStart_toEndOf="@id/item_image"
+            app:layout_constraintTop_toBottomOf="@+id/item_title"
             tools:text="Abs" />
 
         <TextView
             android:id="@+id/workout_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBaseline_toBaselineOf="@id/workout_title"
+            app:layout_constraintBaseline_toBaselineOf="@id/item_title"
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="1min" />
 

@@ -2,7 +2,6 @@ package com.example.workout.ui.home
 
 import android.os.Bundle
 import android.view.*
-import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
@@ -12,19 +11,10 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.workout.HelperClass
 import com.example.workout.HelperClassRoutine
 import com.example.workout.R
 import com.example.workout.databinding.FragmentRoutineDetailAddBinding
-import com.example.workout.db.Exercice
 import com.example.workout.db.Workout
-import android.view.MotionEvent
-
-import androidx.core.view.MotionEventCompat
-
-import android.view.View.OnTouchListener
-import androidx.core.view.DragStartHelper
-import androidx.recyclerview.widget.ItemTouchHelper
 
 
 class RoutineDetailAddFragment : Fragment() {
@@ -82,9 +72,9 @@ class RoutineDetailAddFragment : Fragment() {
 
 
     private fun setupRecyclerView() {
-        //Warum Instanziierung der Klasse WorkoutDetailAddFragment? --> siehe https://discuss.kotlinlang.org/t/kotlin-constructor-of-inner-class-nested-can-be-called-only-with-receiver-of-containing-class/7700
+
         //zunächst leere ArrayList erzeugen
-        adapter = RoutineDetailAddFragment().MyRecyclerViewAdapter(
+        adapter = MyRecyclerViewAdapter(
             arrayListOf()
         )
         binding.apply {
@@ -115,8 +105,10 @@ class RoutineDetailAddFragment : Fragment() {
 
         inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
             var boundString: String? = null
-            //val image: ImageView = view.findViewById(R.id.avatar)
-            val text: TextView = view.findViewById(R.id.workout_title)
+
+            val image: ImageView = view.findViewById(R.id.item_image)
+            val text: TextView = view.findViewById(R.id.item_title)
+            val category: TextView = view.findViewById(R.id.item_category)
 
 
             override fun toString(): String {
@@ -127,13 +119,22 @@ class RoutineDetailAddFragment : Fragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = LayoutInflater.from(parent.context).inflate(
-                R.layout.view_item, parent, false)
+                R.layout.add_workout_view_item, parent, false)
             return ViewHolder(view)
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             holder.boundString = values[position].name
             holder.text.text = values[position].name
+
+            val numberExercices = values[position].exercices.size
+            if(numberExercices > 1){
+                holder.category.text = "$numberExercices Übungen"
+            }else{
+                holder.category.text = "$numberExercices Übung"
+            }
+
+            holder.image.setImageResource(R.drawable.ic_baseline_fitness_center_24)
 
             holder.view.setOnClickListener { v ->
 

@@ -264,9 +264,9 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
         inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
             var boundString: String? = null
 
-            //val image: ImageView = view.findViewById(R.id.avatar)
-            val text: TextView = view.findViewById(com.example.workout.R.id.workout_title)
-            val category: TextView = view.findViewById(com.example.workout.R.id.workout_category)
+            val image: ImageView = view.findViewById(R.id.item_image)
+            val text: TextView = view.findViewById(R.id.item_title)
+            val category: TextView = view.findViewById(R.id.item_category)
 
             val handleView: ImageView = view.findViewById((R.id.handle))
 
@@ -285,6 +285,15 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             holder.boundString = values.workouts[position].name
             holder.text.text = values.workouts[position].name
+
+            val numberExercices = values.workouts[position].exercices.size
+            if(numberExercices > 1){
+                holder.category.text = "$numberExercices Übungen"
+            }else{
+                holder.category.text = "$numberExercices Übung"
+            }
+
+            holder.image.setImageResource(R.drawable.ic_baseline_fitness_center_24)
 
             //OnLongClickListener zum Löschen
             holder.view.setOnLongClickListener{ v ->
