@@ -4,15 +4,15 @@
     "name": "Bizeps-Curls",
     "category": "Oberarm",
     "animation": "biceps_curls.gif",
-    "audio": "",
+    "audio": "Bizeps_curls.m4a",
     "bilateral": "false"
   },
   {
     "eid": "2",
-    "name": "Squats",
+    "name": "Kniebeugen",
     "category": "Quadrizeps",
     "animation": "squats.gif",
-    "audio": "",
+    "audio": "Kniebeugen.m4a",
     "bilateral": "false"
   },
   {
@@ -20,7 +20,7 @@
     "name": "Crunches",
     "category": "Bauch",
     "animation": "crunches.gif",
-    "audio": "",
+    "audio": "Crunches.m4a",
     "bilateral": "false"
   },
   {
@@ -28,7 +28,7 @@
     "name": "Bankdrücken",
     "category": "Brust",
     "animation": "bench_press.gif",
-    "audio": "",
+    "audio": "Bankdrücken.m4a",
     "bilateral": "false"
   },
   {
@@ -36,7 +36,7 @@
     "name": "Beinheben",
     "category": "Bauch",
     "animation": "leg_raises.gif",
-    "audio": "",
+    "audio": "Beinheben.m4a",
     "bilateral": "false"
   },
   {
@@ -44,15 +44,15 @@
     "name": "Superman",
     "category": "Unterer Rücken",
     "animation": "superman.gif",
-    "audio": "",
+    "audio": "Superman.m4a",
     "bilateral": "false"
   },
   {
     "eid": "7",
-    "name": "Split Squats",
+    "name": "Ausfallschritte",
     "category": "Quadrizeps",
     "animation": "split_squats.gif",
-    "audio": "",
+    "audio": "Ausfallschritte.m4a",
     "bilateral": "true"
   },
   {
@@ -60,7 +60,7 @@
     "name": "Rumänisches Kreuzheben",
     "category": "Unterer Rücken",
     "animation": "deadlift.gif",
-    "audio": "",
+    "audio": "Kreuzheben.m4a",
     "bilateral": "false"
   },
   {
@@ -68,23 +68,23 @@
     "name": "Schulterdrücken",
     "category": "Schulter",
     "animation": "shoulder_press.gif",
-    "audio": "",
+    "audio": "Schulterdrücken.m4a",
     "bilateral": "false"
   },
   {
     "eid": "10",
-    "name": "Liegestütze",
+    "name": "Liegestützen",
     "category": "Brust",
     "animation": "push_ups.gif",
-    "audio": "",
+    "audio": "Liegestützen.m4a",
     "bilateral": "false"
   },
   {
     "eid": "11",
-    "name": "Dips",
+    "name": "Trizeps-Dips",
     "category": "Trizeps",
     "animation": "dips.gif",
-    "audio": "",
+    "audio": "Triceps_dips.m4a",
     "bilateral": "false"
   },
   {
@@ -92,7 +92,7 @@
     "name": "Wadenheben",
     "category": "Waden",
     "animation": "calf_raises.gif",
-    "audio": "",
+    "audio": "Wadenheben.m4a",
     "bilateral": "true"
   }
 
