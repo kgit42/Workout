@@ -61,6 +61,32 @@ class StatsFragment : Fragment() {
     private fun setupRecyclerView() {
         //HashMap, die die Wochennummer einem Objekt zuordnet
         val expandableListDetail = HashMap<Int, List<RoutineWorkoutStatsElement>>()
+
+        val cricket: MutableList<RoutineWorkoutStatsElement> = ArrayList()
+        cricket.add("India")
+        cricket.add("Pakistan")
+        cricket.add("Australia")
+        cricket.add("England")
+        cricket.add("South Africa")
+
+        val football: MutableList<String> = ArrayList()
+        football.add("Brazil")
+        football.add("Spain")
+        football.add("Germany")
+        football.add("Netherlands")
+        football.add("Italy")
+
+        val basketball: MutableList<String> = ArrayList()
+        basketball.add("United States")
+        basketball.add("Spain")
+        basketball.add("Argentina")
+        basketball.add("France")
+        basketball.add("Russia")
+
+        expandableListDetail["CRICKET TEAMS"] = cricket
+        expandableListDetail["FOOTBALL TEAMS"] = football
+        expandableListDetail["BASKETBALL TEAMS"] = basketball
+
         val expandableListTitle = ArrayList<Int>(expandableListDetail.keys)
         adapter = CustomExpandableListAdapter(requireActivity(), expandableListTitle,
             expandableListDetail)
@@ -86,10 +112,6 @@ class StatsFragment : Fragment() {
 
 
 }
-
-
-
-
 
 
 
@@ -122,6 +144,9 @@ class CustomExpandableListAdapter(
         val text: TextView = convertView.findViewById(R.id.item_title)
 
         text.text = expandedListText
+
+
+        //Date-Klasse nutzen, um aus timestamp Datum abzuleiten
 
         return convertView
     }

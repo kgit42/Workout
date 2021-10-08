@@ -7,6 +7,9 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
+
+//Relation WorkoutEntry wird in erster Linie für die fortlaufende ID genutzt. Die
+// relevanten Daten sind ausschließlich in Workout-Relation gespeichert
 data class WorkoutEntry(
     @PrimaryKey(autoGenerate = true) val weid: Int = 0,
     @ColumnInfo(name = "length") var length: Int? = 45,
