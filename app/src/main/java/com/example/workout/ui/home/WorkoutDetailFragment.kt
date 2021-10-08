@@ -145,7 +145,6 @@ class WorkoutDetailFragment : Fragment() {
 
                 val exercices = adapter.getElements()
 
-
                 //Leere Liste vermeiden
                 if (exercices.size == 0) {
                     throw Exception()

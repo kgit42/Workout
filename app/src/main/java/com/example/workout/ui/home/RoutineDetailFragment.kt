@@ -146,6 +146,11 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
 
                 val exercices = adapter.getElements()
 
+                //Leere Liste vermeiden
+                if (exercices.size == 0) {
+                    throw Exception()
+                }
+
                 /*
                 //Leere Liste vermeiden, würde später zu Fehler führen
                 if(exercices.size == 0){
