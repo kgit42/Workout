@@ -77,10 +77,13 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
         return withContext(Dispatchers.IO) { db.routineDao().insert(routine) }
     }
 
+    /*
     //erstellt ein neues WorkoutEntry, ID des übergebenen Objektes wird dabei verworfen
     suspend fun createWorkoutEntry(workoutentry: WorkoutEntry): Long {
         return withContext(Dispatchers.IO) { db.workoutEntryDao().insert(workoutentry) }
     }
+
+     */
 
     /*
     //updatet das WorkoutEntry anhand der ID

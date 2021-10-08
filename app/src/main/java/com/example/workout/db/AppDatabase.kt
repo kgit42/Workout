@@ -6,13 +6,14 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(entities = arrayOf(Exercice::class, Routine::class, Workout::class, WorkoutEntry::class), version = 16)
+@Database(entities = arrayOf(Exercice::class, Routine::class, Workout::class, WorkoutEntry::class, RoutineWorkoutStatsElement::class), version = 17)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun exerciceDao(): ExerciceDao
     abstract fun routineDao(): RoutineDao
     abstract fun workoutDao(): WorkoutDao
     abstract fun workoutEntryDao(): WorkoutEntryDao
+    abstract fun routineWorkoutStatsElementDao(): RoutineWorkoutStatsElementDao
 
     companion object {
 

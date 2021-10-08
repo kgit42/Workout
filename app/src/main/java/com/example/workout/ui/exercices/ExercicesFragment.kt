@@ -21,7 +21,7 @@ class ExercicesFragment : Fragment() {
 
     private lateinit var exercicesViewModel: ExercicesViewModel
     private lateinit var _binding: FragmentExercicesBinding
-    private lateinit var adapter: SimpleStringRecyclerViewAdapter
+    private lateinit var adapter: MyRecyclerViewAdapter
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -62,7 +62,7 @@ class ExercicesFragment : Fragment() {
 
     private fun setupRecyclerView() {
         //zunächst leere ArrayList erzeugen
-        adapter = SimpleStringRecyclerViewAdapter(arrayListOf())
+        adapter = MyRecyclerViewAdapter(arrayListOf())
         _binding.apply {
             listExercices.adapter = adapter
             listExercices.layoutManager = LinearLayoutManager(listExercices.context)
@@ -70,9 +70,9 @@ class ExercicesFragment : Fragment() {
     }
 
 
-    inner class SimpleStringRecyclerViewAdapter(
+    inner class MyRecyclerViewAdapter(
         private var values: List<Exercice>
-    ) : RecyclerView.Adapter<SimpleStringRecyclerViewAdapter.ViewHolder>() {
+    ) : RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder>() {
 
         //um vom ViewModel aus Daten zu ändern
         fun setData(newData: List<Exercice>) {
@@ -85,7 +85,7 @@ class ExercicesFragment : Fragment() {
 
             val image: ImageView = view.findViewById(R.id.item_image)
             val text: TextView = view.findViewById(R.id.item_title)
-            val category: TextView = view.findViewById(com.example.workout.R.id.item_category)
+            val category: TextView = view.findViewById(R.id.item_category)
 
 
             override fun toString(): String {

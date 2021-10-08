@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/kmutt/AppData/Local/Android/Sdk/platforms/android-30/data/res/layout/activity_list_item.xml" value="0.14792299898682879" />
         <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/drawable/ic_back.xml" value="0.2755208333333333" />
         <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.1796875" />
         <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.1796875" />
@@ -31,6 +32,7 @@
         <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/layout/fragment_workout_detail_superset.xml" value="0.18659420289855072" />
         <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/layout/fragment_workout_routine_add.xml" value="0.1828125" />
         <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/layout/fragment_workouts.xml" value="0.16354166666666667" />
+        <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/layout/list_group.xml" value="0.14792299898682879" />
         <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/layout/reorder_view_item.xml" value="0.17708333333333334" />
         <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/layout/routines_view_item.xml" value="0.2977777777777778" />
         <entry key="..\:/Users/kmutt/Documents/GitHub/Workout/app/src/main/res/layout/view_item.xml" value="0.11979166666666667" />

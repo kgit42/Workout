@@ -64,6 +64,7 @@ class WorkoutsFragment : Fragment() {
 
     private fun hideLoadingAndShowStartButtons(){
         val recyclerview: RecyclerView? = view?.findViewById(R.id.recyclerview)
+        //über den LayoutManager an Items der RecyclerView kommen
         for (j in 0..(recyclerview?.layoutManager?.itemCount!!)){
             recyclerview.layoutManager!!.findViewByPosition(j)?.findViewById<ProgressBar>(R.id.progress_loader)?.visibility = View.INVISIBLE
             recyclerview.layoutManager!!.findViewByPosition(j)?.findViewById<Button>(R.id.buttonPlay)?.visibility = View.VISIBLE

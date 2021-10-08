@@ -27,6 +27,8 @@ import kotlinx.coroutines.launch
 import java.lang.Exception
 import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
+import com.example.workout.db.Routine
+import kotlinx.coroutines.Dispatchers
 
 
 class WorkoutDetailFragment : Fragment() {
@@ -64,7 +66,7 @@ class WorkoutDetailFragment : Fragment() {
             val args = Bundle()
             var intarray: IntArray = IntArray(adapter.getElements().size)
 
-            for ((index, value) in adapter.getElements().withIndex()){
+            for ((index, value) in adapter.getElements().withIndex()) {
                 intarray[index] = value.exercice.eid
             }
 
@@ -129,45 +131,67 @@ class WorkoutDetailFragment : Fragment() {
                 val pause1 = Integer.parseInt(binding.pause1.text.toString())
                 val pause2 = Integer.parseInt(binding.pause2.text.toString())
 
-                if(pause1 < 5 || pause2 < 5){
+                if (pause1 < 5 || pause2 < 5) {
                     throw Exception()
                 }
 
-                if(anzahl < 0) {
+                if (anzahl < 0) {
                     throw Exception()
                 }
 
-                if(name == "") {
+                if (name == "") {
                     throw Exception()
                 }
 
                 val exercices = adapter.getElements()
 
-                /*
-                //Leere Liste vermeiden, würde später zu Fehler führen
-                if(exercices.size == 0){
-                    return@setOnMenuItemClickListener false
+
+                //Leere Liste vermeiden
+                if (exercices.size == 0) {
+                    throw Exception()
                 }
 
-                 */
 
                 //Fallunterscheidung je nachdem, ob neues Workout oder Änderung eines bestehenden
                 if (arguments?.getInt("wid") != null) {
 
                     //DB-Aufruf
-                    lifecycleScope.launch {
+                    var newWorkout = Workout(
+                        arguments?.getInt("wid")!!,
+                        name,
+                        0,
+                        anzahl,
+                        pause1,
+                        pause2,
+                        exercices,
+                        arrayListOf()
+                    )
+                    lifecycleScope.launch(Dispatchers.IO) {
                         homeViewModel.updateWorkout(
-                            Workout(
-                                arguments?.getInt("wid")!!,
-                                name,
-                                0,
-                                anzahl,
-                                pause1,
-                                pause2,
-                                exercices,
-                                arrayListOf()
-                            )
+                            newWorkout
                         )
+
+                        //Workout auch in allen Routinen updaten
+                        val routines = homeViewModel.getAllRoutinesAsync()
+                        Log.v("hhh", routines.toString())
+
+                        routines.forEach { routine ->
+                            var workouts = routine.workouts
+
+                            workouts.forEachIndexed { index, workout ->
+                                if (workout.wid == arguments?.getInt("wid")!!) {
+                                    workouts[index] = newWorkout
+                                }
+                            }
+
+                            val newRoutine = Routine(
+                                routine.rid, routine.name,
+                                routine.restWorkouts, workouts
+                            )
+
+                            homeViewModel.updateRoutine(newRoutine)
+
+                        }
                     }
                 } else {
                     //DB-Aufruf
@@ -213,7 +237,7 @@ class WorkoutDetailFragment : Fragment() {
                 HelperClass.listToAdd.forEach {
 
                     //Ein neues WorkoutEntry dieser Übung in DB anlegen und ID zurückgeben lassen
-                    var id = homeViewModel.createWorkoutEntry(WorkoutEntry(exercice = it))
+                    //var id = homeViewModel.createWorkoutEntry(WorkoutEntry(exercice = it))
 
                     //Das gerade angelegte Workout der HelperClass hinzufügen
                     val workoutentry = WorkoutEntry(id.toInt(), exercice = it)
@@ -276,7 +300,7 @@ class WorkoutDetailFragment : Fragment() {
             notifyItemInserted(values.exercices.size - 1);
         }
 
-        fun removeElement(element: WorkoutEntry){
+        fun removeElement(element: WorkoutEntry) {
             this.values.exercices.remove(element)
             notifyDataSetChanged()
         }
@@ -284,7 +308,6 @@ class WorkoutDetailFragment : Fragment() {
         fun getElements(): ArrayList<WorkoutEntry> {
             return values.exercices
         }
-
 
 
         inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -335,7 +358,7 @@ class WorkoutDetailFragment : Fragment() {
             }
 
             //OnLongClickListener zum Löschen
-            holder.view.setOnLongClickListener{ v ->
+            holder.view.setOnLongClickListener { v ->
                 val dialog = DeleteDialogFragment()
                 val args = Bundle()
                 args.putInt("weid", values.exercices[position].weid)
