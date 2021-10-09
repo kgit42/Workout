@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.home.HomeFragment">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/text_home"
@@ -49,9 +48,9 @@
         android:id="@+id/expandableListView"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
-        android:divider="@android:color/darker_gray"
-        android:dividerHeight="0.5dp" />
+        android:scrollbars="vertical"
+        android:layout_marginTop="55dp"
+        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft" />
 
 
 

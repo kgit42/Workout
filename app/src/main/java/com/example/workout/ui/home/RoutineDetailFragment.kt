@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.TransitionInflater
 import com.example.workout.HelperClassRoutine
 import com.example.workout.R
 import com.example.workout.databinding.FragmentRoutineDetailBinding
@@ -36,6 +37,7 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
     private var mItemTouchHelper: ItemTouchHelper? = null
 
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,6 +50,7 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
             viewModel = detailViewModel
             lifecycleOwner = viewLifecycleOwner
         }*/
+
 
         //Listener für den Hinzufügen-Button:
         binding.button.setOnClickListener(View.OnClickListener {

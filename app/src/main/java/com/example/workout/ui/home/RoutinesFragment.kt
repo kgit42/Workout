@@ -19,6 +19,8 @@ import com.example.workout.R
 import com.example.workout.db.Routine
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
+import androidx.transition.TransitionInflater
+
 
 class RoutinesFragment : Fragment() {
 
@@ -39,7 +41,16 @@ class RoutinesFragment : Fragment() {
         ) as RecyclerView
         rv.layoutManager = LinearLayoutManager(rv.context)
 
-        //zunächst leere ArrayList mit Routinen
+
+        /*
+        //Übergang animieren
+        val inflater: TransitionInflater = TransitionInflater.from(requireContext())
+        exitTransition = inflater.inflateTransition(R.transition.fade)
+
+         */
+
+
+        //RecyclerView: zunächst leere ArrayList mit Routinen
         val adapter = MyRecyclerViewAdapter(arrayListOf(Routine()))
         rv.adapter = adapter
 
@@ -116,13 +127,13 @@ class RoutinesFragment : Fragment() {
             var string1: String
             var string2: String
 
-            if(counter > 1){
+            if(counter > 1 || counter == 0){
                 string2 = "Übungen"
             }else{
                 string2 = "Übung"
             }
 
-            if(numberWorkouts > 1){
+            if(numberWorkouts > 1 || numberWorkouts == 0){
                 string1 = "Workouts"
             }else{
                 string1 = "Workout"

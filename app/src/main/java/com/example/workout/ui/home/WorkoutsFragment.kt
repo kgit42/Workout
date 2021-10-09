@@ -39,7 +39,8 @@ class WorkoutsFragment : Fragment() {
         ) as RecyclerView
         rv.layoutManager = LinearLayoutManager(rv.context)
 
-        //zunächst leere ArrayList mit Workouts
+
+        //RecyclerView: zunächst leere ArrayList mit Workouts
         val adapter =
             MyRecyclerViewAdapter(arrayListOf(Workout()))
         rv.adapter = adapter

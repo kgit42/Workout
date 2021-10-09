@@ -62,30 +62,21 @@ class StatsFragment : Fragment() {
         //HashMap, die die Wochennummer einem Objekt zuordnet
         val expandableListDetail = HashMap<Int, List<RoutineWorkoutStatsElement>>()
 
+
         val cricket: MutableList<RoutineWorkoutStatsElement> = ArrayList()
-        cricket.add("India")
-        cricket.add("Pakistan")
-        cricket.add("Australia")
-        cricket.add("England")
-        cricket.add("South Africa")
+        cricket.add(RoutineWorkoutStatsElement(name="hallo"))
+        cricket.add(RoutineWorkoutStatsElement(name="hallo"))
+        cricket.add(RoutineWorkoutStatsElement(name="hallo"))
 
-        val football: MutableList<String> = ArrayList()
-        football.add("Brazil")
-        football.add("Spain")
-        football.add("Germany")
-        football.add("Netherlands")
-        football.add("Italy")
+        val football: MutableList<RoutineWorkoutStatsElement> = ArrayList()
+        football.add(RoutineWorkoutStatsElement(name="hallo"))
+        football.add(RoutineWorkoutStatsElement(name="hallo"))
+        football.add(RoutineWorkoutStatsElement(name="hallo"))
+        football.add(RoutineWorkoutStatsElement(name="hallo"))
 
-        val basketball: MutableList<String> = ArrayList()
-        basketball.add("United States")
-        basketball.add("Spain")
-        basketball.add("Argentina")
-        basketball.add("France")
-        basketball.add("Russia")
+        expandableListDetail[4] = cricket
+        expandableListDetail[5] = football
 
-        expandableListDetail["CRICKET TEAMS"] = cricket
-        expandableListDetail["FOOTBALL TEAMS"] = football
-        expandableListDetail["BASKETBALL TEAMS"] = basketball
 
         val expandableListTitle = ArrayList<Int>(expandableListDetail.keys)
         adapter = CustomExpandableListAdapter(requireActivity(), expandableListTitle,
@@ -130,10 +121,10 @@ class CustomExpandableListAdapter(
 
     override fun getChildView(
         listPosition: Int, expandedListPosition: Int,
-        isLastChild: Boolean, convertView: View, parent: ViewGroup
+        isLastChild: Boolean, convertView: View?, parent: ViewGroup
     ): View {
         var convertView = convertView
-        val expandedListText = getChild(listPosition, expandedListPosition) as String
+        val expandedListText = getChild(listPosition, expandedListPosition) as RoutineWorkoutStatsElement
         if (convertView == null) {
             val layoutInflater = context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -141,9 +132,9 @@ class CustomExpandableListAdapter(
         }
 
         //val image: ImageView = view.findViewById(R.id.item_image)
-        val text: TextView = convertView.findViewById(R.id.item_title)
+        val text: TextView = convertView?.findViewById(R.id.item_title)!!
 
-        text.text = expandedListText
+        text.text = expandedListText.name
 
 
         //Date-Klasse nutzen, um aus timestamp Datum abzuleiten
@@ -170,10 +161,10 @@ class CustomExpandableListAdapter(
 
     override fun getGroupView(
         listPosition: Int, isExpanded: Boolean,
-        convertView: View, parent: ViewGroup
+        convertView: View?, parent: ViewGroup
     ): View {
         var convertView = convertView
-        val listTitle = getGroup(listPosition) as String
+        val listTitle = getGroup(listPosition) as Int
         if (convertView == null) {
             val layoutInflater =
                 context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -181,9 +172,11 @@ class CustomExpandableListAdapter(
         }
 
         //val image: ImageView = view.findViewById(R.id.item_image)
-        val text: TextView = convertView.findViewById(R.id.item_title)
+        val text: TextView = convertView?.findViewById(R.id.item_title)!!
+        val category: TextView = convertView?.findViewById(R.id.item_category)!!
 
-        text.text = listTitle
+        text.text = "KW ${listTitle.toString()}"
+        category.text = "136 Minuten, 49 Übungen"
 
         return convertView
     }

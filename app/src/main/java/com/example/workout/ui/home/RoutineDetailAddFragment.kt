@@ -11,6 +11,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.TransitionInflater
 import com.example.workout.HelperClassRoutine
 import com.example.workout.R
 import com.example.workout.databinding.FragmentRoutineDetailAddBinding
