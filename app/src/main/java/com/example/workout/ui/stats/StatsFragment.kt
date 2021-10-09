@@ -21,6 +21,8 @@ import com.example.workout.ui.exercices.ExercicesFragment
 
 import android.widget.ExpandableListView.OnChildClickListener
 import android.widget.ExpandableListView.OnGroupCollapseListener
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -47,6 +49,19 @@ class StatsFragment : Fragment() {
         val root: View = binding.root
 
         setupRecyclerView()
+
+        lifecycleScope.launch {
+            statsViewModel.createRoutineWorkoutStatsElement(
+                RoutineWorkoutStatsElement(0, 5, 3, "dfgdg", 0, 3453436)
+            )
+            statsViewModel.createRoutineWorkoutStatsElement(
+                RoutineWorkoutStatsElement(1, 4, 5, "dg", 1, 345464)
+            )
+        }
+
+        //Observer --> falls es Änderungen in DB gibt
+        statsViewModel.getAllRoutineWorkoutStatsElements()
+            .observe(viewLifecycleOwner) { routineWorkoutStatsElements -> adapter.setData(exercices) }
 
 
         return root
@@ -107,9 +122,17 @@ class StatsFragment : Fragment() {
 
 
 class CustomExpandableListAdapter(
-    private val context: Context, private val expandableListTitle: List<Int>,
-    private val expandableListDetail: HashMap<Int, List<RoutineWorkoutStatsElement>>
+    private val context: Context, private var expandableListTitle: List<Int>,
+    private var expandableListDetail: HashMap<Int, List<RoutineWorkoutStatsElement>>
 ) : BaseExpandableListAdapter() {
+
+    //um vom ViewModel aus Daten zu ändern
+    fun setData(newDataDetail: HashMap<Int, List<RoutineWorkoutStatsElement>>, newDataTitle: List<Int>) {
+        this.expandableListDetail = newDataDetail
+        this.expandableListTitle = newDataTitle
+        notifyDataSetChanged()
+    }
+
     override fun getChild(listPosition: Int, expandedListPosition: Int): Any? {
         return expandableListDetail[expandableListTitle[listPosition]]
             ?.get(expandedListPosition)
