@@ -27,6 +27,9 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
+
+
+
 class StatsFragment : Fragment() {
 
     private lateinit var statsViewModel: StatsViewModel
@@ -48,20 +51,46 @@ class StatsFragment : Fragment() {
         _binding = FragmentStatsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        setupRecyclerView()
+        setupListView()
 
         lifecycleScope.launch {
             statsViewModel.createRoutineWorkoutStatsElement(
                 RoutineWorkoutStatsElement(0, 5, 3, "dfgdg", 0, 3453436)
             )
             statsViewModel.createRoutineWorkoutStatsElement(
-                RoutineWorkoutStatsElement(1, 4, 5, "dg", 1, 345464)
+                RoutineWorkoutStatsElement(0, 4, 5, "dg", 1, 345464)
             )
         }
 
         //Observer --> falls es Änderungen in DB gibt
         statsViewModel.getAllRoutineWorkoutStatsElements()
-            .observe(viewLifecycleOwner) { routineWorkoutStatsElements -> adapter.setData(exercices) }
+            .observe(viewLifecycleOwner) { routineWorkoutStatsElements ->
+
+                //HashMap, die die Wochennummer einem Objekt zuordnet
+                val expandableListDetail = HashMap<Int, MutableList<RoutineWorkoutStatsElement>>()
+
+                routineWorkoutStatsElements.forEach{
+                    //Calendar-Klasse nutzen, um aus timestamp Wochennummer (KW) abzuleiten:
+                    val calendar = Calendar.getInstance()
+                    calendar.timeInMillis = it.timestamp!!
+
+                    val mWeekNumber = calendar[Calendar.WEEK_OF_YEAR]
+
+                    //Falls diese KW schon in der HashMap existiert, füge sie ein in die zugehörige MutableList.
+                    //Sonst erstelle neue MutableList und füge ein.
+                    if(expandableListDetail[mWeekNumber] != null){
+                        expandableListDetail[mWeekNumber]?.add(it)
+                    }else{
+                        expandableListDetail[mWeekNumber] = mutableListOf(it)
+                    }
+                }
+
+                val expandableListTitle = ArrayList<Int>(expandableListDetail.keys)
+
+                //Daten an ExpandableList weitergeben
+                adapter.setData(expandableListDetail, expandableListTitle) }
+
+
 
 
         return root
@@ -73,29 +102,10 @@ class StatsFragment : Fragment() {
     }
 
 
-    private fun setupRecyclerView() {
-        //HashMap, die die Wochennummer einem Objekt zuordnet
-        val expandableListDetail = HashMap<Int, List<RoutineWorkoutStatsElement>>()
+    private fun setupListView() {
 
-
-        val cricket: MutableList<RoutineWorkoutStatsElement> = ArrayList()
-        cricket.add(RoutineWorkoutStatsElement(name="hallo"))
-        cricket.add(RoutineWorkoutStatsElement(name="hallo"))
-        cricket.add(RoutineWorkoutStatsElement(name="hallo"))
-
-        val football: MutableList<RoutineWorkoutStatsElement> = ArrayList()
-        football.add(RoutineWorkoutStatsElement(name="hallo"))
-        football.add(RoutineWorkoutStatsElement(name="hallo"))
-        football.add(RoutineWorkoutStatsElement(name="hallo"))
-        football.add(RoutineWorkoutStatsElement(name="hallo"))
-
-        expandableListDetail[4] = cricket
-        expandableListDetail[5] = football
-
-
-        val expandableListTitle = ArrayList<Int>(expandableListDetail.keys)
-        adapter = CustomExpandableListAdapter(requireActivity(), expandableListTitle,
-            expandableListDetail)
+        adapter = CustomExpandableListAdapter(requireActivity(), arrayListOf(),
+            hashMapOf())
         _binding?.apply {
             expandableListView.setAdapter(adapter)
 
@@ -123,11 +133,11 @@ class StatsFragment : Fragment() {
 
 class CustomExpandableListAdapter(
     private val context: Context, private var expandableListTitle: List<Int>,
-    private var expandableListDetail: HashMap<Int, List<RoutineWorkoutStatsElement>>
+    private var expandableListDetail: HashMap<Int, MutableList<RoutineWorkoutStatsElement>>
 ) : BaseExpandableListAdapter() {
 
     //um vom ViewModel aus Daten zu ändern
-    fun setData(newDataDetail: HashMap<Int, List<RoutineWorkoutStatsElement>>, newDataTitle: List<Int>) {
+    fun setData(newDataDetail: HashMap<Int, MutableList<RoutineWorkoutStatsElement>>, newDataTitle: List<Int>) {
         this.expandableListDetail = newDataDetail
         this.expandableListTitle = newDataTitle
         notifyDataSetChanged()
@@ -156,11 +166,22 @@ class CustomExpandableListAdapter(
 
         //val image: ImageView = view.findViewById(R.id.item_image)
         val text: TextView = convertView?.findViewById(R.id.item_title)!!
+        val category: TextView = convertView?.findViewById(R.id.item_category)!!
 
         text.text = expandedListText.name
 
+        //Calendar-Klasse nutzen, um aus timestamp Datum abzuleiten:
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = expandedListText.timestamp!!
+        val mYear = calendar[Calendar.YEAR]
+        val mMonth = calendar[Calendar.MONTH]
+        val mDay = calendar[Calendar.DAY_OF_MONTH]
+        val mHours = calendar[Calendar.HOUR]
+        val mMinutes = calendar[Calendar.MINUTE]
 
-        //Date-Klasse nutzen, um aus timestamp Datum abzuleiten
+        category.text = "$mDay.$mMonth.$mYear $mHours:$mMinutes"
+
+
 
         return convertView
     }

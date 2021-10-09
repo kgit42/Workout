@@ -24,4 +24,5 @@ class StatsViewModel(app: Application) : AndroidViewModel(app) {
     suspend fun createRoutineWorkoutStatsElement(routineWorkoutStatsElement: RoutineWorkoutStatsElement) {
         withContext(Dispatchers.IO) { db.routineWorkoutStatsElementDao().insert(routineWorkoutStatsElement) }
     }
+
 }
