@@ -1,5 +1,6 @@
 package com.example.workout
 
+import android.util.Log
 import com.example.workout.db.Exercice
 import com.example.workout.db.Workout
 import com.example.workout.db.WorkoutEntry

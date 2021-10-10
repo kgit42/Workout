@@ -236,9 +236,9 @@ class WorkoutDetailFragment : Fragment() {
                 HelperClass.listToAdd.forEach {
 
                     //Ein neues WorkoutEntry dieser Übung in DB anlegen und ID zurückgeben lassen
-                    //var id = homeViewModel.createWorkoutEntry(WorkoutEntry(exercice = it))
+                    var id = homeViewModel.createWorkoutEntry(WorkoutEntry(exercice = it))
 
-                    //Das gerade angelegte Workout der HelperClass hinzufügen
+                    //Neues WorkoutEntry mit der erhaltenen ID der HelperClass hinzufügen
                     val workoutentry = WorkoutEntry(id.toInt(), exercice = it)
                     HelperClass.workoutentriesToAdd.add(workoutentry)
 
