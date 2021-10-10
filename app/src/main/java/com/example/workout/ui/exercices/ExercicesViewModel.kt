@@ -27,5 +27,4 @@ class ExercicesViewModel(app: Application) : AndroidViewModel(app) {
     }
 
 
-
 }

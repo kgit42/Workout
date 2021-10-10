@@ -5,9 +5,6 @@ package com.example.workout
 data class CommunicationModel (
     val routine_name: String?,
     val workouts: MutableList<WorkoutModel>
-
-
-
 )
 
 

@@ -5,24 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.workout.databinding.FragmentStatsBinding
 import com.example.workout.R
 import android.content.Context
-import android.graphics.Typeface
 import android.util.Log
 import android.widget.*
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.workout.db.Routine
 import com.example.workout.db.RoutineWorkoutStatsElement
-import com.example.workout.db.Workout
-import com.example.workout.ui.exercices.ExercicesFragment
 
-import android.widget.ExpandableListView.OnChildClickListener
-import android.widget.ExpandableListView.OnGroupCollapseListener
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -55,10 +49,10 @@ class StatsFragment : Fragment() {
 
         lifecycleScope.launch {
             statsViewModel.createRoutineWorkoutStatsElement(
-                RoutineWorkoutStatsElement(0, 5, 3, "dfgdg", 0, 3453436)
+                RoutineWorkoutStatsElement(0, 5, 3, "dfgdg", 0, 1633860131000)
             )
             statsViewModel.createRoutineWorkoutStatsElement(
-                RoutineWorkoutStatsElement(0, 4, 5, "dg", 1, 345464)
+                RoutineWorkoutStatsElement(0, 4, 5, "dg", 1, 1633168926000)
             )
         }
 
@@ -152,6 +146,7 @@ class CustomExpandableListAdapter(
         return expandedListPosition.toLong()
     }
 
+    //View des untergeordneten Elementes
     override fun getChildView(
         listPosition: Int, expandedListPosition: Int,
         isLastChild: Boolean, convertView: View?, parent: ViewGroup
@@ -161,25 +156,55 @@ class CustomExpandableListAdapter(
         if (convertView == null) {
             val layoutInflater = context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            convertView = layoutInflater.inflate(R.layout.view_item, null)
+            convertView = layoutInflater.inflate(R.layout.stats_view_item, null)
         }
 
-        //val image: ImageView = view.findViewById(R.id.item_image)
+        val image: ImageView = convertView?.findViewById(R.id.item_image)!!
         val text: TextView = convertView?.findViewById(R.id.item_title)!!
         val category: TextView = convertView?.findViewById(R.id.item_category)!!
+        val time: TextView = convertView?.findViewById(R.id.item_time)!!
 
         text.text = expandedListText.name
+
+        var string1: String
+        var string2: String
+
+        if(expandedListText.length!! > 1 || expandedListText.length == 0){
+            string1 = "Minuten"
+        }else{
+            string1 = "Minute"
+        }
+
+        if(expandedListText.numberSetsDone!! > 1 || expandedListText.numberSetsDone == 0){
+            string2 = "Sätze"
+        }else{
+            string2 = "Satz"
+        }
+
+        category.text = "${expandedListText.length} $string1, ${expandedListText.numberSetsDone} $string2"
+
+        if(expandedListText.type == 1){
+            image.setImageResource(R.drawable.ic_baseline_fitness_center_24)
+        }else{
+            image.setImageResource(R.drawable.ic_baseline_view_carousel_24)
+        }
+
 
         //Calendar-Klasse nutzen, um aus timestamp Datum abzuleiten:
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = expandedListText.timestamp!!
+
+        /*
         val mYear = calendar[Calendar.YEAR]
         val mMonth = calendar[Calendar.MONTH]
         val mDay = calendar[Calendar.DAY_OF_MONTH]
         val mHours = calendar[Calendar.HOUR]
         val mMinutes = calendar[Calendar.MINUTE]
+         */
 
-        category.text = "$mDay.$mMonth.$mYear $mHours:$mMinutes"
+        //Datum & Zeit formatieren
+        val format = SimpleDateFormat("dd.MM.yyyy hh:mm")
+        time.text = format.format(calendar.time)
 
 
 
@@ -203,6 +228,7 @@ class CustomExpandableListAdapter(
         return listPosition.toLong()
     }
 
+    //View des übergeordneteten Elementes
     override fun getGroupView(
         listPosition: Int, isExpanded: Boolean,
         convertView: View?, parent: ViewGroup
@@ -212,15 +238,39 @@ class CustomExpandableListAdapter(
         if (convertView == null) {
             val layoutInflater =
                 context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            convertView = layoutInflater.inflate(R.layout.view_item, null)
+            convertView = layoutInflater.inflate(R.layout.stats_view_item_group, null)
         }
 
         //val image: ImageView = view.findViewById(R.id.item_image)
         val text: TextView = convertView?.findViewById(R.id.item_title)!!
         val category: TextView = convertView?.findViewById(R.id.item_category)!!
 
+        //Anzahl der Sätze und Minuten insgesamt berechnen
+        var counterMinutes = 0
+        var counterSets = 0
+
+        expandableListDetail[listTitle]?.forEach{
+            counterMinutes += it.length!!
+            counterSets += it.numberSetsDone!!
+        }
+
+        var string1: String
+        var string2: String
+
+        if(counterMinutes > 1 || counterMinutes == 0){
+            string1 = "Minuten"
+        }else{
+            string1 = "Minute"
+        }
+
+        if(counterSets > 1 || counterSets == 0){
+            string2 = "Sätze"
+        }else{
+            string2 = "Satz"
+        }
+
         text.text = "KW ${listTitle.toString()}"
-        category.text = "136 Minuten, 49 Übungen"
+        category.text = "$counterMinutes $string1, $counterSets $string2"
 
         return convertView
     }

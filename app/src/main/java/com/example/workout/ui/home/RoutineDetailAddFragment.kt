@@ -83,12 +83,7 @@ class RoutineDetailAddFragment : Fragment() {
             listExercices.layoutManager = LinearLayoutManager(listExercices.context)
         }
 
-
-
-
     }
-
-
 
 
 

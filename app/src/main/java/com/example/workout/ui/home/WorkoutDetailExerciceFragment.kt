@@ -174,9 +174,5 @@ class WorkoutDetailExerciceFragment : Fragment() {
         }
     }
 
-
-
-
-
 }
 

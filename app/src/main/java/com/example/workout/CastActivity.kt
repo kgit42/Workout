@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.View
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -177,6 +178,9 @@ class CastActivity : AppCompatActivity() {
 
         binding = ActivityCastBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //Bildschrim anlassen
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         setSupportActionBar(binding.toolbar)
 

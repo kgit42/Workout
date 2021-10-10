@@ -19,7 +19,6 @@ import com.example.workout.R
 import com.example.workout.db.Routine
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
-import androidx.transition.TransitionInflater
 
 
 class RoutinesFragment : Fragment() {
@@ -116,10 +115,10 @@ class RoutinesFragment : Fragment() {
             holder.boundString = values[position].name
             holder.text.text = values[position].name
 
-            //Anzahl der Übungen insgesamt berechnen
+            //Anzahl der Sätze insgesamt berechnen
             var counter = 0
             values[position].workouts.forEach{
-                counter += it.exercices.size
+                counter += it.numberSets!!
             }
 
             var numberWorkouts = values[position].workouts.size
@@ -128,9 +127,9 @@ class RoutinesFragment : Fragment() {
             var string2: String
 
             if(counter > 1 || counter == 0){
-                string2 = "Übungen"
+                string2 = "Sätze"
             }else{
-                string2 = "Übung"
+                string2 = "Satz"
             }
 
             if(numberWorkouts > 1 || numberWorkouts == 0){

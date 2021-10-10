@@ -3,10 +3,8 @@ package com.example.workout
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import androidx.lifecycle.lifecycleScope
 import com.example.workout.db.Exercice
 import com.example.workout.db.Routine
-import com.example.workout.db.Workout
 import com.example.workout.db.WorkoutEntry
 import com.example.workout.ui.home.HomeViewModel
 import com.google.gson.Gson
@@ -69,7 +67,7 @@ class Generator(
 
                 //so oft wiederholen, wie in Workout eingestellt
                 //Schleife benennen, um aus ihr ausbrechen zu können
-                loop@ while (exerciceCounter < workout.numberExercices!!) {
+                loop@ while (exerciceCounter < workout.numberSets!!) {
                     //zufällige Übung auswählen
                     val randomExercice =
                         listForRandomChoice.get(Random().nextInt(listForRandomChoice.size))
@@ -77,7 +75,7 @@ class Generator(
                     //Alle Vorkommen der eben ausgewählten Übung aus Liste löschen, damit Übung nicht doppelt vorkommt.
                     listForRandomChoice.removeAll(Collections.singleton(randomExercice))
 
-                    //Falls die Liste nun aber leer, die eingestellte Übungszahl jedoch noch nicht erreicht ist,
+                    //Falls die Liste nun aber leer, die eingestellte Satzzahl jedoch noch nicht erreicht ist,
                     //muss die Liste neu gefüllt werden, Übungen also doppelt drankommen.
                     if (listForRandomChoice.size == 0) {
                         for ((index, value) in workout.exercices.withIndex()) {
@@ -143,8 +141,8 @@ class Generator(
                         )
                         exerciceCounter++
 
-                        //äußere while-Schleife beenden, wenn eingestellte Übungsanzahl erreicht
-                        if (exerciceCounter == workout.numberExercices) {
+                        //äußere while-Schleife beenden, wenn eingestellte Satzanzahl erreicht
+                        if (exerciceCounter == workout.numberSets) {
                             break@loop
                         }
 
@@ -153,7 +151,7 @@ class Generator(
                         //Demnach mindestens 2 Sätze nötig.
                         power = j == sets - 1 && Math.random() > 0.5
 
-                        //Pause hinzufügen, aber nur, wenn nicht letzter Satz der Übung
+                        //Pause nach Satz hinzufügen, aber nur, wenn nicht letzter Satz der Übung
                         if (j != sets && !power) {
                             json.workouts[index0].exercices.add(
                                 ExerciceModel(
@@ -219,7 +217,5 @@ class Generator(
 
         }
     }
-
-
 
 }

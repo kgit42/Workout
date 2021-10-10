@@ -269,7 +269,7 @@ class WorkoutDetailFragment : Fragment() {
     //füllt EditTexts aus mit bestehenden Daten aus DB
     fun fillWithData(workout: Workout) {
         binding.name.setText(workout.name)
-        binding.anzahl1.setText(workout.numberExercices.toString())
+        binding.anzahl1.setText(workout.numberSets.toString())
         binding.pause1.setText(workout.restExercices.toString())
         binding.pause2.setText(workout.restSets.toString())
 
@@ -315,6 +315,7 @@ class WorkoutDetailFragment : Fragment() {
             val image: ImageView = view.findViewById(com.example.workout.R.id.item_image)
             val text: TextView = view.findViewById(com.example.workout.R.id.item_title)
             val category: TextView = view.findViewById(com.example.workout.R.id.item_category)
+            val time: TextView = view.findViewById(com.example.workout.R.id.item_time)
 
             override fun toString(): String {
                 return super.toString() + " '" + text.text
@@ -332,6 +333,7 @@ class WorkoutDetailFragment : Fragment() {
             holder.boundString = values.exercices[position].exercice.name
             holder.text.text = values.exercices[position].exercice.name
             holder.category.text = values.exercices[position].exercice.category
+            holder.time.text = values.exercices[position].length.toString() + "s"
 
             //Bild suchen
             val res: Resources = resources

@@ -116,11 +116,11 @@ class WorkoutsFragment : Fragment() {
             holder.boundString = values[position].name
             holder.text.text = values[position].name
 
-            val numberExercices = values[position].exercices.size
-            if(numberExercices > 1){
-                holder.category.text = "$numberExercices Übungen"
+            val numberSets = values[position].numberSets
+            if(numberSets!! > 1){
+                holder.category.text = "$numberSets Sätze"
             }else{
-                holder.category.text = "$numberExercices Übung"
+                holder.category.text = "$numberSets Satz"
             }
 
 
