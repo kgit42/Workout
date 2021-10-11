@@ -20,7 +20,8 @@ data class ExerciceModel(
     val length: String,
     val power: Boolean?,
     val rest: String?,
-    val set: String?
+    val set: String?,
+    val superset: String?
 )
 
 
