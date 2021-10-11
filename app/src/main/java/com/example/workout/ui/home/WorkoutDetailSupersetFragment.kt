@@ -16,7 +16,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 //import com.example.workout.R
-import com.example.workout.databinding.FragmentWorkoutDetailBinding
+import com.example.workout.databinding.FragmentWorkoutDetailSupersetBinding
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.workout.HelperClass
@@ -32,12 +32,13 @@ import com.example.workout.db.Routine
 import kotlinx.coroutines.Dispatchers
 
 
-class WorkoutDetailFragment : Fragment() {
+class WorkoutDetailSupersetFragment : Fragment() {
 
     private lateinit var menuItem: MenuItem
 
-    private lateinit var binding: FragmentWorkoutDetailBinding
+    private lateinit var binding: FragmentWorkoutDetailSupersetBinding
     private lateinit var adapter: MyRecyclerViewAdapter
+    private lateinit var adapter2: MyRecyclerViewAdapter
 
     private lateinit var homeViewModel: HomeViewModel
 
@@ -54,29 +55,53 @@ class WorkoutDetailFragment : Fragment() {
         //Referenz zum ViewModel beschaffen
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
-        binding = FragmentWorkoutDetailBinding.inflate(inflater, container, false)
+        binding = FragmentWorkoutDetailSupersetBinding.inflate(inflater, container, false)
         /*binding.apply {
             viewModel = detailViewModel
             lifecycleOwner = viewLifecycleOwner
         }*/
 
-        //Listener für den Hinzufügen-Button:
-        binding.button.setOnClickListener(View.OnClickListener {
-            //navigiert zur Add-Seite und übergibt ein Array mit den aktuell vorhandenen Exercice IDs,
+        //Listener für den Hinzufügen-Button 1:
+        binding.button1.setOnClickListener(View.OnClickListener {
+            //navigiert zur Add-Seite und übergibt Nummer des Buttons sowie ein Array mit den aktuell vorhandenen Exercice IDs,
             // damit keine doppelt hinzugefügt werden können
             val args = Bundle()
+            var buttonNumber = 1
             var intarray: IntArray = IntArray(adapter.getElements().size)
 
             for ((index, value) in adapter.getElements().withIndex()) {
                 intarray[index] = value.exercice.eid
             }
 
+            args.putInt("buttonNumber", buttonNumber)
             args.putIntArray("eidArray", intarray)
             findNavController().navigate(
-                com.example.workout.R.id.navigation_workout_detail_add,
+                com.example.workout.R.id.navigation_workout_detail_superset_add,
                 args
             )
         })
+
+
+        //Listener für den Hinzufügen-Button 2:
+        binding.button2.setOnClickListener(View.OnClickListener {
+            //navigiert zur Add-Seite und übergibt Nummer des Buttons sowie ein Array mit den aktuell vorhandenen Exercice IDs,
+            // damit keine doppelt hinzugefügt werden können
+            val args = Bundle()
+            var buttonNumber = 2
+            var intarray: IntArray = IntArray(adapter2.getElements().size)
+
+            for ((index, value) in adapter2.getElements().withIndex()) {
+                intarray[index] = value.exercice.eid
+            }
+
+            args.putInt("buttonNumber", buttonNumber)
+            args.putIntArray("eidArray", intarray)
+            findNavController().navigate(
+                com.example.workout.R.id.navigation_workout_detail_superset_add,
+                args
+            )
+        })
+
 
         //Observer --> falls es Änderungen in DB gibt
         //nur wenn bestehendes Workout bearbeitet werden soll, muss mit der Datenbank abgeglichen werden.
@@ -89,12 +114,13 @@ class WorkoutDetailFragment : Fragment() {
                     HelperClass.addElementsFromDbIfNotDone(workout)
 
                     //Bestehende Daten an den Anfang der Liste setzen, dahinter kommen die neu hinzuzufügenden Elemente.
-                    adapter.addDataToBeginning()
+                    adapter.addDataToBeginning(HelperClass.workoutentriesFromDb)
+                    adapter2.addDataToBeginning(HelperClass.workoutentriesFromDb2)
                     fillWithData(workout)
                 }
 
         } else {
-            binding.toolbarDetail.title = "Neues Workout"
+            binding.toolbarDetail.title = "Neues Supersatz-Workout"
         }
 
 
@@ -145,9 +171,10 @@ class WorkoutDetailFragment : Fragment() {
                 }
 
                 val exercices = adapter.getElements()
+                val exercices2 = adapter2.getElements()
 
                 //Leere Liste vermeiden
-                if (exercices.size == 0) {
+                if (exercices.size == 0 || exercices2.size == 0) {
                     throw Exception()
                 }
 
@@ -159,12 +186,12 @@ class WorkoutDetailFragment : Fragment() {
                     var newWorkout = Workout(
                         arguments?.getInt("wid")!!,
                         name,
-                        0,
+                        1,
                         anzahl,
                         pause1,
                         pause2,
                         exercices,
-                        arrayListOf()
+                        exercices2
                     )
                     lifecycleScope.launch(Dispatchers.IO) {
                         homeViewModel.updateWorkout(
@@ -200,12 +227,12 @@ class WorkoutDetailFragment : Fragment() {
                             Workout(
                                 0,
                                 name,
-                                0,
+                                1,
                                 anzahl,
                                 pause1,
                                 pause2,
                                 exercices,
-                                arrayListOf()
+                                exercices2
                             )
                         )
                     }
@@ -224,11 +251,13 @@ class WorkoutDetailFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
+        //Adapter 1
+
         adapter = MyRecyclerViewAdapter(Workout())
         binding.apply {
-            addExerciceList.adapter = adapter
-            addExerciceList.isNestedScrollingEnabled = false
-            addExerciceList.layoutManager = LinearLayoutManager(addExerciceList.context)
+            workout1List.adapter = adapter
+            workout1List.isNestedScrollingEnabled = false
+            workout1List.layoutManager = LinearLayoutManager(workout1List.context)
 
             HelperClass.setAdapter(adapter)
 
@@ -244,9 +273,6 @@ class WorkoutDetailFragment : Fragment() {
                     HelperClass.workoutentriesToAdd.add(workoutentry)
 
                 }
-
-                //HelperClass.workoutentriesToAdd.setValue(newWorkoutentriesToAdd)
-                //Log.v("hhh", HelperClass.workoutentriesToAdd.toString())
 
 
                 //alle hinzuzufügenden Elemente aus HelperClass dem Adapter der RecyclerView hinzufügen
@@ -265,6 +291,49 @@ class WorkoutDetailFragment : Fragment() {
             }
 
         }
+
+        //Adapter 2
+
+        adapter2 = MyRecyclerViewAdapter(Workout())
+        binding.apply {
+            workout2List.adapter = adapter2
+            workout2List.isNestedScrollingEnabled = false
+            workout2List.layoutManager = LinearLayoutManager(workout2List.context)
+
+            HelperClass.setAdapter2(adapter2)
+
+            lifecycleScope.launch {
+
+                HelperClass.listToAdd2.forEach {
+
+                    //Ein neues WorkoutEntry dieser Übung in DB anlegen und ID zurückgeben lassen
+                    var id = homeViewModel.createWorkoutEntry(WorkoutEntry(exercice = it))
+
+                    //Neues WorkoutEntry mit der erhaltenen ID der HelperClass hinzufügen
+                    val workoutentry = WorkoutEntry(id.toInt(), exercice = it)
+                    HelperClass.workoutentriesToAdd2.add(workoutentry)
+
+                }
+
+
+                //alle hinzuzufügenden Elemente aus HelperClass dem Adapter der RecyclerView hinzufügen
+                HelperClass.workoutentriesToAdd2.forEach {
+                    adapter2.addElement(it)
+                }
+
+                //Elemente aus listToAdd löschen. Verwendung eines Iterators, da es
+                // sonst zu ConcurrentModificationException kommt
+                val iterator = HelperClass.listToAdd2.iterator()
+                while (iterator.hasNext()) {
+                    var ex = iterator.next()
+                    iterator.remove()
+                }
+
+            }
+
+        }
+
+
     }
 
     //füllt EditTexts aus mit bestehenden Daten aus DB
@@ -278,13 +347,15 @@ class WorkoutDetailFragment : Fragment() {
     }
 
 
+
+
     inner class MyRecyclerViewAdapter(
         private var values: Workout
     ) : RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder>(),
         WorkoutDetailFragmentAdapterInterface {
 
-        fun addDataToBeginning() {
-            this.values.exercices.addAll(0, HelperClass.workoutentriesFromDb)
+        fun addDataToBeginning(data: List<WorkoutEntry>) {
+            this.values.exercices.addAll(0, data)
             notifyDataSetChanged()
         }
 

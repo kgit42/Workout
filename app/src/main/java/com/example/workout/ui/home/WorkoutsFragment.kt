@@ -133,7 +133,13 @@ class WorkoutsFragment : Fragment() {
                 //navigiert zur Detail-Seite und übergibt das jeweilige Workout/die Routine (bzw. die ID)
                 val args = Bundle()
                 args.putInt("wid", values[position].wid)
-                holder.view.findNavController().navigate(R.id.navigation_workout_detail, args)
+
+                if(values[position].type == 0){
+                    holder.view.findNavController().navigate(R.id.navigation_workout_detail, args)
+                }else{
+                    holder.view.findNavController().navigate(R.id.navigation_workout_detail_superset, args)
+                }
+
             }
 
             //OnLongClickListener zum Löschen

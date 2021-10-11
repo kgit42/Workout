@@ -17,6 +17,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
+import android.content.DialogInterface
+import androidx.appcompat.app.AlertDialog
 
 
 class HomeFragment : Fragment() {
@@ -56,7 +58,17 @@ class HomeFragment : Fragment() {
             if (tabLayout.selectedTabPosition == ROUTINES_PAGE_INDEX){
                 findNavController().navigate(com.example.workout.R.id.navigation_routine_detail)
             }else{
-                findNavController().navigate(com.example.workout.R.id.navigation_workout_detail)
+                //Dialog: Normales Workout oder Supersatz-Workout
+
+                val builder: AlertDialog.Builder = AlertDialog.Builder(requireActivity())
+                builder.setMessage("Welchen Workout-Typ?")
+                    .setCancelable(true)
+                    .setPositiveButton("Normal",
+                        DialogInterface.OnClickListener { dialog, id ->  findNavController().navigate(com.example.workout.R.id.navigation_workout_detail)})
+                    .setNegativeButton("Supersatz",
+                        DialogInterface.OnClickListener { dialog, id ->  findNavController().navigate(com.example.workout.R.id.navigation_workout_detail_superset)})
+                val alert: AlertDialog = builder.create()
+                alert.show()
             }
 
 
@@ -70,6 +82,9 @@ class HomeFragment : Fragment() {
         HelperClass.workoutentriesToAdd.clear()
         HelperClass.workoutentriesFromDb.clear()
         HelperClass.addedFromDb = false
+        HelperClass.listToAdd2.clear()
+        HelperClass.workoutentriesToAdd2.clear()
+        HelperClass.workoutentriesFromDb2.clear()
 
         HelperClassRoutine.allWorkouts.clear()
         HelperClassRoutine.addedFromDb = false

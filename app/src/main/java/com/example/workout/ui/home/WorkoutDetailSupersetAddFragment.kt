@@ -14,18 +14,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workout.HelperClass
 import com.example.workout.R
-import com.example.workout.databinding.FragmentWorkoutDetailAddBinding
+import com.example.workout.databinding.FragmentWorkoutDetailSupersetAddBinding
 import com.example.workout.db.Exercice
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import com.example.workout.ExerciceWrapper
 
 
-class WorkoutDetailAddFragment : Fragment() {
+class WorkoutDetailSupersetAddFragment : Fragment() {
 
     private lateinit var menuItem: MenuItem
     //private val args: WorkoutDetailAddFragmentArgs by navArgs()
-    private lateinit var binding: FragmentWorkoutDetailAddBinding
+    private lateinit var binding: FragmentWorkoutDetailSupersetAddBinding
     private lateinit var adapter: MyRecyclerViewAdapter
     /*private val workout: Workout by lazy {
         args.workout
@@ -44,11 +44,8 @@ class WorkoutDetailAddFragment : Fragment() {
         //Referenz zum ViewModel beschaffen
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
-        binding = FragmentWorkoutDetailAddBinding.inflate(inflater, container, false)
-        /*binding.apply {
-            viewModel = detailViewModel
-            lifecycleOwner = viewLifecycleOwner
-        }*/
+        binding = FragmentWorkoutDetailSupersetAddBinding.inflate(inflater, container, false)
+
 
         setupRecyclerView()
         setHasOptionsMenu(true)
@@ -71,31 +68,6 @@ class WorkoutDetailAddFragment : Fragment() {
 
         onOptionsItemSelected()
 
-        /*
-        onOptionsItemSelected()
-        detailViewModel.start(workout.id)
-
-        detailViewModel.workout.observe(viewLifecycleOwner) { workout ->
-            updateMenuItemIcon(workout.isSaved)
-        }
-
-        detailViewModel.workoutTimeMillis.observe(viewLifecycleOwner) { workoutTimeMillis ->
-            binding.workoutProgress.setDuration(workoutTimeMillis)
-        }
-
-        detailViewModel.savedPausedTime.observe(viewLifecycleOwner) { savedPausedTime ->
-            detailViewModel.manageTimer(savedPausedTime)
-        }
-
-        detailViewModel.runningTime.observe(viewLifecycleOwner) {
-            binding.workoutProgress.updateProgressBar(it)
-        }
-
-        detailViewModel.pausedWorkoutTimeMillis.observe(viewLifecycleOwner) {
-            pausedTime = it
-        }
-
-         */
     }
 
     private fun setupToolbarWithNavigation() {
@@ -112,15 +84,12 @@ class WorkoutDetailAddFragment : Fragment() {
         toolbar = binding.toolbarDetail
         toolbar.setOnMenuItemClickListener {
 
-            //Der folgende Abschnitt funktioniert so nicht, da onOptionsSelected und damit setOnMenuItemClickListener
-            // augerufen wird, wenn listToAdd noch leer ist
-/*
-            Log.v("hhh", listToAdd.size.toString())
-            //Hinzufügen der gewählten Elemente aus listToAdd zur RecyclerView, aber noch immer nicht zur DB.
-            homeViewModel.listToAdd.addAll(listToAdd)
-*/
+            if(arguments?.getInt("buttonNumber") == 1){
+                HelperClass.submitList()
+            }else{
+                HelperClass.submitList2()
+            }
 
-            HelperClass.submitList()
 
             //zurück navigieren
             findNavController().navigateUp()
@@ -173,12 +142,6 @@ class WorkoutDetailAddFragment : Fragment() {
                 return super.toString() + " '" + text.text
             }
 
-            /*
-            //init-Block, um Listener für Checkbox zu setzen
-            init {
-                checkbox.setOnCheckedChangeListener { checkbox, isChecked ->
-                }
-            }*/
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
