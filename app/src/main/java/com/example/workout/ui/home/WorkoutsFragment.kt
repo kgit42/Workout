@@ -124,8 +124,12 @@ class WorkoutsFragment : Fragment() {
             }
 
 
+            if(values[position].type == 0){
+                holder.image.setImageResource(R.drawable.ic_baseline_fitness_center_24)
+            }else{
+                holder.image.setImageResource(R.drawable.ic_baseline_fitness_center_24_superset)
+            }
 
-            holder.image.setImageResource(R.drawable.ic_baseline_fitness_center_24)
 
             holder.view.setOnClickListener { v ->
                 val context = v.context

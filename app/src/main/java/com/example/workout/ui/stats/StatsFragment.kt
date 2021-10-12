@@ -21,9 +21,6 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-
-
-
 class StatsFragment : Fragment() {
 
     private lateinit var statsViewModel: StatsViewModel
@@ -49,10 +46,10 @@ class StatsFragment : Fragment() {
 
         lifecycleScope.launch {
             statsViewModel.createRoutineWorkoutStatsElement(
-                RoutineWorkoutStatsElement(0, 5, 3, "dfgdg", 0, 1633860131000)
+                RoutineWorkoutStatsElement(0, 5, 3, "dfgdg", 0, 0,1633860131000)
             )
             statsViewModel.createRoutineWorkoutStatsElement(
-                RoutineWorkoutStatsElement(0, 4, 5, "dg", 1, 1633168926000)
+                RoutineWorkoutStatsElement(0, 4, 5, "dg", 1, null,1633168926000)
             )
         }
 
@@ -184,7 +181,11 @@ class CustomExpandableListAdapter(
         category.text = "${expandedListText.length} $string1, ${expandedListText.numberSetsDone} $string2"
 
         if(expandedListText.type == 1){
-            image.setImageResource(R.drawable.ic_baseline_fitness_center_24)
+            if(expandedListText.typeWorkout == 0){
+                image.setImageResource(R.drawable.ic_baseline_fitness_center_24)
+            }else{
+                image.setImageResource(R.drawable.ic_baseline_fitness_center_24_superset)
+            }
         }else{
             image.setImageResource(R.drawable.ic_baseline_view_carousel_24)
         }

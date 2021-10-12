@@ -3,27 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/sort_by_date"
+            android:id="@+id/bauch"
+            android:contentDescription="Bauch"
+            android:title="Bauch"
+            app:showAsAction="never" />
+
+        <item
+            android:id="@+id/brust"
+            android:contentDescription="Brust"
+            android:title="Brust"
+            app:showAsAction="never" />
+
+        <item
+            android:id="@+id/oberarm"
             android:contentDescription="Oberarm"
             android:title="Oberarm"
             app:showAsAction="never" />
 
         <item
-            android:id="@+id/sort_by_name"
-            android:contentDescription="adfsf"
-            android:title="sdgf"
-            app:showAsAction="never" />
-
-        <item
-            android:id="@+id/sort_by_category"
-            android:contentDescription="sdgs"
-            android:title="sdgsgd"
-            app:showAsAction="never" />
-
-        <item
-            android:id="@+id/sort_by_time"
-            android:contentDescription="dfhdf"
-            android:title="sdsfs"
+            android:id="@+id/unterer_ruecken"
+            android:contentDescription="Unterer Rücken"
+            android:title="Unterer Rücken"
             app:showAsAction="never" />
     </group>
 </menu>

@@ -6,6 +6,9 @@ import com.example.workout.db.Workout
 import com.example.workout.db.WorkoutEntry
 import com.example.workout.ui.home.WorkoutDetailFragment
 import com.example.workout.ui.home.WorkoutDetailSupersetFragment
+import java.util.*
+import kotlin.Comparator
+import kotlin.collections.ArrayList
 
 //Klasse HelperClass dient als Zwischenspeicher von Daten, die der Nutzer anlegt,
 // die aber noch nicht endgültig in die DB geschrieben werden sollen
@@ -65,8 +68,25 @@ class HelperClass {
             if(!addedFromDb){
                 workoutentriesFromDb.addAll(workout.exercices)
                 workoutentriesFromDb2.addAll(workout.exercicesSuper)
+
+                //Liste alphabetisch sortieren
+                workoutentriesFromDb.sortWith { o1, o2 ->
+                    o1?.exercice?.name?.compareTo(
+                        o2?.exercice?.name!!,
+                        ignoreCase = true
+                    )!!
+                }
+
+                workoutentriesFromDb2.sortWith { o1, o2 ->
+                    o1?.exercice?.name?.compareTo(
+                        o2?.exercice?.name!!,
+                        ignoreCase = true
+                    )!!
+                }
+
+                addedFromDb = true
             }
-            addedFromDb = true
+
         }
 
         fun setAdapter(adapter: WorkoutDetailFragmentAdapterInterface){

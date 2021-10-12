@@ -34,9 +34,8 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways|snap"
-            app:menu="@menu/menu_sort"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:title="Übungen" />
+            app:title="Übungen" />             <!-- app:menu="@menu/menu_sort" -->
 
 
     </com.google.android.material.appbar.AppBarLayout>

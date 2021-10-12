@@ -61,7 +61,7 @@ class HomeFragment : Fragment() {
                 //Dialog: Normales Workout oder Supersatz-Workout
 
                 val builder: AlertDialog.Builder = AlertDialog.Builder(requireActivity())
-                builder.setMessage("Welchen Workout-Typ?")
+                builder.setMessage("Welcher Workout-Typ?")
                     .setCancelable(true)
                     .setPositiveButton("Normal",
                         DialogInterface.OnClickListener { dialog, id ->  findNavController().navigate(com.example.workout.R.id.navigation_workout_detail)})
@@ -116,8 +116,7 @@ class HomeFragment : Fragment() {
             object : TabLayout.ViewPagerOnTabSelectedListener(mViewPager) {
                 override fun onTabSelected(tab: TabLayout.Tab) {
                     super.onTabSelected(tab)
-                    numTab = tab.position
-                    prefs.edit().putInt("numTab", numTab).apply()
+
                 }
             })
         tabLayout.addOnTabSelectedListener(OnTabSelectedListener {
@@ -127,7 +126,7 @@ class HomeFragment : Fragment() {
 
         tabLayout.setOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
-                val position = tab.position
+
             }
         })*/
     }

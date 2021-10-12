@@ -130,7 +130,12 @@ class RoutineDetailAddFragment : Fragment() {
                 holder.category.text = "$numberExercices Übung"
             }
 
-            holder.image.setImageResource(R.drawable.ic_baseline_fitness_center_24)
+            if(values[position].type == 0){
+                holder.image.setImageResource(R.drawable.ic_baseline_fitness_center_24)
+            }else{
+                holder.image.setImageResource(R.drawable.ic_baseline_fitness_center_24_superset)
+            }
+
 
             holder.view.setOnClickListener { v ->
 

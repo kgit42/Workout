@@ -37,7 +37,6 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
     private var mItemTouchHelper: ItemTouchHelper? = null
 
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -139,11 +138,11 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
                 val name = binding.nameRoutine.text.toString()
                 val pause1 = Integer.parseInt(binding.restWorkouts.text.toString())
 
-                if(pause1 < 5){
+                if (pause1 < 5) {
                     throw Exception()
                 }
 
-                if(name == "") {
+                if (name == "") {
                     throw Exception()
                 }
 
@@ -217,10 +216,10 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
             mItemTouchHelper!!.attachToRecyclerView(addWorkoutsList)
 
 
-                //alle hinzuzufügenden Elemente aus HelperClass dem Adapter der RecyclerView hinzufügen
-                HelperClassRoutine.allWorkouts.forEach {
-                    adapter.addElement(it)
-                }
+            //alle hinzuzufügenden Elemente aus HelperClass dem Adapter der RecyclerView hinzufügen
+            HelperClassRoutine.allWorkouts.forEach {
+                adapter.addElement(it)
+            }
 
 
         }
@@ -258,7 +257,7 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
             notifyItemInserted(values.workouts.size - 1);
         }
 
-        fun removeElement(element: Workout){
+        fun removeElement(element: Workout) {
             this.values.workouts.remove(element)
             notifyDataSetChanged()
         }
@@ -266,7 +265,6 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
         fun getElements(): ArrayList<Workout> {
             return values.workouts
         }
-
 
 
         inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -295,16 +293,20 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
             holder.text.text = values.workouts[position].name
 
             val numberExercices = values.workouts[position].exercices.size
-            if(numberExercices > 1){
+            if (numberExercices > 1) {
                 holder.category.text = "$numberExercices Übungen"
-            }else{
+            } else {
                 holder.category.text = "$numberExercices Übung"
             }
 
-            holder.image.setImageResource(R.drawable.ic_baseline_fitness_center_24)
+            if (values.workouts[position].type == 0) {
+                holder.image.setImageResource(R.drawable.ic_baseline_fitness_center_24)
+            } else {
+                holder.image.setImageResource(R.drawable.ic_baseline_fitness_center_24_superset)
+            }
 
             //OnLongClickListener zum Löschen
-            holder.view.setOnLongClickListener{ v ->
+            holder.view.setOnLongClickListener { v ->
                 val dialog = DeleteDialogFragment()
                 val args = Bundle()
                 args.putInt("wid+", values.workouts[position].wid)
@@ -332,7 +334,10 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
             val prev: Workout = values.workouts.removeAt(fromPosition)
             HelperClassRoutine.allWorkouts.removeAt(fromPosition)
             values.workouts.add(if (toPosition > fromPosition) toPosition - 1 else toPosition, prev)
-            HelperClassRoutine.allWorkouts.add(if (toPosition > fromPosition) toPosition - 1 else toPosition, prev)
+            HelperClassRoutine.allWorkouts.add(
+                if (toPosition > fromPosition) toPosition - 1 else toPosition,
+                prev
+            )
             notifyItemMoved(fromPosition, toPosition)
 
             return true
