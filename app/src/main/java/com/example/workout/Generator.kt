@@ -270,6 +270,7 @@ class Generator(
                             supersetInd = null
                         }
 
+                        //Exercice-Model zu JSON-Struktur hinzufügen
                         json.workouts[index0].exercices.add(
                             ExerciceModel(
                                 randomExercice.eid.toString(),
@@ -277,6 +278,7 @@ class Generator(
                             )
                         )
 
+                        //bei Supersatz-Workout weitere Exercice-Models hinzufügen
                         if(workout.type == 1){
                             //10s Pause bei Supersatz
                             json.workouts[index0].exercices.add(
@@ -288,7 +290,7 @@ class Generator(
                             json.workouts[index0].exercices.add(
                                 ExerciceModel(
                                     randomExercice2.eid.toString(),
-                                    newLength2.toString(), power, entry.innerRest.toString(), j.toString(), "Übung B"
+                                    newLength2.toString(), power, entry2.innerRest.toString(), j.toString(), "Übung B"
                                 )
                             )
                         }
