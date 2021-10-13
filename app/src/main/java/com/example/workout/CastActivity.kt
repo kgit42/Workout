@@ -32,6 +32,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.IOException
 import org.json.JSONObject
+import com.google.android.gms.cast.framework.CastContext
 
 
 class CastActivity : AppCompatActivity() {
@@ -47,7 +48,7 @@ class CastActivity : AppCompatActivity() {
     private val mCustomChannel: CustomChannel = CustomChannel()
     private val mCustomChannel2: CustomChannel2 = CustomChannel2()
 
-    private var pauseButton: Button? = null
+    private val mMyCastStateListener: CastStateListener = MyCastStateListener()
 
 
     private inner class SessionManagerListenerImpl : SessionManagerListener<CastSession> {
@@ -192,15 +193,19 @@ class CastActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
 
 
+        //CastContext
         val castContext = CastContext.getSharedInstance(this)
         mSessionManager = castContext.sessionManager
 
-        pauseButton = findViewById(R.id.buttonPause)
+        //CastStateListener: https://developers.google.com/android/reference/com/google/android/gms/cast/framework/CastState
+        //https://developers.google.com/android/reference/com/google/android/gms/cast/framework/CastStateListener
+        //https://developers.google.com/android/reference/com/google/android/gms/cast/framework/CastState
+        castContext.addCastStateListener(mMyCastStateListener)
 
 
         //OnClickListener der Buttons:
 
-
+        val pauseButton: Button = findViewById(R.id.buttonPause)
         pauseButton?.setOnClickListener { v ->
             /*
             if (pauseButton?.text == "Pause") {
@@ -248,7 +253,14 @@ class CastActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+
+        /*
+        val intent = intent
+        mSessionManager.startSession(intent)
+         */
+
         mCastSession = mSessionManager.currentCastSession
+
 
         //Fernbedienung anzeigen, wenn Activity fortgeführt wird
         if (mCastSession?.isConnected == true) {
@@ -256,6 +268,9 @@ class CastActivity : AppCompatActivity() {
         }
 
         mSessionManager.addSessionManagerListener(mSessionManagerListener, CastSession::class.java)
+
+        //CastListener: https://developers.google.com/android/reference/com/google/android/gms/cast/Cast.Listener
+        //mCastSession.addCastListener()
     }
 
 
@@ -267,9 +282,14 @@ class CastActivity : AppCompatActivity() {
             mSessionManagerListener,
             CastSession::class.java
         )
-        mCastSession = null
+        //mCastSession = null
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+        //mSessionManager.endCurrentSession(false)
+    }
 
 
     //Cast-Button anzeigen
@@ -293,7 +313,11 @@ class CastActivity : AppCompatActivity() {
                         ?.setResultCallback { status ->
                             if (!status.isSuccess) {
                                 Log.e("hhh", "Sending message failed")
-                                Snackbar.make(binding.root, "Senden fehlgeschlagen", Snackbar.LENGTH_LONG)
+                                Snackbar.make(
+                                    binding.root,
+                                    "Senden fehlgeschlagen",
+                                    Snackbar.LENGTH_LONG
+                                )
                                     .setAction("Action", null).show()
                             } else {
                                 Log.v("hhh", "Sending successful")
@@ -310,7 +334,11 @@ class CastActivity : AppCompatActivity() {
                         ?.setResultCallback { status ->
                             if (!status.isSuccess) {
                                 Log.e("hhh", "Sending message failed")
-                                Snackbar.make(binding.root, "Senden fehlgeschlagen", Snackbar.LENGTH_LONG)
+                                Snackbar.make(
+                                    binding.root,
+                                    "Senden fehlgeschlagen",
+                                    Snackbar.LENGTH_LONG
+                                )
                                     .setAction("Action", null).show()
                             } else {
                                 Log.v("hhh", "Sending successful")
@@ -352,12 +380,12 @@ class CastActivity : AppCompatActivity() {
         message.visibility = View.VISIBLE
     }
 
-    private fun showLoading(){
+    private fun showLoading() {
         val progressbar: ProgressBar = findViewById(R.id.progressBar2)
         progressbar.visibility = View.VISIBLE
     }
 
-    private fun hideLoading(){
+    private fun hideLoading() {
         val progressbar: ProgressBar = findViewById(R.id.progressBar2)
         progressbar.visibility = View.INVISIBLE
     }
@@ -372,7 +400,6 @@ class CastActivity : AppCompatActivity() {
 
     }
      */
-
 
 
     /*
@@ -432,18 +459,28 @@ class CastActivity : AppCompatActivity() {
                 val name = obj.getString("name")
                 val timestamp = obj.getLong("timestamp")
 
-                val statsObject = RoutineWorkoutStatsElement(0, length, numberSetsDone, name, timestamp)
+                val statsObject =
+                    RoutineWorkoutStatsElement(0, length, numberSetsDone, name, timestamp)
 
 
                 //RoutineWorkoutStatsElement in DB einfügen
                 ProcessLifecycleOwner.get().lifecycleScope.launch {
                     withContext(Dispatchers.IO) {
-                        AppDatabase.getInstance(applicationContext).routineWorkoutStatsElementDao().insert(statsObject)
+                        AppDatabase.getInstance(applicationContext).routineWorkoutStatsElementDao()
+                            .insert(statsObject)
                     }
                 }
 
                 //Fernbedienung ausblenden
                 showMessageAndHideButtons()
+
+                //Senden, dass Daten erhalten. Receiver kann dann App beenden.
+                val outputJson: String = Gson().toJson("OK")
+                sendMessage(outputJson, 2)
+
+                //Listener entfernen (nicht nötig)
+                //mCastSession?.removeMessageReceivedCallbacks(mCustomChannel2.namespace)
+
 
                 //Activity beenden
                 finish()
@@ -453,8 +490,14 @@ class CastActivity : AppCompatActivity() {
             }
 
 
-
         }
+    }
+}
+
+
+class MyCastStateListener : CastStateListener{
+    override fun onCastStateChanged(p0: Int) {
+        Log.v("hhh", "State changed: $p0")
     }
 }
 

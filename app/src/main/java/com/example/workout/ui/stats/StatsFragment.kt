@@ -44,6 +44,7 @@ class StatsFragment : Fragment() {
 
         setupListView()
 
+        /* für Testzwecke:
         lifecycleScope.launch {
             statsViewModel.createRoutineWorkoutStatsElement(
                 RoutineWorkoutStatsElement(0, 5652, 3, "dfgdg", 1633860131000)
@@ -52,6 +53,8 @@ class StatsFragment : Fragment() {
                 RoutineWorkoutStatsElement(0, 184, 5, "dg", 1633168926000)
             )
         }
+
+         */
 
         //Observer --> falls es Änderungen in DB gibt
         statsViewModel.getAllRoutineWorkoutStatsElements()
@@ -68,9 +71,9 @@ class StatsFragment : Fragment() {
                     val mWeekNumber = calendar[Calendar.WEEK_OF_YEAR]
 
                     //Falls diese KW schon in der HashMap existiert, füge sie ein in die zugehörige MutableList.
-                    //Sonst erstelle neue MutableList und füge ein.
+                    //Sonst erstelle neue MutableList und füge ein an den Anfang der Liste.
                     if (expandableListDetail[mWeekNumber] != null) {
-                        expandableListDetail[mWeekNumber]?.add(it)
+                        expandableListDetail[mWeekNumber]?.add(0, it)
                     } else {
                         expandableListDetail[mWeekNumber] = mutableListOf(it)
                     }
@@ -139,7 +142,7 @@ class CustomExpandableListAdapter(
     }
 
     override fun getChild(listPosition: Int, expandedListPosition: Int): Any? {
-        return expandableListDetail[expandableListTitle[listPosition]]
+        return expandableListDetail[expandableListTitle[expandableListTitle.size - listPosition - 1]]
             ?.get(expandedListPosition)
     }
 
@@ -201,7 +204,7 @@ class CustomExpandableListAdapter(
          */
 
         //Datum & Zeit formatieren
-        val format = SimpleDateFormat("dd.MM.yyyy hh:mm")
+        val format = SimpleDateFormat("dd.MM.yyyy HH:mm")
         format.timeZone = TimeZone.getTimeZone("Europe/Berlin")
 
         time.text = format.format(calendar.time)
@@ -212,12 +215,12 @@ class CustomExpandableListAdapter(
     }
 
     override fun getChildrenCount(listPosition: Int): Int {
-        return expandableListDetail[expandableListTitle[listPosition]]
+        return expandableListDetail[expandableListTitle[expandableListTitle.size - listPosition - 1]]
             ?.size!!
     }
 
     override fun getGroup(listPosition: Int): Any {
-        return expandableListTitle[listPosition]
+        return expandableListTitle[expandableListTitle.size - listPosition - 1]
     }
 
     override fun getGroupCount(): Int {
