@@ -12,17 +12,24 @@ import android.widget.TextView
 import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.workout.databinding.ActivityCastBinding
+import com.example.workout.db.AppDatabase
+import com.example.workout.db.RoutineWorkoutStatsElement
 import com.google.android.gms.cast.Cast
 import com.google.android.gms.cast.CastDevice
 import com.google.android.gms.cast.MediaLoadRequestData
 import com.google.android.gms.cast.framework.*
 import com.google.android.gms.cast.framework.media.RemoteMediaClient
 import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.IOException
 import org.json.JSONObject
 
@@ -406,7 +413,7 @@ class CastActivity : AppCompatActivity() {
         }
     }
 
-    //Zweiter Channel
+    //Zweiter Channel. Empfängt die Nachricht über erfolgreichen Abschluss der Routine.
     inner class CustomChannel2 : Cast.MessageReceivedCallback {
         val namespace: String
             //Namespace
@@ -415,28 +422,36 @@ class CastActivity : AppCompatActivity() {
         override fun onMessageReceived(castDevice: CastDevice, namespace: String, message: String) {
             Log.v("hhh", "onMessageReceived (Channel 2): $message")
 
-            /*
+
             //Annahme einer Nachricht in JSON:
             val obj = JSONObject(message)
 
-            //Die Beschriftung des Pause-Buttons ändern:
-
             try {
-                if (obj.getString("pause") == "OK") {
-                    changeTextPauseButton()
+                val length = obj.getInt("length")
+                val numberSetsDone = obj.getInt("numberSetsDone")
+                val name = obj.getString("name")
+                val timestamp = obj.getLong("timestamp")
+
+                val statsObject = RoutineWorkoutStatsElement(0, length, numberSetsDone, name, timestamp)
+
+
+                //RoutineWorkoutStatsElement in DB einfügen
+                ProcessLifecycleOwner.get().lifecycleScope.launch {
+                    withContext(Dispatchers.IO) {
+                        AppDatabase.getInstance(applicationContext).routineWorkoutStatsElementDao().insert(statsObject)
+                    }
                 }
+
+                //Fernbedienung ausblenden
+                showMessageAndHideButtons()
+
+                //Activity beenden
+                finish()
+
             } catch (e: Exception) {
 
             }
 
-            try {
-                if (obj.getString("continue") == "OK") {
-                    changeTextPauseButton()
-                }
-            } catch (e: Exception) {
-
-            }
-             */
 
 
         }
