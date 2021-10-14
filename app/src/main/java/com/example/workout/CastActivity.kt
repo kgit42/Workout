@@ -1,7 +1,10 @@
 package com.example.workout
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.util.Log
 import android.view.Menu
 import android.view.View
@@ -219,12 +222,17 @@ class CastActivity : AppCompatActivity() {
             val outputJson: String = Gson().toJson("PAUSE")
             sendMessage(outputJson, 2)
 
+            vibrate()
+
         }
 
         val skipButton: Button = findViewById(R.id.buttonSkip)
         skipButton.setOnClickListener { v ->
             val outputJson: String = Gson().toJson("SKIP")
             sendMessage(outputJson, 2)
+
+            vibrate()
+
         }
 
         val stopButton: Button = findViewById(R.id.buttonStop)
@@ -238,6 +246,9 @@ class CastActivity : AppCompatActivity() {
         stopButton.setOnLongClickListener { v ->
             val outputJson: String = Gson().toJson("STOP")
             sendMessage(outputJson, 2)
+
+            vibrate()
+
             return@setOnLongClickListener true
         }
 
@@ -246,6 +257,8 @@ class CastActivity : AppCompatActivity() {
         backButton.setOnClickListener { v ->
             val outputJson: String = Gson().toJson("BACK")
             sendMessage(outputJson, 2)
+
+            vibrate()
         }
 
 
@@ -288,6 +301,8 @@ class CastActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
 
+        //Die folgende Zeile beendet die Session. 'false' als Parameter sollte dabei die Receiver Anwendung nicht beenden
+        //Jedoch beendet die Receiver App, wenn keine Session mehr aktiv ist.
         //mSessionManager.endCurrentSession(false)
     }
 
@@ -388,6 +403,16 @@ class CastActivity : AppCompatActivity() {
     private fun hideLoading() {
         val progressbar: ProgressBar = findViewById(R.id.progressBar2)
         progressbar.visibility = View.INVISIBLE
+    }
+
+    //Vibration
+    private fun vibrate(){
+        val vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
+        if (Build.VERSION.SDK_INT >= 26) {
+            vibrator.vibrate(VibrationEffect.createOneShot(150, VibrationEffect.DEFAULT_AMPLITUDE));
+        }else{
+            vibrator.vibrate(150)
+        }
     }
 
     /*
