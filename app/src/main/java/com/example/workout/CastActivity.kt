@@ -295,6 +295,8 @@ class CastActivity : AppCompatActivity() {
             mSessionManagerListener,
             CastSession::class.java
         )
+
+
         //mCastSession = null
     }
 
