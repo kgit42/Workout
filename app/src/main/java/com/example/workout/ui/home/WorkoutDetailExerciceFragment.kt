@@ -24,6 +24,7 @@ import com.example.workout.R
 import com.example.workout.databinding.FragmentWorkoutDetailExerciceBinding
 import com.example.workout.db.Workout
 import com.example.workout.db.WorkoutEntry
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
@@ -74,30 +75,6 @@ class WorkoutDetailExerciceFragment : Fragment() {
 
         onOptionsItemSelected()
 
-        /*
-        detailViewModel.start(workout.id)
-
-        detailViewModel.workout.observe(viewLifecycleOwner) { workout ->
-            updateMenuItemIcon(workout.isSaved)
-        }
-
-        detailViewModel.workoutTimeMillis.observe(viewLifecycleOwner) { workoutTimeMillis ->
-            binding.workoutProgress.setDuration(workoutTimeMillis)
-        }
-
-        detailViewModel.savedPausedTime.observe(viewLifecycleOwner) { savedPausedTime ->
-            detailViewModel.manageTimer(savedPausedTime)
-        }
-
-        detailViewModel.runningTime.observe(viewLifecycleOwner) {
-            binding.workoutProgress.updateProgressBar(it)
-        }
-
-        detailViewModel.pausedWorkoutTimeMillis.observe(viewLifecycleOwner) {
-            pausedTime = it
-        }
-
-         */
     }
 
     fun fillWithData(workoutentry: WorkoutEntry){
@@ -154,6 +131,10 @@ class WorkoutDetailExerciceFragment : Fragment() {
                     binding.chip3.id -> prio = 2
                 }
 
+                if (pause!! < 5 || dauer < 5) {
+                    throw Exception()
+                }
+
                 //Noch kein DB-Aufruf, da Änderungen noch verworfen werden können
 
                 HelperClass.updateWorkoutEntry(arguments?.getInt("weid"),
@@ -165,6 +146,8 @@ class WorkoutDetailExerciceFragment : Fragment() {
 
             } catch (e: Exception) {
                 Log.v("hhh", "Error", e)
+                Snackbar.make(requireView(), "Die Eingaben sind fehlerhaft.", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show()
             }
 
 
