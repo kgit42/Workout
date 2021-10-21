@@ -131,7 +131,7 @@ class WorkoutDetailExerciceFragment : Fragment() {
                     binding.chip3.id -> prio = 2
                 }
 
-                if (pause!! < 5 || dauer < 5) {
+                if (pause != null && pause < 5 || dauer < 5) {
                     throw Exception()
                 }
 
