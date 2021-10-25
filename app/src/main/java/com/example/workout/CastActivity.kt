@@ -297,6 +297,8 @@ class CastActivity : AppCompatActivity() {
         )
 
 
+
+
         //mCastSession = null
     }
 

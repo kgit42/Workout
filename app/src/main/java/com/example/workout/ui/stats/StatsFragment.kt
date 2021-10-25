@@ -44,7 +44,7 @@ class StatsFragment : Fragment() {
 
         setupListView()
 
-        /* für Testzwecke:
+        /* //für Testzwecke:
         lifecycleScope.launch {
             statsViewModel.createRoutineWorkoutStatsElement(
                 RoutineWorkoutStatsElement(0, 5652, 3, "dfgdg", 1633860131000)
@@ -188,7 +188,7 @@ class CustomExpandableListAdapter(
             "$str, ${expandedListText.numberSetsDone} $string2"
 
 
-        image.setImageResource(R.drawable.ic_baseline_view_carousel_24)
+        image.setImageResource(R.drawable.ic_baseline_timeline_24)
 
 
         //Calendar-Klasse nutzen, um aus timestamp Datum abzuleiten:
