@@ -69,6 +69,7 @@
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
                         android:hint="Name"
+                        android:text="Mein Workout"
                         android:textSize="14sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -93,6 +94,7 @@
                         android:ems="10"
                         android:hint="Anzahl Sätze"
                         android:inputType="number"
+                        android:text="10"
                         android:textSize="14sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>

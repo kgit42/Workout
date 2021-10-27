@@ -75,20 +75,20 @@
         android:label="Supersatz-Workout xyz"
         tools:layout="@layout/fragment_workout_detail_superset">
         <action
-            android:id="@+id/action_navigation_workout_detail_superset_to_navigation_routine_detail_superset_add"
-            app:destination="@id/navigation_workout_detail_superset_add" />
-        <action
             android:id="@+id/action_navigation_workout_detail_superset_to_navigation_workout_detail_exercice"
             app:destination="@id/navigation_workout_detail_exercice" />
+        <action
+            android:id="@+id/action_navigation_workout_detail_superset_to_navigation_workout_detail_add"
+            app:destination="@id/navigation_workout_detail_add" />
     </fragment>
-
 
     <fragment
         android:id="@+id/navigation_workout_detail_superset_add"
         android:name="com.example.workout.ui.home.WorkoutDetailSupersetAddFragment"
         android:label="Übungen hinzufügen"
-        tools:layout="@layout/fragment_workout_detail_superset_add">
+        tools:layout="@layout/fragment_workout_detail_add">
     </fragment>
+
 
     <fragment
         android:id="@+id/navigation_workout_detail_exercice"

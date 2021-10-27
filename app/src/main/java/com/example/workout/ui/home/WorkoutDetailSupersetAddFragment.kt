@@ -14,18 +14,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.workout.HelperClass
 import com.example.workout.R
-import com.example.workout.databinding.FragmentWorkoutDetailSupersetAddBinding
 import com.example.workout.db.Exercice
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import com.example.workout.ExerciceWrapper
+import com.example.workout.databinding.FragmentWorkoutDetailAddBinding
 
 
 class WorkoutDetailSupersetAddFragment : Fragment() {
 
     private lateinit var menuItem: MenuItem
     //private val args: WorkoutDetailAddFragmentArgs by navArgs()
-    private lateinit var binding: FragmentWorkoutDetailSupersetAddBinding
+    private lateinit var binding: FragmentWorkoutDetailAddBinding
     private lateinit var adapter: MyRecyclerViewAdapter
     /*private val workout: Workout by lazy {
         args.workout
@@ -44,7 +44,7 @@ class WorkoutDetailSupersetAddFragment : Fragment() {
         //Referenz zum ViewModel beschaffen
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
-        binding = FragmentWorkoutDetailSupersetAddBinding.inflate(inflater, container, false)
+        binding = FragmentWorkoutDetailAddBinding.inflate(inflater, container, false)
 
 
         setupRecyclerView()

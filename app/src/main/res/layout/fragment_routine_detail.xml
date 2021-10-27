@@ -69,6 +69,7 @@
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
                         android:hint="Name"
+                        android:text="Meine Routine"
                         android:textSize="14sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
