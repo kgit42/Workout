@@ -369,8 +369,10 @@ class Generator(
 
 
             val intent = Intent(context, CastActivity::class.java)
-            //Generiertes Workout übergeben
+            //Generierte Routine übergeben
             intent.putExtra("routineJson", result)
+
+            //falls übergebene Routine zu groß ist, stürzt App ab ohne entsprechende Fehlermeldung/Excepetion
             context?.startActivity(intent)
 
 

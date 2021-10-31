@@ -136,7 +136,7 @@ class WorkoutDetailFragment : Fragment() {
                     throw Exception()
                 }
 
-                if (anzahl < 0) {
+                if (anzahl < 0 || anzahl > 1000) {
                     throw Exception()
                 }
 
