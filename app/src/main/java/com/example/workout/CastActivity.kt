@@ -191,7 +191,7 @@ class CastActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         //Bildschrim anlassen
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         setSupportActionBar(binding.toolbar)
 
@@ -209,16 +209,16 @@ class CastActivity : AppCompatActivity() {
         //OnClickListener der Buttons:
 
         val pauseButton: Button = findViewById(R.id.buttonPause)
-        pauseButton?.setOnClickListener { v ->
+        pauseButton.setOnClickListener { v ->
             /*
-            if (pauseButton?.text == "Pause") {
-                val outputJson: String = Gson().toJson("PAUSE")
-                sendMessage(outputJson, 2)
-            } else {
-                val outputJson: String = Gson().toJson("CONTINUE")
-                sendMessage(outputJson, 2)
-            }
-             */
+                if (pauseButton?.text == "Pause") {
+                    val outputJson: String = Gson().toJson("PAUSE")
+                    sendMessage(outputJson, 2)
+                } else {
+                    val outputJson: String = Gson().toJson("CONTINUE")
+                    sendMessage(outputJson, 2)
+                }
+                 */
             val outputJson: String = Gson().toJson("PAUSE")
             sendMessage(outputJson, 2)
 
@@ -413,7 +413,7 @@ class CastActivity : AppCompatActivity() {
     private fun vibrate(){
         val vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
         if (Build.VERSION.SDK_INT >= 26) {
-            vibrator.vibrate(VibrationEffect.createOneShot(150, VibrationEffect.DEFAULT_AMPLITUDE));
+            vibrator.vibrate(VibrationEffect.createOneShot(150, VibrationEffect.DEFAULT_AMPLITUDE))
         }else{
             vibrator.vibrate(150)
         }

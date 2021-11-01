@@ -298,7 +298,7 @@ class WorkoutDetailFragment : Fragment() {
         //um einzelne Elemente hinzuzufügen, BEVOR sie evtl. zur DB hinzugefügt werden
         fun addElement(element: WorkoutEntry) {
             this.values.exercices.add(element)
-            notifyItemInserted(values.exercices.size - 1);
+            notifyItemInserted(values.exercices.size - 1)
         }
 
         override fun removeElement(element: WorkoutEntry) {

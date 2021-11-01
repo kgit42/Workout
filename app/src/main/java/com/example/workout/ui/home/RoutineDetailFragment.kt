@@ -254,7 +254,7 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
         //um einzelne Elemente hinzuzufügen, BEVOR sie evtl. zur DB hinzugefügt werden
         fun addElement(element: Workout) {
             this.values.workouts.add(element)
-            notifyItemInserted(values.workouts.size - 1);
+            notifyItemInserted(values.workouts.size - 1)
         }
 
         fun removeElement(element: Workout) {
@@ -283,7 +283,7 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = LayoutInflater.from(parent.context).inflate(
-                com.example.workout.R.layout.reorder_view_item, parent, false
+                R.layout.reorder_view_item, parent, false
             )
             return ViewHolder(view)
         }

@@ -20,7 +20,6 @@ import android.support.v7.widget.helper.ItemTouchHelper
 
  */
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 
 /**
  * Interface to notify an item ViewHolder of relevant callbacks from [ ].

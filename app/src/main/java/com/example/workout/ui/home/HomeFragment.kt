@@ -56,7 +56,7 @@ class HomeFragment : Fragment() {
         binding.fab.setOnClickListener { view ->
 
             if (tabLayout.selectedTabPosition == ROUTINES_PAGE_INDEX){
-                findNavController().navigate(com.example.workout.R.id.navigation_routine_detail)
+                findNavController().navigate(R.id.navigation_routine_detail)
             }else{
                 //Dialog: Normales Workout oder Supersatz-Workout
 
@@ -64,9 +64,9 @@ class HomeFragment : Fragment() {
                 builder.setMessage("Welcher Workout-Typ?")
                     .setCancelable(true)
                     .setPositiveButton("Normal",
-                        DialogInterface.OnClickListener { dialog, id ->  findNavController().navigate(com.example.workout.R.id.navigation_workout_detail)})
+                        DialogInterface.OnClickListener { dialog, id ->  findNavController().navigate(R.id.navigation_workout_detail)})
                     .setNegativeButton("Supersatz",
-                        DialogInterface.OnClickListener { dialog, id ->  findNavController().navigate(com.example.workout.R.id.navigation_workout_detail_superset)})
+                        DialogInterface.OnClickListener { dialog, id ->  findNavController().navigate(R.id.navigation_workout_detail_superset)})
                 val alert: AlertDialog = builder.create()
                 alert.show()
             }
