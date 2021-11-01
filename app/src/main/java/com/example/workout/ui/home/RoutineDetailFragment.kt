@@ -292,13 +292,23 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
             holder.boundString = values.workouts[position].name
             holder.text.text = values.workouts[position].name
 
-            val numberExercices = values.workouts[position].exercices.size
-            if (numberExercices > 1) {
-                holder.category.text = "$numberExercices Übungen"
-            } else {
-                holder.category.text = "$numberExercices Übung"
+            //Setzen des Untertitels des jew. Listenelements
+            val numberSets = values.workouts[position].numberSets
+            if(values.workouts[position].type == 0){
+                if(numberSets!! > 1){
+                    holder.category.text = getString(R.string.number_sets_pl, numberSets)
+                }else{
+                    holder.category.text = getString(R.string.number_sets_s)
+                }
+            }else{
+                if(numberSets!! > 1){
+                    holder.category.text = getString(R.string.number_supersets_pl, numberSets)
+                }else{
+                    holder.category.text = getString(R.string.number_supersets_s)
+                }
             }
 
+            //Setzen des Bildes des jew. Listenelements
             if (values.workouts[position].type == 0) {
                 holder.image.setImageResource(R.drawable.ic_baseline_fitness_center_24)
             } else {

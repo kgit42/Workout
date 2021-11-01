@@ -123,13 +123,23 @@ class RoutineDetailAddFragment : Fragment() {
             holder.boundString = values[position].name
             holder.text.text = values[position].name
 
-            val numberExercices = values[position].exercices.size
-            if(numberExercices > 1){
-                holder.category.text = "$numberExercices Übungen"
+            //Setzen des Untertitels des jew. Listenelements
+            val numberSets = values[position].numberSets
+            if(values[position].type == 0){
+                if(numberSets!! > 1){
+                    holder.category.text = getString(R.string.number_sets_pl, numberSets)
+                }else{
+                    holder.category.text = getString(R.string.number_sets_s)
+                }
             }else{
-                holder.category.text = "$numberExercices Übung"
+                if(numberSets!! > 1){
+                    holder.category.text = getString(R.string.number_supersets_pl, numberSets)
+                }else{
+                    holder.category.text = getString(R.string.number_supersets_s)
+                }
             }
 
+            //Setzen des Bildes des jew. Listenelements
             if(values[position].type == 0){
                 holder.image.setImageResource(R.drawable.ic_baseline_fitness_center_24)
             }else{
