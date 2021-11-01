@@ -65,13 +65,13 @@ class WorkoutDetailAddFragment : Fragment() {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         setupToolbarWithNavigation()
-
         onOptionsItemSelected()
-
     }
+
 
     private fun setupToolbarWithNavigation() {
         toolbar = binding.toolbarDetail

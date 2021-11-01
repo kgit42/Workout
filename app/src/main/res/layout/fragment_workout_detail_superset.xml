@@ -68,8 +68,8 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
-                        android:hint="Name"
-                        android:text="Mein Supersatz-Workout"
+                        android:hint="@string/name"
+                        android:text="@string/superset_workout_default"
                         android:textSize="14sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -92,9 +92,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="10"
-                        android:hint="Anzahl Supersätze"
+                        android:hint="@string/number_supersets"
                         android:inputType="number"
-                        android:text="5"
+                        android:text="@string/number_supersets_default"
                         android:textSize="14sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -115,9 +115,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="10"
-                        android:hint="Pause zw. Übungen"
+                        android:hint="@string/rest_exercices_c"
                         android:inputType="number"
-                        android:text="60"
+                        android:text="@string/rest_exercices_default"
                         android:textSize="14sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -138,9 +138,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="10"
-                        android:hint="Pause zw. Sätzen"
+                        android:hint="@string/rest_sets"
                         android:inputType="number"
-                        android:text="60"
+                        android:text="@string/rest_sets_default"
                         android:textSize="14sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -160,7 +160,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="Übungen 1"
+                    android:text="@string/exercices_1"
                     android:textSize="20sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view" />
@@ -181,7 +181,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    android:text="Hinzufügen"
+                    android:text="@string/add"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view" />
 
@@ -199,7 +199,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="Übungen 2"
+                    android:text="@string/exercices_2"
                     android:textSize="20sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/view2" />
@@ -219,7 +219,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    android:text="Hinzufügen"
+                    android:text="@string/add"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/view2" />
 

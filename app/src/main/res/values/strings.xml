@@ -10,6 +10,46 @@
     <string name="number_supersets_pl">%1$d Supersätze</string>
     <string name="number_supersets_s">1 Supersatz</string>
 
+    <string name="pause">Pause/Weiter</string>
+    <string name="skip">Überspringen</string>
+    <string name="back">Zurück</string>
+    <string name="stop">Stop</string>
+    <string name="instr">Zum Verbinden mit Chromecast oben rechts auf den Button tippen.</string>
+    <string name="name">Name</string>
+    <string name="routine_default">Meine Routine</string>
+    <string name="workout_default">Mein Workout</string>
+    <string name="superset_workout_default">Mein Supersatz-Workout</string>
+    <string name="rest_workouts">Pause zwischen Workouts</string>
+    <string name="rest_workouts_default">120</string>
+    <string name="workouts">Workouts</string>
+    <string name="add">Hinzufügen</string>
+    <string name="number_sets">Anzahl Sätze</string>
+    <string name="number_sets_default">10</string>
+    <string name="rest_exercices">Pause zw. Übungen</string>
+    <string name="rest_exercices_c">Pause zw. Übungskombinationen</string>
+    <string name="rest_exercices_default">60</string>
+    <string name="rest_sets">Pause zw. Sätzen</string>
+    <string name="rest_sets_default">60</string>
+    <string name="exercices">Übungen</string>
+    <string name="exercices_1">Übungen 1</string>
+    <string name="exercices_2">Übungen 2</string>
+    <string name="length">Dauer</string>
+    <string name="rest_inner">Pause bei doppelseitigen Übungen</string>
+    <string name="multiplesets">Mehrsatzübung</string>
+    <string name="priority">Priorität</string>
+    <string name="switch_1">Niedrig</string>
+    <string name="switch_2">Mittel</string>
+    <string name="switch_3">Hoch</string>
+    <string name="number_supersets">Anzahl Supersätze</string>
+    <string name="number_supersets_default">5</string>
+
+    <string name="save">Speichern</string>
+    
+    <string name="start">Start</string>
+
+
+
+
 
 
     <!--

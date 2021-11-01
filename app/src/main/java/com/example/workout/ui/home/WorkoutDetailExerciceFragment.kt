@@ -69,13 +69,13 @@ class WorkoutDetailExerciceFragment : Fragment() {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         setupToolbarWithNavigation()
-
         onOptionsItemSelected()
-
     }
+
 
     fun fillWithData(workoutentry: WorkoutEntry){
         binding.dauer.setText(workoutentry.length.toString())

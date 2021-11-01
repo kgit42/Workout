@@ -56,11 +56,12 @@ class RoutineDetailAddFragment : Fragment() {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        setupToolbarWithNavigation()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
+        setupToolbarWithNavigation()
     }
+
 
     private fun setupToolbarWithNavigation() {
         toolbar = binding.toolbarDetail

@@ -86,38 +86,13 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
     }
 
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         setupToolbarWithNavigation()
-
         onOptionsItemSelected()
-
-
-        /*
-        detailViewModel.start(workout.id)
-
-        detailViewModel.workout.observe(viewLifecycleOwner) { workout ->
-            updateMenuItemIcon(workout.isSaved)
-        }
-
-        detailViewModel.workoutTimeMillis.observe(viewLifecycleOwner) { workoutTimeMillis ->
-            binding.workoutProgress.setDuration(workoutTimeMillis)
-        }
-
-        detailViewModel.savedPausedTime.observe(viewLifecycleOwner) { savedPausedTime ->
-            detailViewModel.manageTimer(savedPausedTime)
-        }
-
-        detailViewModel.runningTime.observe(viewLifecycleOwner) {
-            binding.workoutProgress.updateProgressBar(it)
-        }
-
-        detailViewModel.pausedWorkoutTimeMillis.observe(viewLifecycleOwner) {
-            pausedTime = it
-        }
-
-         */
     }
+
 
     private fun setupToolbarWithNavigation() {
         toolbar = binding.toolbarDetail
