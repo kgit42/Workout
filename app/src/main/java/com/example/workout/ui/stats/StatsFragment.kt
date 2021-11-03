@@ -13,10 +13,8 @@ import android.util.Log
 import android.widget.*
 import com.example.workout.db.RoutineWorkoutStatsElement
 
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.launch
+import com.example.workout.ui.home.DeleteDialogFragment
 import java.text.SimpleDateFormat
-import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -123,164 +121,179 @@ class StatsFragment : Fragment() {
     }
 
 
+    inner class CustomExpandableListAdapter(
+        private val context: Context, private var expandableListTitle: List<Int>,
+        private var expandableListDetail: HashMap<Int, MutableList<RoutineWorkoutStatsElement>>
+    ) : BaseExpandableListAdapter() {
+
+        //um vom ViewModel aus Daten zu ändern
+        fun setData(
+            newDataDetail: HashMap<Int, MutableList<RoutineWorkoutStatsElement>>,
+            newDataTitle: List<Int>
+        ) {
+            this.expandableListDetail = newDataDetail
+            this.expandableListTitle = newDataTitle
+            notifyDataSetChanged()
+        }
+
+        override fun getChild(listPosition: Int, expandedListPosition: Int): Any? {
+            return expandableListDetail[expandableListTitle[expandableListTitle.size - listPosition - 1]]
+                ?.get(expandedListPosition)
+        }
+
+        override fun getChildId(listPosition: Int, expandedListPosition: Int): Long {
+            return expandedListPosition.toLong()
+        }
+
+        //View des untergeordneten Elementes
+        override fun getChildView(
+            listPosition: Int, expandedListPosition: Int,
+            isLastChild: Boolean, convertView: View?, parent: ViewGroup
+        ): View {
+            var convertView = convertView
+            val childElement =
+                getChild(listPosition, expandedListPosition) as RoutineWorkoutStatsElement
+            if (convertView == null) {
+                val layoutInflater = context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                convertView = layoutInflater.inflate(R.layout.stats_view_item, null)
+            }
+
+            val image: ImageView = convertView?.findViewById(R.id.item_image)!!
+            val text: TextView = convertView?.findViewById(R.id.item_title)!!
+            val category: TextView = convertView?.findViewById(R.id.item_category)!!
+            val time: TextView = convertView?.findViewById(R.id.item_time)!!
+
+            text.text = childElement.name
+
+            var string2: String
+
+            if (childElement.numberSetsDone!! > 1 || childElement.numberSetsDone == 0) {
+                string2 = "Sätze"
+            } else {
+                string2 = "Satz"
+            }
+
+            val str = String.format(
+                "%d:%02d", childElement.length?.div(60),
+                childElement.length?.rem(60)
+            )
+
+            category.text =
+                "$str, ${childElement.numberSetsDone} $string2"
+
+
+            image.setImageResource(R.drawable.ic_baseline_timeline_24)
+
+
+            //Calendar-Klasse nutzen, um aus timestamp Datum abzuleiten:
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = childElement.timestamp!!
+
+            /*
+            val mYear = calendar[Calendar.YEAR]
+            val mMonth = calendar[Calendar.MONTH]
+            val mDay = calendar[Calendar.DAY_OF_MONTH]
+            val mHours = calendar[Calendar.HOUR]
+            val mMinutes = calendar[Calendar.MINUTE]
+             */
+
+            //Datum & Zeit formatieren
+            val format = SimpleDateFormat("dd.MM.yyyy HH:mm")
+            format.timeZone = TimeZone.getTimeZone("Europe/Berlin")
+
+            time.text = format.format(calendar.time)
+
+
+            //OnLongClickListener zum Löschen
+            convertView.setOnLongClickListener { v ->
+                val dialog = DeleteDialogFragment()
+                val args = Bundle()
+                args.putInt("rid", childElement.seid)
+                dialog.arguments = args
+
+                dialog.show(childFragmentManager, "")
+                return@setOnLongClickListener true
+            }
+
+
+
+            return convertView
+        }
+
+        override fun getChildrenCount(listPosition: Int): Int {
+            return expandableListDetail[expandableListTitle[expandableListTitle.size - listPosition - 1]]
+                ?.size!!
+        }
+
+        override fun getGroup(listPosition: Int): Any {
+            return expandableListTitle[expandableListTitle.size - listPosition - 1]
+        }
+
+        override fun getGroupCount(): Int {
+            return expandableListTitle.size
+        }
+
+        override fun getGroupId(listPosition: Int): Long {
+            return listPosition.toLong()
+        }
+
+        //View des übergeordneteten Elementes
+        override fun getGroupView(
+            listPosition: Int, isExpanded: Boolean,
+            convertView: View?, parent: ViewGroup
+        ): View {
+            var convertView = convertView
+            val groupElement = getGroup(listPosition) as Int
+            if (convertView == null) {
+                val layoutInflater =
+                    context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                convertView = layoutInflater.inflate(R.layout.stats_view_item_group, null)
+            }
+
+            //val image: ImageView = view.findViewById(R.id.item_image)
+            val text: TextView = convertView?.findViewById(R.id.item_title)!!
+            val category: TextView = convertView?.findViewById(R.id.item_category)!!
+
+            //Anzahl der Sätze und Sekunden insgesamt berechnen
+            var counterSeconds = 0
+            var counterSets = 0
+
+            expandableListDetail[groupElement]?.forEach {
+                counterSeconds += it.length!!
+                counterSets += it.numberSetsDone!!
+            }
+
+            var string2: String
+
+            if (counterSets > 1 || counterSets == 0) {
+                string2 = "Sätze"
+            } else {
+                string2 = "Satz"
+            }
+
+            val str = String.format(
+                "%d:%02d", counterSeconds?.div(60),
+                counterSeconds?.rem(60)
+            )
+
+            text.text = "KW ${groupElement.toString()}"
+            category.text = "$str, $counterSets $string2"
+
+            return convertView
+        }
+
+        override fun hasStableIds(): Boolean {
+            return false
+        }
+
+        override fun isChildSelectable(listPosition: Int, expandedListPosition: Int): Boolean {
+            return true
+        }
+    }
+
+
+
+
 }
 
-
-class CustomExpandableListAdapter(
-    private val context: Context, private var expandableListTitle: List<Int>,
-    private var expandableListDetail: HashMap<Int, MutableList<RoutineWorkoutStatsElement>>
-) : BaseExpandableListAdapter() {
-
-    //um vom ViewModel aus Daten zu ändern
-    fun setData(
-        newDataDetail: HashMap<Int, MutableList<RoutineWorkoutStatsElement>>,
-        newDataTitle: List<Int>
-    ) {
-        this.expandableListDetail = newDataDetail
-        this.expandableListTitle = newDataTitle
-        notifyDataSetChanged()
-    }
-
-    override fun getChild(listPosition: Int, expandedListPosition: Int): Any? {
-        return expandableListDetail[expandableListTitle[expandableListTitle.size - listPosition - 1]]
-            ?.get(expandedListPosition)
-    }
-
-    override fun getChildId(listPosition: Int, expandedListPosition: Int): Long {
-        return expandedListPosition.toLong()
-    }
-
-    //View des untergeordneten Elementes
-    override fun getChildView(
-        listPosition: Int, expandedListPosition: Int,
-        isLastChild: Boolean, convertView: View?, parent: ViewGroup
-    ): View {
-        var convertView = convertView
-        val expandedListText =
-            getChild(listPosition, expandedListPosition) as RoutineWorkoutStatsElement
-        if (convertView == null) {
-            val layoutInflater = context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            convertView = layoutInflater.inflate(R.layout.stats_view_item, null)
-        }
-
-        val image: ImageView = convertView?.findViewById(R.id.item_image)!!
-        val text: TextView = convertView?.findViewById(R.id.item_title)!!
-        val category: TextView = convertView?.findViewById(R.id.item_category)!!
-        val time: TextView = convertView?.findViewById(R.id.item_time)!!
-
-        text.text = expandedListText.name
-
-        var string2: String
-
-        if (expandedListText.numberSetsDone!! > 1 || expandedListText.numberSetsDone == 0) {
-            string2 = "Sätze"
-        } else {
-            string2 = "Satz"
-        }
-
-        val str = String.format(
-            "%d:%02d", expandedListText.length?.div(60),
-            expandedListText.length?.rem(60)
-        )
-
-        category.text =
-            "$str, ${expandedListText.numberSetsDone} $string2"
-
-
-        image.setImageResource(R.drawable.ic_baseline_timeline_24)
-
-
-        //Calendar-Klasse nutzen, um aus timestamp Datum abzuleiten:
-        val calendar = Calendar.getInstance()
-        calendar.timeInMillis = expandedListText.timestamp!!
-
-        /*
-        val mYear = calendar[Calendar.YEAR]
-        val mMonth = calendar[Calendar.MONTH]
-        val mDay = calendar[Calendar.DAY_OF_MONTH]
-        val mHours = calendar[Calendar.HOUR]
-        val mMinutes = calendar[Calendar.MINUTE]
-         */
-
-        //Datum & Zeit formatieren
-        val format = SimpleDateFormat("dd.MM.yyyy HH:mm")
-        format.timeZone = TimeZone.getTimeZone("Europe/Berlin")
-
-        time.text = format.format(calendar.time)
-
-
-
-        return convertView
-    }
-
-    override fun getChildrenCount(listPosition: Int): Int {
-        return expandableListDetail[expandableListTitle[expandableListTitle.size - listPosition - 1]]
-            ?.size!!
-    }
-
-    override fun getGroup(listPosition: Int): Any {
-        return expandableListTitle[expandableListTitle.size - listPosition - 1]
-    }
-
-    override fun getGroupCount(): Int {
-        return expandableListTitle.size
-    }
-
-    override fun getGroupId(listPosition: Int): Long {
-        return listPosition.toLong()
-    }
-
-    //View des übergeordneteten Elementes
-    override fun getGroupView(
-        listPosition: Int, isExpanded: Boolean,
-        convertView: View?, parent: ViewGroup
-    ): View {
-        var convertView = convertView
-        val listTitle = getGroup(listPosition) as Int
-        if (convertView == null) {
-            val layoutInflater =
-                context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            convertView = layoutInflater.inflate(R.layout.stats_view_item_group, null)
-        }
-
-        //val image: ImageView = view.findViewById(R.id.item_image)
-        val text: TextView = convertView?.findViewById(R.id.item_title)!!
-        val category: TextView = convertView?.findViewById(R.id.item_category)!!
-
-        //Anzahl der Sätze und Sekunden insgesamt berechnen
-        var counterSeconds = 0
-        var counterSets = 0
-
-        expandableListDetail[listTitle]?.forEach {
-            counterSeconds += it.length!!
-            counterSets += it.numberSetsDone!!
-        }
-
-        var string2: String
-
-        if (counterSets > 1 || counterSets == 0) {
-            string2 = "Sätze"
-        } else {
-            string2 = "Satz"
-        }
-
-        val str = String.format(
-            "%d:%02d", counterSeconds?.div(60),
-            counterSeconds?.rem(60)
-        )
-
-        text.text = "KW ${listTitle.toString()}"
-        category.text = "$str, $counterSets $string2"
-
-        return convertView
-    }
-
-    override fun hasStableIds(): Boolean {
-        return false
-    }
-
-    override fun isChildSelectable(listPosition: Int, expandedListPosition: Int): Boolean {
-        return true
-    }
-}

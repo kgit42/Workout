@@ -16,16 +16,19 @@ import com.example.workout.HelperClassRoutine
 import com.example.workout.R
 import com.example.workout.db.Routine
 import com.example.workout.db.Workout
+import com.example.workout.ui.stats.StatsViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class DeleteDialogFragment : DialogFragment() {
 
     private lateinit var homeViewModel: HomeViewModel
+    private lateinit var statsViewModel: StatsViewModel
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         //Referenz zum ViewModel beschaffen
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        statsViewModel = ViewModelProvider(this).get(StatsViewModel::class.java)
 
         return activity?.let {
             // Use the Builder class for convenient dialog construction
@@ -83,6 +86,14 @@ class DeleteDialogFragment : DialogFragment() {
                         if(arguments?.getInt("wid+") != 0){
                             HelperClassRoutine.deleteWorkout(arguments?.getInt("wid+"))
 
+                        }
+
+                        //RoutineWorkoutStatsElement löschen
+                        if(arguments?.getInt("seid") != 0){
+                            //DB-Aufruf
+                            lifecycleScope.launch {
+                                statsViewModel.deleteRoutineWorkoutStatsElement(arguments?.getInt("seid")!!)
+                            }
                         }
 
 

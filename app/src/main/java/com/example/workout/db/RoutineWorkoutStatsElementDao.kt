@@ -11,4 +11,7 @@ interface RoutineWorkoutStatsElementDao {
 
     @Insert
     fun insert(routineWorkoutStatsElement: RoutineWorkoutStatsElement)
+
+    @Query("DELETE FROM routineworkoutstatselement WHERE seid = (:seid)")
+    fun delete(seid: Int)
 }
