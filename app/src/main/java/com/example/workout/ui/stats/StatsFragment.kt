@@ -209,7 +209,7 @@ class StatsFragment : Fragment() {
             convertView.setOnLongClickListener { v ->
                 val dialog = DeleteDialogFragment()
                 val args = Bundle()
-                args.putInt("rid", childElement.seid)
+                args.putInt("seid", childElement.seid)
                 dialog.arguments = args
 
                 dialog.show(childFragmentManager, "")
