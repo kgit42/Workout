@@ -73,6 +73,7 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
                     //RecyclerView aktualisieren
                     setupRecyclerView()
 
+                    //Textboxen befüllen
                     fillWithData(routine)
                 }
 

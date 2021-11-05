@@ -90,6 +90,8 @@ class WorkoutDetailFragment : Fragment() {
 
                     //Bestehende Daten an den Anfang der Liste setzen, dahinter kommen die neu hinzuzufügenden Elemente.
                     adapter.addDataToBeginning()
+
+                    //Textboxen befüllen
                     fillWithData(workout)
                 }
 
