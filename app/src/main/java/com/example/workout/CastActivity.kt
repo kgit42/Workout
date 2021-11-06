@@ -50,6 +50,7 @@ class CastActivity : AppCompatActivity() {
 
     private val mCustomChannel: CustomChannel = CustomChannel()
     private val mCustomChannel2: CustomChannel2 = CustomChannel2()
+    private val mCustomChannelDebug: CustomChannelDebug = CustomChannelDebug()
 
     private val mMyCastStateListener: CastStateListener = MyCastStateListener()
 
@@ -80,6 +81,17 @@ class CastActivity : AppCompatActivity() {
                 )
             } catch (e: IOException) {
                 Log.e("hhh", "Exception while creating channel 2", e)
+            } catch (e: Exception) {
+                Log.e("hhh", "Exception", e)
+            }
+
+            try {
+                mCastSession?.setMessageReceivedCallbacks(
+                    mCustomChannelDebug.namespace,
+                    mCustomChannelDebug
+                )
+            } catch (e: IOException) {
+                Log.e("hhh", "Exception while creating channel debug", e)
             } catch (e: Exception) {
                 Log.e("hhh", "Exception", e)
             }
@@ -137,6 +149,17 @@ class CastActivity : AppCompatActivity() {
                 )
             } catch (e: IOException) {
                 Log.e("hhh", "Exception while creating channel 2", e)
+            } catch (e: Exception) {
+                Log.e("hhh", "Exception", e)
+            }
+
+            try {
+                mCastSession?.setMessageReceivedCallbacks(
+                    mCustomChannelDebug.namespace,
+                    mCustomChannelDebug
+                )
+            } catch (e: IOException) {
+                Log.e("hhh", "Exception while creating channel debug", e)
             } catch (e: Exception) {
                 Log.e("hhh", "Exception", e)
             }
@@ -297,8 +320,6 @@ class CastActivity : AppCompatActivity() {
         )
 
 
-
-
         //mCastSession = null
     }
 
@@ -308,6 +329,10 @@ class CastActivity : AppCompatActivity() {
         //Die folgende Zeile beendet die Session. 'false' als Parameter sollte dabei die Receiver Anwendung nicht beenden
         //Jedoch beendet die Receiver App, wenn keine Session mehr aktiv ist.
         //mSessionManager.endCurrentSession(false)
+    }
+
+    override fun onBackPressed() {
+        //nichts tun, um zu verhindern, dass Back-Button betätigt wird und so Activity destroyed wird
     }
 
 
@@ -518,6 +543,18 @@ class CastActivity : AppCompatActivity() {
 
             }
 
+
+        }
+    }
+
+    //Debug-Channel
+    inner class CustomChannelDebug : Cast.MessageReceivedCallback {
+        val namespace: String
+            //Namespace
+            get() = "urn:x-cast:com.google.cast.debuglogger"
+
+        override fun onMessageReceived(castDevice: CastDevice, namespace: String, message: String) {
+            Log.v("hhh", "onMessageReceived (Channel debug): $message")
 
         }
     }
