@@ -332,7 +332,12 @@ class CastActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        //nichts tun, um zu verhindern, dass Back-Button betätigt wird und so Activity destroyed wird
+        //nichts tun, um zu verhindern, dass Back-Button betätigt wird und so Activity destroyed wird, während des Trainings
+        if (mCastSession?.isConnected == true) {
+
+        }else{
+            super.onBackPressed();
+        }
     }
 
 
