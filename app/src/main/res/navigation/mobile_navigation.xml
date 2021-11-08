@@ -56,11 +56,6 @@
         android:label="Workout xyz"
         tools:layout="@layout/fragment_workout_detail">
 
-        <!--
-        <argument
-            android:name="workout"
-            app:argType="com.ersiver.gymific.model.Workout" --> />
-
         <action
             android:id="@+id/action_navigation_workout_detail_to_navigation_workout_detail_exercice"
             app:destination="@id/navigation_workout_detail_exercice" />
@@ -95,11 +90,7 @@
         android:name="com.example.workout.ui.home.WorkoutDetailExerciceFragment"
         android:label="Übung xyz"
         tools:layout="@layout/fragment_workout_detail_exercice">
-        <!--
-        <argument
-            android:name="routine"
-            app:argType="com.ersiver.gymific.model.Workout" />
-            -->
+
     </fragment>
 
     <fragment
@@ -107,10 +98,6 @@
         android:name="com.example.workout.ui.home.WorkoutDetailAddFragment"
         android:label="Übungen hinzufügen"
         tools:layout="@layout/fragment_workout_detail_add">
-        <!--
-        <argument
-            android:name="routine"
-            app:argType="com.ersiver.gymific.model.Workout" />
-            -->
+
     </fragment>
 </navigation>

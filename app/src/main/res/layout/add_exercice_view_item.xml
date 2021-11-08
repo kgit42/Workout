@@ -3,17 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!--
-    <data>
-        <variable
-            name="workout"
-            type="com.ersiver.gymific.model.Workout" />
 
-        <variable
-            name="clickListener"
-            type="android.view.View.OnClickListener"/>
-
-    </data>     -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/item_container"
         android:layout_width="match_parent"

@@ -131,7 +131,7 @@ class Generator(
                     }
 
 
-                    //passendes WorkoutEntry-Element finden
+                    //zugehöriges WorkoutEntry-Element finden
                     lateinit var entry: WorkoutEntry
                     for ((index, value) in workout.exercices.withIndex()) {
                         if (value.exercice.eid == randomExercice.eid) {
@@ -202,7 +202,7 @@ class Generator(
                             }
                         }
 
-                        //passendes WorkoutEntry finden
+                        //zugehöriges WorkoutEntry finden
                         for ((index, value) in workout.exercicesSuper.withIndex()) {
                             if (value.exercice.eid == randomExercice2.eid) {
                                 entry2 = value
