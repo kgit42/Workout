@@ -63,12 +63,14 @@ class WorkoutsFragment : Fragment() {
 
     }
 
-    private fun hideLoadingAndShowStartButtons(){
+    private fun hideLoadingAndShowStartButtons() {
         val recyclerview: RecyclerView? = view?.findViewById(R.id.recyclerview)
         //über den LayoutManager an Items der RecyclerView kommen
-        for (j in 0..(recyclerview?.layoutManager?.itemCount!!)){
-            recyclerview.layoutManager!!.findViewByPosition(j)?.findViewById<ProgressBar>(R.id.progress_loader)?.visibility = View.INVISIBLE
-            recyclerview.layoutManager!!.findViewByPosition(j)?.findViewById<Button>(R.id.buttonPlay)?.visibility = View.VISIBLE
+        for (j in 0..(recyclerview?.layoutManager?.itemCount!!)) {
+            recyclerview.layoutManager!!.findViewByPosition(j)
+                ?.findViewById<ProgressBar>(R.id.progress_loader)?.visibility = View.INVISIBLE
+            recyclerview.layoutManager!!.findViewByPosition(j)
+                ?.findViewById<Button>(R.id.buttonPlay)?.visibility = View.VISIBLE
         }
     }
 
@@ -118,24 +120,24 @@ class WorkoutsFragment : Fragment() {
 
             //Setzen des Untertitels des jew. Listenelements
             val numberSets = values[position].numberSets
-            if(values[position].type == 0){
-                if(numberSets!! > 1){
+            if (values[position].type == 0) {
+                if (numberSets!! > 1) {
                     holder.category.text = getString(R.string.number_sets_pl, numberSets)
-                }else{
+                } else {
                     holder.category.text = getString(R.string.number_sets_s)
                 }
-            }else{
-                if(numberSets!! > 1){
+            } else {
+                if (numberSets!! > 1) {
                     holder.category.text = getString(R.string.number_supersets_pl, numberSets)
-                }else{
+                } else {
                     holder.category.text = getString(R.string.number_supersets_s)
                 }
             }
 
             //Setzen des Bildes des jew. Listenelements
-            if(values[position].type == 0){
+            if (values[position].type == 0) {
                 holder.image.setImageResource(R.drawable.ic_baseline_fitness_center_24)
-            }else{
+            } else {
                 holder.image.setImageResource(R.drawable.ic_baseline_fitness_center_24_superset)
             }
 
@@ -147,10 +149,11 @@ class WorkoutsFragment : Fragment() {
                 val args = Bundle()
                 args.putInt("wid", values[position].wid)
 
-                if(values[position].type == 0){
+                if (values[position].type == 0) {
                     holder.view.findNavController().navigate(R.id.navigation_workout_detail, args)
-                }else{
-                    holder.view.findNavController().navigate(R.id.navigation_workout_detail_superset, args)
+                } else {
+                    holder.view.findNavController()
+                        .navigate(R.id.navigation_workout_detail_superset, args)
                 }
 
             }
@@ -187,16 +190,15 @@ class WorkoutsFragment : Fragment() {
     }
 
 
-
     private fun generateWorkoutAndStartActivity(wid: Int) {
         //Wenn keine Übungen im Workout, nicht starten
-        lifecycleScope.launch{
+        lifecycleScope.launch {
             var workout = homeViewModel.getWorkoutByIdAsync(wid)
-            if(workout.exercices.size == 0){
+            if (workout.exercices.size == 0) {
                 hideLoadingAndShowStartButtons()
                 Snackbar.make(requireView(), "Fehler: Workout ist leer.", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
-            }else{
+            } else {
                 val generator = Generator(homeViewModel, null, wid, context)
                 generator.generateRoutineAndStartActivity()
             }

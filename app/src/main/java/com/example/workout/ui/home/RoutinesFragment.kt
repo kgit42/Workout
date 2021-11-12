@@ -55,7 +55,8 @@ class RoutinesFragment : Fragment() {
 
 
         //Observer --> falls es Änderungen in DB gibt
-        homeViewModel.getAllRoutines().observe(viewLifecycleOwner) { routines -> adapter.setData(routines) }
+        homeViewModel.getAllRoutines()
+            .observe(viewLifecycleOwner) { routines -> adapter.setData(routines) }
 
         return rv
     }
@@ -70,12 +71,14 @@ class RoutinesFragment : Fragment() {
 
     }
 
-    private fun hideLoadingAndShowStartButtons(){
+    private fun hideLoadingAndShowStartButtons() {
         val recyclerview: RecyclerView? = view?.findViewById(R.id.recyclerview)
         //über den LayoutManager an Items der RecyclerView kommen
-        for (j in 0..(recyclerview?.layoutManager?.itemCount!!)){
-            recyclerview.layoutManager!!.findViewByPosition(j)?.findViewById<ProgressBar>(R.id.progress_loader)?.visibility = View.INVISIBLE
-            recyclerview.layoutManager!!.findViewByPosition(j)?.findViewById<Button>(R.id.buttonPlay)?.visibility = View.VISIBLE
+        for (j in 0..(recyclerview?.layoutManager?.itemCount!!)) {
+            recyclerview.layoutManager!!.findViewByPosition(j)
+                ?.findViewById<ProgressBar>(R.id.progress_loader)?.visibility = View.INVISIBLE
+            recyclerview.layoutManager!!.findViewByPosition(j)
+                ?.findViewById<Button>(R.id.buttonPlay)?.visibility = View.VISIBLE
         }
     }
 
@@ -107,7 +110,8 @@ class RoutinesFragment : Fragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = LayoutInflater.from(parent.context).inflate(
-                R.layout.workouts_routines_view_item, parent, false)
+                R.layout.workouts_routines_view_item, parent, false
+            )
             return ViewHolder(view)
         }
 
@@ -117,7 +121,7 @@ class RoutinesFragment : Fragment() {
 
             //Anzahl der Sätze insgesamt berechnen
             var counter = 0
-            values[position].workouts.forEach{
+            values[position].workouts.forEach {
                 counter += it.numberSets!!
             }
 
@@ -126,15 +130,15 @@ class RoutinesFragment : Fragment() {
             var string1: String
             var string2: String
 
-            if(counter > 1 || counter == 0){
+            if (counter > 1 || counter == 0) {
                 string2 = "Sätze"
-            }else{
+            } else {
                 string2 = "Satz"
             }
 
-            if(numberWorkouts > 1 || numberWorkouts == 0){
+            if (numberWorkouts > 1 || numberWorkouts == 0) {
                 string1 = "Workouts"
-            }else{
+            } else {
                 string1 = "Workout"
             }
 
@@ -178,7 +182,7 @@ class RoutinesFragment : Fragment() {
         }
 
         override fun getItemCount(): Int {
-                return values.size
+            return values.size
 
         }
 
@@ -186,13 +190,13 @@ class RoutinesFragment : Fragment() {
 
     private fun generateRoutineAndStartActivity(rid: Int) {
         //Wenn keine Workouts in der Routine, nicht starten
-        lifecycleScope.launch{
+        lifecycleScope.launch {
             var routine = homeViewModel.getRoutineByIdAsync(rid)
-            if(routine.workouts.size == 0){
+            if (routine.workouts.size == 0) {
                 hideLoadingAndShowStartButtons()
                 Snackbar.make(requireView(), "Fehler: Routine ist leer.", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
-            }else{
+            } else {
                 val generator = Generator(homeViewModel, rid, null, context)
                 generator.generateRoutineAndStartActivity()
             }

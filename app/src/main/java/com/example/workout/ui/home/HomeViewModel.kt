@@ -33,8 +33,6 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
     val db = AppDatabase.getInstance(app.applicationContext)
 
 
-
-
     fun getAllRoutines(): LiveData<List<Routine>> {
         return db.routineDao().getAll()
     }
@@ -84,7 +82,6 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
     }
 
 
-
     /*
     //updatet das WorkoutEntry anhand der ID
     suspend fun updateWorkoutEntry(id: Int?, dauer: Int, mehrsatz: Boolean, prio: Int, pause: Int){
@@ -93,13 +90,13 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
      */
 
     //updatet das Workout anhand der ID (https://developer.android.com/training/data-storage/room/accessing-data)
-    suspend fun updateWorkout(workout: Workout){
-        return withContext(Dispatchers.IO) {db.workoutDao().update(workout)}
+    suspend fun updateWorkout(workout: Workout) {
+        return withContext(Dispatchers.IO) { db.workoutDao().update(workout) }
     }
 
     //updatet die Routine anhand der ID (https://developer.android.com/training/data-storage/room/accessing-data)
-    suspend fun updateRoutine(routine: Routine){
-        return withContext(Dispatchers.IO) {db.routineDao().update(routine)}
+    suspend fun updateRoutine(routine: Routine) {
+        return withContext(Dispatchers.IO) { db.routineDao().update(routine) }
     }
 
     suspend fun deleteWorkout(id: Int) {

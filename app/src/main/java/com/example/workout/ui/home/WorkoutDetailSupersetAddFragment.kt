@@ -24,9 +24,11 @@ import com.example.workout.databinding.FragmentWorkoutDetailAddBinding
 class WorkoutDetailSupersetAddFragment : Fragment() {
 
     private lateinit var menuItem: MenuItem
+
     //private val args: WorkoutDetailAddFragmentArgs by navArgs()
     private lateinit var binding: FragmentWorkoutDetailAddBinding
     private lateinit var adapter: MyRecyclerViewAdapter
+
     /*private val workout: Workout by lazy {
         args.workout
     }*/
@@ -34,7 +36,6 @@ class WorkoutDetailSupersetAddFragment : Fragment() {
     private var pausedTime: Long = 0
 
     private lateinit var homeViewModel: HomeViewModel
-
 
 
     override fun onCreateView(
@@ -54,7 +55,9 @@ class WorkoutDetailSupersetAddFragment : Fragment() {
         //Filter-Methode, um nur neue Exercices anzuzeigen
         homeViewModel.getAllExercices().observe(viewLifecycleOwner) { exercices ->
             adapter.setData(exercices.filter { exercice ->
-                arguments?.getIntArray("eidArray")?.contains(exercice.eid) == false }) }
+                arguments?.getIntArray("eidArray")?.contains(exercice.eid) == false
+            })
+        }
 
         //zunächst Liste leeren, da anfangs nichts ausgewählt
         HelperClass._listToAdd.clear()
@@ -77,15 +80,15 @@ class WorkoutDetailSupersetAddFragment : Fragment() {
         }
     }
 
-    
+
     //Speichern-Button
     private fun onOptionsItemSelected() {
         toolbar = binding.toolbarDetail
         toolbar.setOnMenuItemClickListener {
 
-            if(arguments?.getInt("buttonNumber") == 1){
+            if (arguments?.getInt("buttonNumber") == 1) {
                 HelperClass.submitList()
-            }else{
+            } else {
                 HelperClass.submitList2()
             }
 
@@ -111,8 +114,6 @@ class WorkoutDetailSupersetAddFragment : Fragment() {
     }
 
 
-
-
     //"inner" Schlüsselwort, um von innen auf Variablen der äußeren Klasse zugreifen zu können
     inner class MyRecyclerViewAdapter(
         private var values: MutableList<ExerciceWrapper>
@@ -121,7 +122,7 @@ class WorkoutDetailSupersetAddFragment : Fragment() {
         //um vom ViewModel aus Daten zu ändern
         fun setData(newData: List<Exercice>) {
             this.values.clear()
-            newData.forEach{
+            newData.forEach {
                 this.values.add(ExerciceWrapper(it, false))
             }
             //this.values = newData
@@ -145,7 +146,8 @@ class WorkoutDetailSupersetAddFragment : Fragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = LayoutInflater.from(parent.context).inflate(
-                R.layout.add_exercice_view_item, parent, false)
+                R.layout.add_exercice_view_item, parent, false
+            )
             return ViewHolder(view)
         }
 
@@ -178,14 +180,14 @@ class WorkoutDetailSupersetAddFragment : Fragment() {
 
 
             //Listener für Checkboxes
-            holder.checkbox.setOnCheckedChangeListener {checkbox, isChecked ->
-                if(isChecked){
+            holder.checkbox.setOnCheckedChangeListener { checkbox, isChecked ->
+                if (isChecked) {
                     //Hinzufügen der gewählten Elemente zu _listToAdd, aber noch nicht zur DB.
                     HelperClass._listToAdd.add(values[position].exercice)
 
                     //im ExerciceWrapper speichern, dass gesetzt
                     values[position].selected = true
-                }else{
+                } else {
                     //Hinzufügen der gewählten Elemente zu _listToAdd, aber noch nicht zur DB.
                     HelperClass._listToAdd.remove(values[position].exercice)
 

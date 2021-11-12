@@ -2,7 +2,7 @@ package com.example.workout
 
 
 //Modellierung der JSON-Struktur zum Senden von Routinen über Google Cast
-data class CommunicationModel (
+data class CommunicationModel(
     val routine_name: String?,
     val workouts: MutableList<WorkoutModel>
 )

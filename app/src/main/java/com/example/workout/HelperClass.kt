@@ -25,11 +25,11 @@ class HelperClass {
         //2. Liste mit hinzuzufügenden Übungen für Supersatz-Workouts
         var listToAdd2: ArrayList<Exercice> = arrayListOf()
 
-        fun submitList(){
+        fun submitList() {
             listToAdd.addAll(_listToAdd)
         }
 
-        fun submitList2(){
+        fun submitList2() {
             listToAdd2.addAll(_listToAdd)
         }
 
@@ -64,8 +64,8 @@ class HelperClass {
 
         //Wenn addedFromDb false ist, werden der Liste workoutentriesFromDb die Elemente aus der DB hinzugefügt.
         //Dadurch wird vermieden, dass Liste immer erneut die Elemente übernimmt
-        fun addElementsFromDbIfNotDone(workout: Workout){
-            if(!addedFromDb){
+        fun addElementsFromDbIfNotDone(workout: Workout) {
+            if (!addedFromDb) {
                 workoutentriesFromDb.addAll(workout.exercices)
                 workoutentriesFromDb2.addAll(workout.exercicesSuper)
 
@@ -89,22 +89,22 @@ class HelperClass {
 
         }
 
-        fun setAdapter(adapter: WorkoutDetailFragmentAdapterInterface){
+        fun setAdapter(adapter: WorkoutDetailFragmentAdapterInterface) {
             myAdapter = adapter
         }
 
-        fun setAdapter2(adapter: WorkoutDetailSupersetFragment.MyRecyclerViewAdapter){
+        fun setAdapter2(adapter: WorkoutDetailSupersetFragment.MyRecyclerViewAdapter) {
             myAdapter2 = adapter
         }
 
-        fun updateWorkoutEntry(id: Int?, dauer: Int?, mehrsatz: Boolean?, prio: Int?, pause: Int?){
+        fun updateWorkoutEntry(id: Int?, dauer: Int?, mehrsatz: Boolean?, prio: Int?, pause: Int?) {
             //Element suchen in beiden Listen. Auch in den zu der 2. RecyclerView gehörenden Listen bei Supersatz-Workouts.
             // Wenn gefunden, Schleife abbrechen für bessere Performance.
 
             var found = false
 
-            for ((index, value) in workoutentriesFromDb.withIndex()){
-                if(value.weid == id){
+            for ((index, value) in workoutentriesFromDb.withIndex()) {
+                if (value.weid == id) {
                     workoutentriesFromDb[index].length = dauer
                     workoutentriesFromDb[index].multipleSets = mehrsatz
                     workoutentriesFromDb[index].priority = prio
@@ -114,9 +114,9 @@ class HelperClass {
                 }
             }
 
-            if(!found){
-                for ((index, value) in workoutentriesToAdd.withIndex()){
-                    if(value.weid == id){
+            if (!found) {
+                for ((index, value) in workoutentriesToAdd.withIndex()) {
+                    if (value.weid == id) {
                         workoutentriesToAdd[index].length = dauer
                         workoutentriesToAdd[index].multipleSets = mehrsatz
                         workoutentriesToAdd[index].priority = prio
@@ -127,9 +127,9 @@ class HelperClass {
                 }
             }
 
-            if(!found){
-                for ((index, value) in workoutentriesFromDb2.withIndex()){
-                    if(value.weid == id){
+            if (!found) {
+                for ((index, value) in workoutentriesFromDb2.withIndex()) {
+                    if (value.weid == id) {
                         workoutentriesFromDb2[index].length = dauer
                         workoutentriesFromDb2[index].multipleSets = mehrsatz
                         workoutentriesFromDb2[index].priority = prio
@@ -140,9 +140,9 @@ class HelperClass {
                 }
             }
 
-            if(!found){
-                for ((index, value) in workoutentriesToAdd2.withIndex()){
-                    if(value.weid == id){
+            if (!found) {
+                for ((index, value) in workoutentriesToAdd2.withIndex()) {
+                    if (value.weid == id) {
                         workoutentriesToAdd2[index].length = dauer
                         workoutentriesToAdd2[index].multipleSets = mehrsatz
                         workoutentriesToAdd2[index].priority = prio
@@ -153,7 +153,6 @@ class HelperClass {
             }
 
         }
-
 
 
         fun getWorkoutEntry(id: Int?): WorkoutEntry {
@@ -187,7 +186,6 @@ class HelperClass {
         }
 
 
-
         fun deleteWorkoutEntry(id: Int?) {
             //Element suchen in beiden Listen. Auch in den zu der 2. RecyclerView gehörenden Listen bei Supersatz-Workouts.
             // Wenn gefunden, Schleife abbrechen für bessere Performance
@@ -204,7 +202,7 @@ class HelperClass {
                 }
             }
 
-            if(!found){
+            if (!found) {
                 for ((index, value) in workoutentriesToAdd.withIndex()) {
                     if (value.weid == id) {
                         workoutentriesToAdd.removeAt(index)
@@ -216,7 +214,7 @@ class HelperClass {
                 }
             }
 
-            if(!found){
+            if (!found) {
                 for ((index, value) in workoutentriesFromDb2.withIndex()) {
                     if (value.weid == id) {
                         workoutentriesFromDb2.removeAt(index)
@@ -228,7 +226,7 @@ class HelperClass {
                 }
             }
 
-            if(!found){
+            if (!found) {
                 for ((index, value) in workoutentriesToAdd2.withIndex()) {
                     if (value.weid == id) {
                         workoutentriesToAdd2.removeAt(index)

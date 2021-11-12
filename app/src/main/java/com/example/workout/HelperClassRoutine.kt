@@ -24,18 +24,16 @@ class HelperClassRoutine {
 
         //Wenn addedFromDb false ist, werden der Liste workoutentriesFromDb die Elemente aus der DB hinzugefügt.
         //Dadurch wird vermieden, dass Liste immer erneut die Elemente übernimmt
-        fun addElementsFromDbIfNotDoneToBeginning(routine: Routine){
-            if(!addedFromDb){
+        fun addElementsFromDbIfNotDoneToBeginning(routine: Routine) {
+            if (!addedFromDb) {
                 allWorkouts.addAll(0, routine.workouts)
             }
             addedFromDb = true
         }
 
-        fun setAdapter(adapter: RoutineDetailFragment.MyRecyclerViewAdapter){
+        fun setAdapter(adapter: RoutineDetailFragment.MyRecyclerViewAdapter) {
             myAdapter = adapter
         }
-
-
 
 
         fun deleteWorkout(id: Int?) {

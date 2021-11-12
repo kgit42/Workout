@@ -39,7 +39,7 @@ class DeleteDialogFragment : DialogFragment() {
                         //Fallunterscheidung, je nachdem, was gelöscht werden soll
 
                         //Workout löschen
-                        if(arguments?.getInt("wid") != 0){
+                        if (arguments?.getInt("wid") != 0) {
                             //DB-Aufruf
                             lifecycleScope.launch(Dispatchers.IO) {
                                 homeViewModel.deleteWorkout(arguments?.getInt("wid")!!)
@@ -52,13 +52,15 @@ class DeleteDialogFragment : DialogFragment() {
                                     var workouts = routine.workouts
 
                                     workouts.forEach { workout ->
-                                        if(workout.wid == arguments?.getInt("wid")!!){
+                                        if (workout.wid == arguments?.getInt("wid")!!) {
                                             workouts.remove(workout)
                                         }
                                     }
 
-                                    val newRoutine = Routine(routine.rid, routine.name,
-                                        routine.restWorkouts, workouts)
+                                    val newRoutine = Routine(
+                                        routine.rid, routine.name,
+                                        routine.restWorkouts, workouts
+                                    )
 
                                     homeViewModel.updateRoutine(newRoutine)
 
@@ -68,13 +70,13 @@ class DeleteDialogFragment : DialogFragment() {
                         }
 
                         //Workoutentry löschen (noch nicht aus DB)
-                        if(arguments?.getInt("weid") != 0){
+                        if (arguments?.getInt("weid") != 0) {
                             HelperClass.deleteWorkoutEntry(arguments?.getInt("weid"))
 
                         }
 
                         //Routine löschen
-                        if(arguments?.getInt("rid") != 0){
+                        if (arguments?.getInt("rid") != 0) {
                             //DB-Aufruf
                             lifecycleScope.launch {
                                 homeViewModel.deleteRoutine(arguments?.getInt("rid")!!)
@@ -83,13 +85,13 @@ class DeleteDialogFragment : DialogFragment() {
 
 
                         //Workout aus Routine löschen (noch nicht aus DB)
-                        if(arguments?.getInt("wid+") != 0){
+                        if (arguments?.getInt("wid+") != 0) {
                             HelperClassRoutine.deleteWorkout(arguments?.getInt("wid+"))
 
                         }
 
                         //RoutineWorkoutStatsElement löschen
-                        if(arguments?.getInt("seid") != 0){
+                        if (arguments?.getInt("seid") != 0) {
                             //DB-Aufruf
                             lifecycleScope.launch {
                                 statsViewModel.deleteRoutineWorkoutStatsElement(arguments?.getInt("seid")!!)

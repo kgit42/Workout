@@ -29,9 +29,13 @@ class Generator(
 
             //je nachdem, ob eine ID für eine Routine oder nur für ein Workout übergeben wurde, eine
             // neue Routine anlegen oder die Routine übernehmen
-            if(rid == null){
-                routine = Routine(0, "-", workouts = arrayListOf(homeViewModel.getWorkoutByIdAsync(wid!!)))
-            }else{
+            if (rid == null) {
+                routine = Routine(
+                    0,
+                    "-",
+                    workouts = arrayListOf(homeViewModel.getWorkoutByIdAsync(wid!!))
+                )
+            } else {
                 routine = homeViewModel.getRoutineByIdAsync(rid!!)
             }
 
@@ -39,11 +43,17 @@ class Generator(
                 CommunicationModel(routine.name, arrayListOf())
 
             //über alle Workouts der Routine iterieren
-            for((index0, value0) in routine.workouts.withIndex()){
+            for ((index0, value0) in routine.workouts.withIndex()) {
                 //Log.v("hhh", index0.toString())
                 var workout = value0
 
-                json.workouts.add(WorkoutModel(workout.name, routine.restWorkouts.toString(), arrayListOf()))
+                json.workouts.add(
+                    WorkoutModel(
+                        workout.name,
+                        routine.restWorkouts.toString(),
+                        arrayListOf()
+                    )
+                )
 
                 var exerciceCounter = 0
 
@@ -68,29 +78,29 @@ class Generator(
                 //Falls es ein Supersatz-Workout ist, noch 2 weitere Listen nötig: eine mit nur Einsatzübungen und eine mit nur Mehrsatzübungen
                 var listForRandomChoiceSuper1Set: ArrayList<Exercice> = arrayListOf()
                 var listForRandomChoiceSuperMSet: ArrayList<Exercice> = arrayListOf()
-                if(workout.type == 1){
+                if (workout.type == 1) {
                     for ((index, value) in workout.exercicesSuper.withIndex()) {
                         when (value.priority) {
                             0 ->
-                                if(value.multipleSets == false) {
+                                if (value.multipleSets == false) {
                                     listForRandomChoiceSuper1Set.add(value.exercice)
-                                }else{
+                                } else {
                                     listForRandomChoiceSuperMSet.add(value.exercice)
                                 }
-                            1 -> if(value.multipleSets == false) {
-                                    for (i in 1..5) {
-                                        listForRandomChoiceSuper1Set.add(value.exercice)
-                                    }
-                                }else {
-                                    for (i in 1..5) {
-                                        listForRandomChoiceSuperMSet.add(value.exercice)
-                                    }
+                            1 -> if (value.multipleSets == false) {
+                                for (i in 1..5) {
+                                    listForRandomChoiceSuper1Set.add(value.exercice)
                                 }
-                            2 -> if(value.multipleSets == false) {
+                            } else {
+                                for (i in 1..5) {
+                                    listForRandomChoiceSuperMSet.add(value.exercice)
+                                }
+                            }
+                            2 -> if (value.multipleSets == false) {
                                 for (i in 1..25) {
                                     listForRandomChoiceSuper1Set.add(value.exercice)
                                 }
-                            }else {
+                            } else {
                                 for (i in 1..25) {
                                     listForRandomChoiceSuperMSet.add(value.exercice)
                                 }
@@ -109,7 +119,6 @@ class Generator(
 
                     //Alle Vorkommen der eben ausgewählten Übung aus Liste löschen, damit Übung nicht doppelt vorkommt.
                     listForRandomChoice.removeAll(Collections.singleton(randomExercice))
-
 
 
                     //Falls die Liste nun aber leer, die eingestellte Satzzahl jedoch noch nicht erreicht ist,
@@ -146,11 +155,15 @@ class Generator(
                     lateinit var entry2: WorkoutEntry
 
                     //je nach Art der ausgewählten Übung 1 Übung 2 auswählen
-                    if(workout.type == 1){
-                        if(entry.multipleSets == true){
-                            randomExercice2 = listForRandomChoiceSuperMSet[Random().nextInt(listForRandomChoiceSuperMSet.size)]
-                        }else{
-                            randomExercice2 = listForRandomChoiceSuper1Set[Random().nextInt(listForRandomChoiceSuper1Set.size)]
+                    if (workout.type == 1) {
+                        if (entry.multipleSets == true) {
+                            randomExercice2 = listForRandomChoiceSuperMSet[Random().nextInt(
+                                listForRandomChoiceSuperMSet.size
+                            )]
+                        } else {
+                            randomExercice2 = listForRandomChoiceSuper1Set[Random().nextInt(
+                                listForRandomChoiceSuper1Set.size
+                            )]
                         }
 
 
@@ -164,15 +177,15 @@ class Generator(
                             for ((index, value) in workout.exercicesSuper.withIndex()) {
                                 when (value.priority) {
                                     0 ->
-                                        if(value.multipleSets == false) {
+                                        if (value.multipleSets == false) {
                                             listForRandomChoiceSuper1Set.add(value.exercice)
                                         }
-                                    1 -> if(value.multipleSets == false) {
+                                    1 -> if (value.multipleSets == false) {
                                         for (i in 1..5) {
                                             listForRandomChoiceSuper1Set.add(value.exercice)
                                         }
                                     }
-                                    2 -> if(value.multipleSets == false) {
+                                    2 -> if (value.multipleSets == false) {
                                         for (i in 1..25) {
                                             listForRandomChoiceSuper1Set.add(value.exercice)
                                         }
@@ -185,15 +198,15 @@ class Generator(
                             for ((index, value) in workout.exercicesSuper.withIndex()) {
                                 when (value.priority) {
                                     0 ->
-                                        if(value.multipleSets == true) {
+                                        if (value.multipleSets == true) {
                                             listForRandomChoiceSuperMSet.add(value.exercice)
                                         }
-                                    1 -> if(value.multipleSets == true) {
+                                    1 -> if (value.multipleSets == true) {
                                         for (i in 1..5) {
                                             listForRandomChoiceSuperMSet.add(value.exercice)
                                         }
                                     }
-                                    2 -> if(value.multipleSets == true) {
+                                    2 -> if (value.multipleSets == true) {
                                         for (i in 1..25) {
                                             listForRandomChoiceSuperMSet.add(value.exercice)
                                         }
@@ -213,8 +226,6 @@ class Generator(
                     }
 
 
-
-
                     var sets = 0
                     if (entry.multipleSets == true) {
                         //zufällige Anzahl an Sätzen. 1 bis 4.
@@ -229,7 +240,6 @@ class Generator(
                     var power = false
 
 
-
                     //Die ausgewählte Übung <sets> Mal hinzufügen
                     for (j in 1..sets) {
 
@@ -238,14 +248,14 @@ class Generator(
                         var newLength: Int? = entry.length
 
                         var newLength2: Int? = 0
-                        if(workout.type == 1){
+                        if (workout.type == 1) {
                             newLength2 = entry2.length
                         }
                         if (j != sets && sets != 1) {
                             if (Math.random() < 0.2) {
                                 newLength = entry.length?.times(2)
 
-                                if(workout.type == 1){
+                                if (workout.type == 1) {
                                     newLength2 = entry2.length?.times(2)
                                 }
 
@@ -257,16 +267,16 @@ class Generator(
                         if (power) {
                             newLength = newLength?.times(0.75)?.toInt()
 
-                            if(workout.type == 1){
+                            if (workout.type == 1) {
                                 newLength2 = newLength2?.times(0.75)?.toInt()
                             }
 
                         }
 
                         var supersetInd: String?
-                        if(workout.type == 1){
+                        if (workout.type == 1) {
                             supersetInd = "Übung A"
-                        }else{
+                        } else {
                             supersetInd = null
                         }
 
@@ -274,12 +284,16 @@ class Generator(
                         json.workouts[index0].exercices.add(
                             ExerciceModel(
                                 randomExercice.eid.toString(),
-                                newLength.toString(), power, entry.innerRest.toString(), j.toString(), supersetInd
+                                newLength.toString(),
+                                power,
+                                entry.innerRest.toString(),
+                                j.toString(),
+                                supersetInd
                             )
                         )
 
                         //bei Supersatz-Workout weitere Exercice-Models hinzufügen
-                        if(workout.type == 1){
+                        if (workout.type == 1) {
                             //10s Pause bei Supersatz
                             json.workouts[index0].exercices.add(
                                 ExerciceModel(
@@ -290,7 +304,11 @@ class Generator(
                             json.workouts[index0].exercices.add(
                                 ExerciceModel(
                                     randomExercice2.eid.toString(),
-                                    newLength2.toString(), power, entry2.innerRest.toString(), j.toString(), "Übung B"
+                                    newLength2.toString(),
+                                    power,
+                                    entry2.innerRest.toString(),
+                                    j.toString(),
+                                    "Übung B"
                                 )
                             )
                         }
@@ -356,9 +374,6 @@ class Generator(
                 }
 
             }
-
-
-
 
 
             val gson = Gson()

@@ -270,16 +270,16 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
 
             //Setzen des Untertitels des jew. Listenelements
             val numberSets = values.workouts[position].numberSets
-            if(values.workouts[position].type == 0){
-                if(numberSets!! > 1){
+            if (values.workouts[position].type == 0) {
+                if (numberSets!! > 1) {
                     holder.category.text = getString(R.string.number_sets_pl, numberSets)
-                }else{
+                } else {
                     holder.category.text = getString(R.string.number_sets_s)
                 }
-            }else{
-                if(numberSets!! > 1){
+            } else {
+                if (numberSets!! > 1) {
                     holder.category.text = getString(R.string.number_supersets_pl, numberSets)
-                }else{
+                } else {
                     holder.category.text = getString(R.string.number_supersets_s)
                 }
             }

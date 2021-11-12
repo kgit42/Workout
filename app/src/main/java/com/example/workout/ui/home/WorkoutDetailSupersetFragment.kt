@@ -179,18 +179,18 @@ class WorkoutDetailSupersetFragment : Fragment() {
 
                 //Abfangen des Sonderfalls, dass es keine korrespondierende Übung (Mehrsatz oder Einsatz) in der 2. Liste
                 //des Supersatz-Workouts gibt
-                if(exercices.filter { workoutEntry -> workoutEntry.multipleSets == true }
-                        .isNotEmpty()){
-                    if(exercices2.filter { workoutEntry -> workoutEntry.multipleSets == true }
-                            .isEmpty()){
+                if (exercices.filter { workoutEntry -> workoutEntry.multipleSets == true }
+                        .isNotEmpty()) {
+                    if (exercices2.filter { workoutEntry -> workoutEntry.multipleSets == true }
+                            .isEmpty()) {
                         throw Exception()
                     }
                 }
 
-                if(exercices.filter { workoutEntry -> workoutEntry.multipleSets == false }
-                        .isNotEmpty()){
-                    if(exercices2.filter { workoutEntry -> workoutEntry.multipleSets == false }
-                            .isEmpty()){
+                if (exercices.filter { workoutEntry -> workoutEntry.multipleSets == false }
+                        .isNotEmpty()) {
+                    if (exercices2.filter { workoutEntry -> workoutEntry.multipleSets == false }
+                            .isEmpty()) {
                         throw Exception()
                     }
                 }
@@ -362,8 +362,6 @@ class WorkoutDetailSupersetFragment : Fragment() {
 
         binding.toolbarDetail.title = workout.name
     }
-
-
 
 
     inner class MyRecyclerViewAdapter(

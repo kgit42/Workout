@@ -293,7 +293,5 @@ class StatsFragment : Fragment() {
     }
 
 
-
-
 }
 

@@ -14,7 +14,6 @@ import kotlinx.coroutines.*
 import android.content.SharedPreferences
 
 
-
 //Base class for maintaining global application state. You can provide your own implementation by creating
 // a subclass and specifying the fully-qualified name of this subclass as the
 // "android:name" attribute in your AndroidManifest.xml's <application> tag.
@@ -44,32 +43,33 @@ class WorkoutApp : Application() {
         val prefs = getSharedPreferences("prefs", MODE_PRIVATE)
         val firstStart = prefs.getBoolean("firstStart", true)
 
-                try {
-                    applicationContext.resources.openRawResource(R.raw.exercices).use { inputStream ->
-                        JsonReader(inputStream.reader()).use { jsonReader ->
-                            val type = object : TypeToken<List<Exercice>>() {}.type
-                            val exerciceList: List<Exercice> = Gson().fromJson(jsonReader, type)
+        try {
+            applicationContext.resources.openRawResource(R.raw.exercices).use { inputStream ->
+                JsonReader(inputStream.reader()).use { jsonReader ->
+                    val type = object : TypeToken<List<Exercice>>() {}.type
+                    val exerciceList: List<Exercice> = Gson().fromJson(jsonReader, type)
 
-                            //Calls the specified suspending block with a given coroutine context, suspends until it completes, and returns the result.
-                            withContext(Dispatchers.IO) {
-                                //(--> nur beim ersten Start)
-                                if(firstStart){
-                                    AppDatabase.getInstance(applicationContext).exerciceDao().insertAll(exerciceList)
+                    //Calls the specified suspending block with a given coroutine context, suspends until it completes, and returns the result.
+                    withContext(Dispatchers.IO) {
+                        //(--> nur beim ersten Start)
+                        if (firstStart) {
+                            AppDatabase.getInstance(applicationContext).exerciceDao()
+                                .insertAll(exerciceList)
 
-                                    val prefs = getSharedPreferences("prefs", MODE_PRIVATE)
-                                    val editor = prefs.edit()
-                                    editor.putBoolean("firstStart", false)
-                                    editor.apply()
-                                }
-
-                            }
-
+                            val prefs = getSharedPreferences("prefs", MODE_PRIVATE)
+                            val editor = prefs.edit()
+                            editor.putBoolean("firstStart", false)
+                            editor.apply()
                         }
+
                     }
-                    Log.v("hhh", "success")
-                } catch (e: Exception) {
-                    Log.v("hhh", "failure$e")
+
                 }
+            }
+            Log.v("hhh", "success")
+        } catch (e: Exception) {
+            Log.v("hhh", "failure$e")
+        }
 
     }
 

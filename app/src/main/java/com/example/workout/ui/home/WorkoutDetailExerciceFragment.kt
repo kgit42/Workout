@@ -31,8 +31,10 @@ import java.lang.Exception
 class WorkoutDetailExerciceFragment : Fragment() {
 
     private lateinit var menuItem: MenuItem
+
     //private val args: WorkoutDetailExerciceFragmentArgs by navArgs()
     private lateinit var binding: FragmentWorkoutDetailExerciceBinding
+
     /*private val workout: Workout by lazy {
         args.workout
     }*/
@@ -60,11 +62,11 @@ class WorkoutDetailExerciceFragment : Fragment() {
 
         fillWithData(HelperClass.getWorkoutEntry(arguments?.getInt("weid")))
 
-            /*homeViewModel.getWorkoutEntryById(arguments?.getInt("weid"))
-                .observe(viewLifecycleOwner) { workoutentry ->
-                    fillWithData(workoutentry)
-                }*/
-        
+        /*homeViewModel.getWorkoutEntryById(arguments?.getInt("weid"))
+            .observe(viewLifecycleOwner) { workoutentry ->
+                fillWithData(workoutentry)
+            }*/
+
 
         return binding.root
     }
@@ -77,20 +79,20 @@ class WorkoutDetailExerciceFragment : Fragment() {
     }
 
 
-    fun fillWithData(workoutentry: WorkoutEntry){
+    fun fillWithData(workoutentry: WorkoutEntry) {
         binding.dauer.setText(workoutentry.length.toString())
 
         //nur anzeigen, wenn bilaterale Übung
-        if(!workoutentry.exercice.bilateral!!){
+        if (!workoutentry.exercice.bilateral!!) {
             binding.pause3.visibility = INVISIBLE
-        }else{
+        } else {
             binding.pause3.setText(workoutentry.innerRest.toString())
         }
 
 
         binding.mehrsatz.isChecked = workoutentry.multipleSets == true
 
-        when(workoutentry.priority){
+        when (workoutentry.priority) {
             0 -> binding.prio.check(binding.chip1.id)
             1 -> binding.prio.check(binding.chip2.id)
             2 -> binding.prio.check(binding.chip3.id)
@@ -116,16 +118,16 @@ class WorkoutDetailExerciceFragment : Fragment() {
             //Zusammensuchen der nötigen Daten. Abfangen von fehlerhaften Eingaben
             try {
                 val pause: Int?
-                if(binding.pause3.visibility == VISIBLE){
+                if (binding.pause3.visibility == VISIBLE) {
                     pause = Integer.parseInt(binding.pause3.text.toString())
-                }else{
+                } else {
                     pause = null
                 }
                 val dauer = Integer.parseInt(binding.dauer.text.toString())
                 val mehrsatz = binding.mehrsatz.isChecked
                 var prio = 0
 
-                when(binding.prio.checkedChipId){
+                when (binding.prio.checkedChipId) {
                     binding.chip1.id -> prio = 0
                     binding.chip2.id -> prio = 1
                     binding.chip3.id -> prio = 2
@@ -137,11 +139,13 @@ class WorkoutDetailExerciceFragment : Fragment() {
 
                 //Noch kein DB-Aufruf, da Änderungen noch verworfen werden können
 
-                HelperClass.updateWorkoutEntry(arguments?.getInt("weid"),
+                HelperClass.updateWorkoutEntry(
+                    arguments?.getInt("weid"),
                     dauer,
                     mehrsatz,
                     prio,
-                    pause,)
+                    pause,
+                )
 
 
             } catch (e: Exception) {

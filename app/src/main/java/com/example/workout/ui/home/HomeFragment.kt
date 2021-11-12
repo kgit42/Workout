@@ -51,22 +51,29 @@ class HomeFragment : Fragment() {
         })*/
 
 
-
         //Floating Button Listener
         binding.fab.setOnClickListener { view ->
 
-            if (tabLayout.selectedTabPosition == ROUTINES_PAGE_INDEX){
+            if (tabLayout.selectedTabPosition == ROUTINES_PAGE_INDEX) {
                 findNavController().navigate(R.id.navigation_routine_detail)
-            }else{
+            } else {
                 //Dialog: Normales Workout oder Supersatz-Workout
 
                 val builder: AlertDialog.Builder = AlertDialog.Builder(requireActivity())
                 builder.setMessage("Welcher Workout-Typ?")
                     .setCancelable(true)
                     .setPositiveButton("Normal",
-                        DialogInterface.OnClickListener { dialog, id ->  findNavController().navigate(R.id.navigation_workout_detail)})
+                        DialogInterface.OnClickListener { dialog, id ->
+                            findNavController().navigate(
+                                R.id.navigation_workout_detail
+                            )
+                        })
                     .setNegativeButton("Supersatz",
-                        DialogInterface.OnClickListener { dialog, id ->  findNavController().navigate(R.id.navigation_workout_detail_superset)})
+                        DialogInterface.OnClickListener { dialog, id ->
+                            findNavController().navigate(
+                                R.id.navigation_workout_detail_superset
+                            )
+                        })
                 val alert: AlertDialog = builder.create()
                 alert.show()
             }
@@ -92,7 +99,6 @@ class HomeFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 
 
     private fun setupViewPagerWithTabs() {
@@ -127,7 +133,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun getTabTitle(position: Int): String? {
-        return when(position){
+        return when (position) {
             ROUTINES_PAGE_INDEX -> "Routinen"
             WORKOUTS_PAGE_INDEX -> "Workouts"
             else -> null

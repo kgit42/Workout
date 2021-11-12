@@ -21,9 +21,11 @@ import com.example.workout.db.Workout
 class RoutineDetailAddFragment : Fragment() {
 
     private lateinit var menuItem: MenuItem
+
     //private val args: WorkoutDetailAddFragmentArgs by navArgs()
     private lateinit var binding: FragmentRoutineDetailAddBinding
     private lateinit var adapter: MyRecyclerViewAdapter
+
     /*private val workout: Workout by lazy {
         args.workout
     }*/
@@ -31,7 +33,6 @@ class RoutineDetailAddFragment : Fragment() {
     private var pausedTime: Long = 0
 
     private lateinit var homeViewModel: HomeViewModel
-
 
 
     override fun onCreateView(
@@ -51,7 +52,8 @@ class RoutineDetailAddFragment : Fragment() {
 
         //Observer --> falls es Änderungen in DB gibt
         homeViewModel.getAllWorkouts().observe(viewLifecycleOwner) { workouts ->
-            adapter.setData(workouts) }
+            adapter.setData(workouts)
+        }
 
         return binding.root
     }
@@ -72,7 +74,6 @@ class RoutineDetailAddFragment : Fragment() {
     }
 
 
-
     private fun setupRecyclerView() {
 
         //zunächst leere ArrayList erzeugen
@@ -85,7 +86,6 @@ class RoutineDetailAddFragment : Fragment() {
         }
 
     }
-
 
 
     //"inner" Schlüsselwort, um von innen auf Variablen der äußeren Klasse zugreifen zu können
@@ -116,7 +116,8 @@ class RoutineDetailAddFragment : Fragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = LayoutInflater.from(parent.context).inflate(
-                R.layout.add_workout_view_item, parent, false)
+                R.layout.add_workout_view_item, parent, false
+            )
             return ViewHolder(view)
         }
 
@@ -126,24 +127,24 @@ class RoutineDetailAddFragment : Fragment() {
 
             //Setzen des Untertitels des jew. Listenelements
             val numberSets = values[position].numberSets
-            if(values[position].type == 0){
-                if(numberSets!! > 1){
+            if (values[position].type == 0) {
+                if (numberSets!! > 1) {
                     holder.category.text = getString(R.string.number_sets_pl, numberSets)
-                }else{
+                } else {
                     holder.category.text = getString(R.string.number_sets_s)
                 }
-            }else{
-                if(numberSets!! > 1){
+            } else {
+                if (numberSets!! > 1) {
                     holder.category.text = getString(R.string.number_supersets_pl, numberSets)
-                }else{
+                } else {
                     holder.category.text = getString(R.string.number_supersets_s)
                 }
             }
 
             //Setzen des Bildes des jew. Listenelements
-            if(values[position].type == 0){
+            if (values[position].type == 0) {
                 holder.image.setImageResource(R.drawable.ic_baseline_fitness_center_24)
-            }else{
+            } else {
                 holder.image.setImageResource(R.drawable.ic_baseline_fitness_center_24_superset)
             }
 

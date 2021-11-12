@@ -335,7 +335,7 @@ class CastActivity : AppCompatActivity() {
         //nichts tun, um zu verhindern, dass Back-Button betätigt wird und so Activity destroyed wird, während des Trainings
         if (mCastSession?.isConnected == true) {
 
-        }else{
+        } else {
             super.onBackPressed();
         }
     }
@@ -440,11 +440,11 @@ class CastActivity : AppCompatActivity() {
     }
 
     //Vibration
-    private fun vibrate(){
+    private fun vibrate() {
         val vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
         if (Build.VERSION.SDK_INT >= 26) {
             vibrator.vibrate(VibrationEffect.createOneShot(150, VibrationEffect.DEFAULT_AMPLITUDE))
-        }else{
+        } else {
             vibrator.vibrate(150)
         }
     }
@@ -566,7 +566,7 @@ class CastActivity : AppCompatActivity() {
 }
 
 
-class MyCastStateListener : CastStateListener{
+class MyCastStateListener : CastStateListener {
     override fun onCastStateChanged(p0: Int) {
         Log.v("hhh", "State changed: $p0")
     }

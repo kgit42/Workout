@@ -18,8 +18,8 @@ class ViewPagerAdapter(fragment: Fragment) :
     /**
      * Mapping of the ViewPager page indexes to their respective Fragments
      */
-    private val tabFragmentsCreator : Map<Int, ()->Fragment> = mapOf(
-        ROUTINES_PAGE_INDEX to {RoutinesFragment()},
-        WORKOUTS_PAGE_INDEX to {WorkoutsFragment()}
+    private val tabFragmentsCreator: Map<Int, () -> Fragment> = mapOf(
+        ROUTINES_PAGE_INDEX to { RoutinesFragment() },
+        WORKOUTS_PAGE_INDEX to { WorkoutsFragment() }
     )
 }
