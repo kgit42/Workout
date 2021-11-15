@@ -3,6 +3,7 @@ package com.example.workout.ui.home
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.CheckBox
 import android.widget.TextView
@@ -90,8 +91,6 @@ class WorkoutDetailAddFragment : Fragment() {
         toolbar = binding.toolbarDetail
         toolbar.setOnMenuItemClickListener {
 
-            //Der folgende Abschnitt funktioniert so nicht, da onOptionsSelected und damit setOnMenuItemClickListener
-            // augerufen wird, wenn listToAdd noch leer ist
 /*
             Log.v("hhh", listToAdd.size.toString())
             //Hinzufügen der gewählten Elemente aus listToAdd zur RecyclerView, aber noch immer nicht zur DB.
