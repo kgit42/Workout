@@ -109,12 +109,17 @@ class ExercicesFragment : Fragment() {
             //Bild suchen
             val res: Resources = resources
             val mDrawableName1 = values[position].animation
-            //Dateiendung entfernen
-            val mDrawableName = mDrawableName1?.substring(0, mDrawableName1.lastIndexOf('.'))
-            val resID: Int = res.getIdentifier(mDrawableName, "drawable", context?.getPackageName())
-            val drawable: Drawable? = ContextCompat.getDrawable(context!!, resID)
-            //Bild setzen
-            holder.image.setImageDrawable(drawable)
+            if(!mDrawableName1.equals("")){
+                //Dateiendung entfernen
+                val mDrawableName = mDrawableName1?.substring(0, mDrawableName1.lastIndexOf('.'))
+                val resID: Int = res.getIdentifier(mDrawableName, "drawable", context?.getPackageName())
+                val drawable: Drawable? = ContextCompat.getDrawable(context!!, resID)
+                //Bild setzen
+                holder.image.setImageDrawable(drawable)
+            }else{
+                holder.image.setImageResource(R.drawable.ic_baseline_image_24)
+            }
+
 
             holder.view.setOnClickListener { v ->
 
