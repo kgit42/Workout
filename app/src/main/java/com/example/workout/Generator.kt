@@ -387,7 +387,7 @@ class Generator(
             //Generierte Routine übergeben
             intent.putExtra("routineJson", result)
 
-            //falls übergebene Routine zu groß ist, stürzt App ab ohne entsprechende Fehlermeldung/Excepetion
+            //falls übergebene Routine zu groß ist, stürzt App ab ohne entsprechende Fehlermeldung/Exception
             context?.startActivity(intent)
 
 
