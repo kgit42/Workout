@@ -94,7 +94,560 @@
 		"animation": "calf_raises.gif",
 		"audio": "Wadenheben.m4a",
 		"bilateral": "true"
+	},
+	{
+		"eid": "13",
+		"name": "Belly Pinguin",
+		"category": "Unterer Rücken",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "14",
+		"name": "Chin-Up Kick",
+		"category": "Unterer Rücken",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "15",
+		"name": "Y Raise",
+		"category": "Oberer Rücken & Hintere Schulter",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "16",
+		"name": "T Raise",
+		"category": "Oberer Rücken & Hintere Schulter",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "17",
+		"name": "Swimmer",
+		"category": "Oberer Rücken & Hintere Schulter",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "18",
+		"name": "T Chin-Ups",
+		"category": "Unterer Rücken",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "19",
+		"name": "Reverse Snow Angels",
+		"category": "Oberer Rücken & Hintere Schulter",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "20",
+		"name": "Reachers",
+		"category": "Oberer Rücken & Hintere Schulter",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "21",
+		"name": "One Arm Row",
+		"category": "Oberer Rücken & Hintere Schulter",
+		"animation": "",
+		"audio": "",
+		"bilateral": "true"
+	},
+	{
+		"eid": "22",
+		"name": "Pulse Rows",
+		"category": "Unterer Rücken",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "23",
+		"name": "One Arm Deadlift",
+		"category": "Unterer Rücken",
+		"animation": "",
+		"audio": "",
+		"bilateral": "true"
+	},
+	{
+		"eid": "24",
+		"name": "One Arm Romanian Deadlift",
+		"category": "Unterer Rücken",
+		"animation": "",
+		"audio": "",
+		"bilateral": "true"
+	},
+	{
+		"eid": "25",
+		"name": "Single Leg Deadlift",
+		"category": "Unterer Rücken",
+		"animation": "",
+		"audio": "",
+		"bilateral": "true"
+	},
+	{
+		"eid": "26",
+		"name": "Squat & Reach",
+		"category": "Unterer Rücken",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "27",
+		"name": "Deadlift",
+		"category": "Unterer Rücken",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "28",
+		"name": "Romanian Deadlift",
+		"category": "Unterer Rücken",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "29",
+		"name": "Bent Over Row",
+		"category": "Oberer Rücken & Hintere Schulter",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "30",
+		"name": "Narrow Bent Over Row",
+		"category": "Oberer Rücken & Hintere Schulter",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "31",
+		"name": "Diamond Push-Ups",
+		"category": "Trizeps",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "32",
+		"name": "Scapular Push-Ups",
+		"category": "Oberer Rücken & Hintere Schulter",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "33",
+		"name": "Wide Grip Pull-Ups",
+		"category": "Oberer Rücken & Hintere Schulter",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "34",
+		"name": "Classic Pull-Ups",
+		"category": "Oberer Rücken & Hintere Schulter",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "35",
+		"name": "Pronated Grip Row",
+		"category": "Oberer Rücken & Hintere Schulter",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "36",
+		"name": "Shoulder Shrugs",
+		"category": "Oberer Rücken & Hintere Schulter",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "37",
+		"name": "Shoulder Shrug Circles",
+		"category": "Oberer Rücken & Hintere Schulter",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "38",
+		"name": "Reverse Hyperextensions",
+		"category": "Unterer Rücken",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "39",
+		"name": "Supinated Grip Row",
+		"category": "Oberer Rücken & Hintere Schulter",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "40",
+		"name": "Wide Grip Row",
+		"category": "Oberer Rücken & Hintere Schulter",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "41",
+		"name": "Bent Over Reverse Fly",
+		"category": "Oberer Rücken & Hintere Schulter",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "42",
+		"name": "Bent Over Y Raise",
+		"category": "Oberer Rücken & Hintere Schulter",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "43",
+		"name": "One Arm Reverse Fly",
+		"category": "Oberer Rücken & Hintere Schulter",
+		"animation": "",
+		"audio": "",
+		"bilateral": "true"
+	},
+	{
+		"eid": "44",
+		"name": "Upright Row",
+		"category": "Schulter",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "45",
+		"name": "Ab Rollups",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "46",
+		"name": "Abdominal Hip Raises",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "47",
+		"name": "Alternating Leg Raises",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "48",
+		"name": "High Arm Raise Plank",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "49",
+		"name": "Bicycle Crunches",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "50",
+		"name": "Corkscrew",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "51",
+		"name": "Dynamic Rollups",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "52",
+		"name": "Elevated Crunches",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "53",
+		"name": "Heel Touches",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "54",
+		"name": "Hundred Pike",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "55",
+		"name": "Oblique Rotations",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "true"
+	},
+	{
+		"eid": "56",
+		"name": "Arm Raise Plank",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "57",
+		"name": "Plank",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "58",
+		"name": "Reaching Crunches",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "59",
+		"name": "Scapular Planks",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "60",
+		"name": "Side Crunches",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "61",
+		"name": "Side Leg Lift",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "true"
+	},
+	{
+		"eid": "62",
+		"name": "Side Plank",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "true"
+	},
+	{
+		"eid": "63",
+		"name": "Side Plank Raises",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "true"
+	},
+	{
+		"eid": "64",
+		"name": "Single Leg Circles",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "true"
+	},
+	{
+		"eid": "65",
+		"name": "Supine Marching",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "66",
+		"name": "Teaser",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "67",
+		"name": "Toe Touches",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "68",
+		"name": "The Hundred",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "69",
+		"name": "V Sit-Ups",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "70",
+		"name": "Mason Twist",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "71",
+		"name": "Russian Twist",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "72",
+		"name": "Side Bends",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "true"
+	},
+	{
+		"eid": "73",
+		"name": "Knee Raises",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "74",
+		"name": "Oblique Knee Raises",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "75",
+		"name": "High Plank",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "76",
+		"name": "One Arm Plank",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "true"
+	},
+	{
+		"eid": "77",
+		"name": "Single Leg Plank",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "true"
+	},
+	{
+		"eid": "78",
+		"name": "High One Arm Plank",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "true"
+	},
+	{
+		"eid": "79",
+		"name": "High Single Leg Plank",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "true"
+	},
+		{
+		"eid": "80",
+		"name": "Two Point Plank",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "true"
+	},
+	{
+		"eid": "81",
+		"name": "Walking Plank",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
 	}
+	
 	
 	
 ]

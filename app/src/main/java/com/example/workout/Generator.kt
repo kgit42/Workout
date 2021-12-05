@@ -355,10 +355,10 @@ class Generator(
 
 
                     //Pause nach Übung / Übungskombination hinzufügen (nur, wenn nicht letzte Übung / letzte Übungskombination des Workouts)
-                    //25% Chance, dass Pause zwischen Übungen (nicht bei Supersatz-Workouts) wegfällt bzw. nur 10 Sekunden beträgt --> Supersatz.
+                    //25% Chance, dass Pause zwischen Übungen (nicht bei Supersatz-Workouts) wegfällt bzw. nur 15 Sekunden beträgt --> Supersatz.
                     var newRest2 = workout.restExercices
                     if (workout.type == 0 && Math.random() < 0.25) {
-                        newRest2 = 10
+                        newRest2 = 15
                     }
 
                     json.workouts[index0].exercices.add(
