@@ -89,7 +89,7 @@
 	},
 	{
 		"eid": "12",
-		"name": "Wadenheben",
+		"name": "Wadenheben einseitig",
 		"category": "Waden",
 		"animation": "calf_raises.gif",
 		"audio": "Wadenheben.m4a",
@@ -113,7 +113,7 @@
 	},
 	{
 		"eid": "15",
-		"name": "Y Raise",
+		"name": "Y Raises",
 		"category": "Oberer Rücken & Hintere Schulter",
 		"animation": "",
 		"audio": "",
@@ -121,7 +121,7 @@
 	},
 	{
 		"eid": "16",
-		"name": "T Raise",
+		"name": "T Raises",
 		"category": "Oberer Rücken & Hintere Schulter",
 		"animation": "",
 		"audio": "",
@@ -161,7 +161,7 @@
 	},
 	{
 		"eid": "21",
-		"name": "One Arm Row",
+		"name": "One Arm Rows",
 		"category": "Oberer Rücken & Hintere Schulter",
 		"animation": "",
 		"audio": "",
@@ -225,7 +225,7 @@
 	},
 	{
 		"eid": "29",
-		"name": "Bent Over Row",
+		"name": "Bent Over Rows",
 		"category": "Oberer Rücken & Hintere Schulter",
 		"animation": "",
 		"audio": "",
@@ -233,7 +233,7 @@
 	},
 	{
 		"eid": "30",
-		"name": "Narrow Bent Over Row",
+		"name": "Narrow Bent Over Rows",
 		"category": "Oberer Rücken & Hintere Schulter",
 		"animation": "",
 		"audio": "",
@@ -250,7 +250,7 @@
 	{
 		"eid": "32",
 		"name": "Scapular Push-Ups",
-		"category": "Oberer Rücken & Hintere Schulter",
+		"category": "Bauch",
 		"animation": "",
 		"audio": "",
 		"bilateral": "false"
@@ -273,7 +273,7 @@
 	},
 	{
 		"eid": "35",
-		"name": "Pronated Grip Row",
+		"name": "Pronated Grip Rows",
 		"category": "Oberer Rücken & Hintere Schulter",
 		"animation": "",
 		"audio": "",
@@ -305,7 +305,7 @@
 	},
 	{
 		"eid": "39",
-		"name": "Supinated Grip Row",
+		"name": "Supinated Grip Rows",
 		"category": "Oberer Rücken & Hintere Schulter",
 		"animation": "",
 		"audio": "",
@@ -313,7 +313,7 @@
 	},
 	{
 		"eid": "40",
-		"name": "Wide Grip Row",
+		"name": "Wide Grip Rows",
 		"category": "Oberer Rücken & Hintere Schulter",
 		"animation": "",
 		"audio": "",
@@ -321,7 +321,7 @@
 	},
 	{
 		"eid": "41",
-		"name": "Bent Over Reverse Fly",
+		"name": "Bent Over Reverse Flys",
 		"category": "Oberer Rücken & Hintere Schulter",
 		"animation": "",
 		"audio": "",
@@ -329,7 +329,7 @@
 	},
 	{
 		"eid": "42",
-		"name": "Bent Over Y Raise",
+		"name": "Bent Over Y Raises",
 		"category": "Oberer Rücken & Hintere Schulter",
 		"animation": "",
 		"audio": "",
@@ -337,7 +337,7 @@
 	},
 	{
 		"eid": "43",
-		"name": "One Arm Reverse Fly",
+		"name": "One Arm Reverse Flys",
 		"category": "Oberer Rücken & Hintere Schulter",
 		"animation": "",
 		"audio": "",
@@ -345,7 +345,7 @@
 	},
 	{
 		"eid": "44",
-		"name": "Upright Row",
+		"name": "Upright Rows",
 		"category": "Schulter",
 		"animation": "",
 		"audio": "",
@@ -631,7 +631,7 @@
 		"audio": "",
 		"bilateral": "true"
 	},
-		{
+	{
 		"eid": "80",
 		"name": "Two Point Plank",
 		"category": "Bauch",
@@ -646,8 +646,535 @@
 		"animation": "",
 		"audio": "",
 		"bilateral": "false"
+	},
+	{
+		"eid": "82",
+		"name": "Alternating Biceps Curls",
+		"category": "Bizeps",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "83",
+		"name": "Alternating Hammer Curls",
+		"category": "Bizeps",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "84",
+		"name": "Alternating Rotational Curls",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "85",
+		"name": "Alternating Reverse Grip Curls",
+		"category": "Unterarm",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "86",
+		"name": "Bench Supported Curls",
+		"category": "Bizeps",
+		"animation": "",
+		"audio": "",
+		"bilateral": "true"
+	},
+	{
+		"eid": "87",
+		"name": "Concentration Curls",
+		"category": "Bizeps",
+		"animation": "",
+		"audio": "",
+		"bilateral": "true"
+	},
+	{
+		"eid": "88",
+		"name": "Hammer Grip Curls",
+		"category": "Bizeps",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "89",
+		"name": "Palms-Down Wrist Curls",
+		"category": "Unterarm",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "90",
+		"name": "Palms-Up Wrist Curls",
+		"category": "Unterarm",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "91",
+		"name": "Reverse Grip Curls",
+		"category": "Unterarm",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "92",
+		"name": "Rotational Curls",
+		"category": "Bizeps",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "93",
+		"name": "Seated Incline Curls",
+		"category": "Bizeps",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "94",
+		"name": "Supine Biceps Curls",
+		"category": "Bizeps",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "95",
+		"name": "Chin-Ups",
+		"category": "Bizeps",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "96",
+		"name": "Chest Flys",
+		"category": "Brust",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "97",
+		"name": "Decline Bench Press",
+		"category": "Brust",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "98",
+		"name": "Incline Bench Press",
+		"category": "Brust",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "99",
+		"name": "Incline Chest Flys",
+		"category": "Brust",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "100",
+		"name": "Neutral Grip Bench Press",
+		"category": "Brust",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "101",
+		"name": "Rotational Bench Press",
+		"category": "Brust",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "102",
+		"name": "Incline Push-Ups",
+		"category": "Brust",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "103",
+		"name": "Wide Arm Push-Ups",
+		"category": "Brust",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "104",
+		"name": "Pullover",
+		"category": "Bauch",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "105",
+		"name": "Hamstring Curls",
+		"category": "Beinbeuger",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "106",
+		"name": "Bulgarian Squats",
+		"category": "Quadrizeps",
+		"animation": "",
+		"audio": "",
+		"bilateral": "true"
+	},
+	{
+		"eid": "107",
+		"name": "Diagonal Lunges",
+		"category": "Quadrizeps",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "108",
+		"name": "Dumbbell Plie Squats",
+		"category": "Quadrizeps",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "109",
+		"name": "Dumbbell Squats",
+		"category": "Quadrizeps",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "110",
+		"name": "Forward Lunges",
+		"category": "Quadrizeps",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "111",
+		"name": "Goblet Squats",
+		"category": "Quadrizeps",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "112",
+		"name": "Rear Lunges",
+		"category": "Quadrizeps",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "113",
+		"name": "Side-to-Side Lunges",
+		"category": "Quadrizeps",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "114",
+		"name": "Single Dumbbell Squats",
+		"category": "Quadrizeps",
+		"animation": "",
+		"audio": "",
+		"bilateral": "true"
+	},
+	{
+		"eid": "115",
+		"name": "Split Squats",
+		"category": "Quadrizeps",
+		"animation": "",
+		"audio": "",
+		"bilateral": "true"
+	},
+	{
+		"eid": "116",
+		"name": "One Leg Chair Squats",
+		"category": "Quadrizeps",
+		"animation": "",
+		"audio": "",
+		"bilateral": "true"
+	},
+	{
+		"eid": "117",
+		"name": "Bridge Kicker",
+		"category": "Po",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "118",
+		"name": "Bridge Marching",
+		"category": "Po",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "119",
+		"name": "Bridges",
+		"category": "Po",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "120",
+		"name": "Bouncing Squats",
+		"category": "Quadrizeps",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "121",
+		"name": "Walk the Box",
+		"category": "Quadrizeps",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "122",
+		"name": "Step-Ups",
+		"category": "Quadrizeps",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "123",
+		"name": "Wall Sit",
+		"category": "Quadrizeps",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "124",
+		"name": "Short ROM Squats",
+		"category": "Quadrizeps",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "125",
+		"name": "Alternating Shoulder Press",
+		"category": "Schulter",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "126",
+		"name": "Front Shoulder Raises",
+		"category": "Schulter",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "127",
+		"name": "Lateral Raises",
+		"category": "Schulter",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "128",
+		"name": "Neutral Grip Front Raises",
+		"category": "Schulter",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "129",
+		"name": "Neutral Shoulder Press",
+		"category": "Schulter",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "130",
+		"name": "Wide Shoulder Press",
+		"category": "Schulter",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "131",
+		"name": "Shoulder Push-Ups",
+		"category": "Schulter",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "132",
+		"name": "Upside Down Push-Ups",
+		"category": "Schulter",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "133",
+		"name": "Decline Push-Ups",
+		"category": "Schulter",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "134",
+		"name": "Alternating Wide Shoulder Press",
+		"category": "Schulter",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "135",
+		"name": "Bent Over Triceps Kickback",
+		"category": "Trizeps",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "136",
+		"name": "One Arm Triceps Extensions",
+		"category": "Trizeps",
+		"animation": "",
+		"audio": "",
+		"bilateral": "true"
+	},
+	{
+		"eid": "137",
+		"name": "Triceps Kickbacks",
+		"category": "Trizeps",
+		"animation": "",
+		"audio": "",
+		"bilateral": "true"
+	},
+	{
+		"eid": "138",
+		"name": "Two Arms Skull Crushers",
+		"category": "Trizeps",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "139",
+		"name": "Diamond Push-Ups",
+		"category": "Trizeps",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "140",
+		"name": "Two Arms Triceps Extensions",
+		"category": "Trizeps",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "141",
+		"name": "Reverse Plank",
+		"category": "Trizeps",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "142",
+		"name": "Seated Calf Raises",
+		"category": "Waden",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "143",
+		"name": "Calf Raises",
+		"category": "Waden",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "144",
+		"name": "Toe Raises",
+		"category": "Waden",
+		"animation": "",
+		"audio": "",
+		"bilateral": "true"
+	},
+	{
+		"eid": "145",
+		"name": "Inner Calf Raises",
+		"category": "Waden",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+		{
+		"eid": "146",
+		"name": "Outer Calf Raises",
+		"category": "Waden",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "147",
+		"name": "Sissy Squats",
+		"category": "Quadrizeps",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
 	}
-	
 	
 	
 ]
