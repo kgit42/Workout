@@ -421,7 +421,9 @@ class WorkoutDetailSupersetFragment : Fragment() {
             holder.boundString = values.exercices[position].exercice.name
             holder.text.text = values.exercices[position].exercice.name
             holder.category.text = values.exercices[position].exercice.category
-            holder.time.text = values.exercices[position].length.toString() + "s"
+            holder.time.text =
+                values.exercices[position].length.toString() + "s " + (if(values.exercices[position].exercice.bilateral == true) "(" + values.exercices[position].innerRest + "s) " else ("")) + "| " + values.exercices[position].priority + if (values.exercices[position].multipleSets == true) "M" else ("")
+
 
             //Bild suchen
             val res: Resources = resources
