@@ -865,7 +865,7 @@
 	},
 	{
 		"eid": "109",
-		"name": "Dumbbell Squats",
+		"name": "LEER",
 		"category": "Quadrizeps",
 		"animation": "",
 		"audio": "",
@@ -913,7 +913,7 @@
 	},
 	{
 		"eid": "115",
-		"name": "Split Squats",
+		"name": "LEER",
 		"category": "Quadrizeps",
 		"animation": "",
 		"audio": "",
@@ -1105,14 +1105,6 @@
 	},
 	{
 		"eid": "139",
-		"name": "Diamond Push-Ups",
-		"category": "Trizeps",
-		"animation": "",
-		"audio": "",
-		"bilateral": "false"
-	},
-	{
-		"eid": "140",
 		"name": "Two Arms Triceps Extensions",
 		"category": "Trizeps",
 		"animation": "",
@@ -1120,7 +1112,7 @@
 		"bilateral": "false"
 	},
 	{
-		"eid": "141",
+		"eid": "140",
 		"name": "Reverse Plank",
 		"category": "Trizeps",
 		"animation": "",
@@ -1128,7 +1120,7 @@
 		"bilateral": "false"
 	},
 	{
-		"eid": "142",
+		"eid": "141",
 		"name": "Seated Calf Raises",
 		"category": "Waden",
 		"animation": "",
@@ -1136,7 +1128,7 @@
 		"bilateral": "false"
 	},
 	{
-		"eid": "143",
+		"eid": "142",
 		"name": "Calf Raises",
 		"category": "Waden",
 		"animation": "",
@@ -1144,7 +1136,7 @@
 		"bilateral": "false"
 	},
 	{
-		"eid": "144",
+		"eid": "143",
 		"name": "Toe Raises",
 		"category": "Waden",
 		"animation": "",
@@ -1152,7 +1144,7 @@
 		"bilateral": "true"
 	},
 	{
-		"eid": "145",
+		"eid": "144",
 		"name": "Inner Calf Raises",
 		"category": "Waden",
 		"animation": "",
@@ -1160,7 +1152,7 @@
 		"bilateral": "false"
 	},
 		{
-		"eid": "146",
+		"eid": "145",
 		"name": "Outer Calf Raises",
 		"category": "Waden",
 		"animation": "",
@@ -1168,7 +1160,7 @@
 		"bilateral": "false"
 	},
 	{
-		"eid": "147",
+		"eid": "146",
 		"name": "Sissy Squats",
 		"category": "Quadrizeps",
 		"animation": "",

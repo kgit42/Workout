@@ -78,29 +78,46 @@ class WorkoutDetailFragment : Fragment() {
             )
         })
 
-        //Observer --> falls es Änderungen in DB gibt
+
         //nur wenn bestehendes Workout bearbeitet werden soll, muss mit der Datenbank abgeglichen werden.
         //Es werden Funktionen zum Füllen der EditTexts sowie der RecyclerView ausgeführt. Außerdem wird Inhalt von DB in HelperClass
         //abgelegt.
         if (arguments?.getInt("wid") != null) {
 
-            homeViewModel.getWorkoutById(arguments?.getInt("wid"))
-                .observe(viewLifecycleOwner) { workout ->
-                    HelperClass.addElementsFromDbIfNotDone(workout)
+            if (!HelperClass.addedFromDb) {
+                lifecycleScope.launch {
+                    var workout = homeViewModel.getWorkoutByIdAsync(arguments?.getInt("wid")!!)
 
-                    //Bestehende Daten an den Anfang der Liste setzen, dahinter kommen die neu hinzuzufügenden Elemente.
-                    adapter.addDataToBeginning()
+                    HelperClass.addElementsFromDbIfNotDone(workout)
 
                     //Textboxen befüllen
                     fillWithData(workout)
+
+                    fillToolbar(workout)
+
+                    setupRecyclerView()
+
+                    //Bestehende Daten an den Anfang der Liste setzen, dahinter kommen die neu hinzuzufügenden Elemente.
+                    adapter.addDataToBeginning()
                 }
+            } else {
+                lifecycleScope.launch {
+                    var workout = homeViewModel.getWorkoutByIdAsync(arguments?.getInt("wid")!!)
+
+                    fillToolbar(workout)
+                }
+
+                setupRecyclerView()
+
+                //Bestehende Daten an den Anfang der Liste setzen, dahinter kommen die neu hinzuzufügenden Elemente.
+                adapter.addDataToBeginning()
+            }
 
         } else {
             binding.toolbarDetail.title = "Neues Workout"
         }
 
 
-        setupRecyclerView()
         return binding.root
     }
 
@@ -274,7 +291,9 @@ class WorkoutDetailFragment : Fragment() {
         binding.anzahl1.setText(workout.numberSets.toString())
         binding.pause1.setText(workout.restExercices.toString())
         binding.pause2.setText(workout.restSets.toString())
+    }
 
+    fun fillToolbar(workout: Workout) {
         binding.toolbarDetail.title = workout.name
     }
 
@@ -337,7 +356,7 @@ class WorkoutDetailFragment : Fragment() {
             holder.text.text = values.exercices[position].exercice.name
             holder.category.text = values.exercices[position].exercice.category
             holder.time.text =
-                values.exercices[position].length.toString() + "s " + (if(values.exercices[position].exercice.bilateral == true) "(" + values.exercices[position].innerRest + "s) " else ("")) + "| " + values.exercices[position].priority + if (values.exercices[position].multipleSets == true) "M" else ("")
+                values.exercices[position].length.toString() + "s " + (if (values.exercices[position].exercice.bilateral == true) "(" + values.exercices[position].innerRest + "s) " else ("")) + "| " + values.exercices[position].priority + if (values.exercices[position].multipleSets == true) "M" else ("")
 
             //Bild suchen
             val res: Resources = resources

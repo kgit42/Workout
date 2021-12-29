@@ -73,8 +73,13 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
                     //RecyclerView aktualisieren
                     setupRecyclerView()
 
-                    //Textboxen befüllen
-                    fillWithData(routine)
+                    if(!HelperClassRoutine.addedFromDb){
+                        //Textboxen befüllen
+                        fillWithData(routine)
+                    }
+
+                    fillToolbar(routine)
+
                 }
 
         } else {
@@ -205,7 +210,9 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
     fun fillWithData(routine: Routine) {
         binding.nameRoutine.setText(routine.name)
         binding.restWorkouts.setText(routine.restWorkouts.toString())
+    }
 
+    fun fillToolbar(routine: Routine){
         binding.toolbarDetail.title = routine.name
     }
 

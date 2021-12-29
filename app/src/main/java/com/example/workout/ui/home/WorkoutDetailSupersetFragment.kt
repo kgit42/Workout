@@ -116,15 +116,34 @@ class WorkoutDetailSupersetFragment : Fragment() {
         //abgelegt.
         if (arguments?.getInt("wid") != null) {
 
-            lifecycleScope.launch {
-                var workout = homeViewModel.getWorkoutByIdAsync(arguments?.getInt("wid")!!)
+            if (!HelperClass.addedFromDb) {
+                lifecycleScope.launch {
+                    var workout = homeViewModel.getWorkoutByIdAsync(arguments?.getInt("wid")!!)
 
-                HelperClass.addElementsFromDbIfNotDone(workout)
+                    HelperClass.addElementsFromDbIfNotDone(workout)
+                    fillWithData(workout)
+                    fillToolbar(workout)
+
+                    setupRecyclerView()
+
+                    //Bestehende Daten an den Anfang der Liste setzen, dahinter kommen die neu hinzuzufügenden Elemente.
+                    adapter.addDataToBeginning(HelperClass.workoutentriesFromDb)
+                    adapter2.addDataToBeginning(HelperClass.workoutentriesFromDb2)
+                }
+            } else {
+                lifecycleScope.launch {
+                    var workout = homeViewModel.getWorkoutByIdAsync(arguments?.getInt("wid")!!)
+
+                    fillToolbar(workout)
+
+                }
+
+                setupRecyclerView()
 
                 //Bestehende Daten an den Anfang der Liste setzen, dahinter kommen die neu hinzuzufügenden Elemente.
                 adapter.addDataToBeginning(HelperClass.workoutentriesFromDb)
                 adapter2.addDataToBeginning(HelperClass.workoutentriesFromDb2)
-                fillWithData(workout)
+
             }
 
 
@@ -133,8 +152,6 @@ class WorkoutDetailSupersetFragment : Fragment() {
         }
 
 
-
-        setupRecyclerView()
         return binding.root
     }
 
@@ -369,7 +386,9 @@ class WorkoutDetailSupersetFragment : Fragment() {
         binding.anzahl1.setText(workout.numberSets.toString())
         binding.pause1.setText(workout.restExercices.toString())
         binding.pause2.setText(workout.restSets.toString())
+    }
 
+    fun fillToolbar(workout: Workout) {
         binding.toolbarDetail.title = workout.name
     }
 
