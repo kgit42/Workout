@@ -58,7 +58,7 @@ class Generator(
                 var exerciceCounter = 0
 
                 //Liste, in der alle Übungen des Workouts in der der Priorität entsprechenden Quantität vertreten sind
-                //1-fach, 5-fach, bzw. 25-fach
+                //1-fach, 5-fach, bzw. 50-fach
                 var listForRandomChoice: ArrayList<Exercice> = arrayListOf()
 
                 for ((index, value) in workout.exercices.withIndex()) {
@@ -67,7 +67,7 @@ class Generator(
                         1 -> for (i in 1..5) {
                             listForRandomChoice.add(value.exercice)
                         }
-                        2 -> for (i in 1..25) {
+                        2 -> for (i in 1..50) {
                             listForRandomChoice.add(value.exercice)
                         }
                         else -> {
@@ -97,11 +97,11 @@ class Generator(
                                 }
                             }
                             2 -> if (value.multipleSets == false) {
-                                for (i in 1..25) {
+                                for (i in 1..50) {
                                     listForRandomChoiceSuper1Set.add(value.exercice)
                                 }
                             } else {
-                                for (i in 1..25) {
+                                for (i in 1..50) {
                                     listForRandomChoiceSuperMSet.add(value.exercice)
                                 }
                             }
@@ -130,7 +130,7 @@ class Generator(
                                 1 -> for (i in 1..5) {
                                     listForRandomChoice.add(value.exercice)
                                 }
-                                2 -> for (i in 1..25) {
+                                2 -> for (i in 1..50) {
                                     listForRandomChoice.add(value.exercice)
                                 }
                                 else -> {
@@ -186,7 +186,7 @@ class Generator(
                                         }
                                     }
                                     2 -> if (value.multipleSets == false) {
-                                        for (i in 1..25) {
+                                        for (i in 1..50) {
                                             listForRandomChoiceSuper1Set.add(value.exercice)
                                         }
                                     }
@@ -207,7 +207,7 @@ class Generator(
                                         }
                                     }
                                     2 -> if (value.multipleSets == true) {
-                                        for (i in 1..25) {
+                                        for (i in 1..50) {
                                             listForRandomChoiceSuperMSet.add(value.exercice)
                                         }
                                     }
