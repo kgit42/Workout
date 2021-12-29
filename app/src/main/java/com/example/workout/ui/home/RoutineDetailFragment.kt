@@ -319,14 +319,12 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
         override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
             val prev: Workout = values.workouts.removeAt(fromPosition)
             HelperClassRoutine.allWorkouts.removeAt(fromPosition)
-            values.workouts.add(if (toPosition > fromPosition) toPosition - 1 else toPosition, prev)
+            values.workouts.add(if (toPosition > fromPosition) toPosition else toPosition, prev)
             HelperClassRoutine.allWorkouts.add(
-                if (toPosition > fromPosition) toPosition - 1 else toPosition,
+                if (toPosition > fromPosition) toPosition else toPosition,
                 prev
             )
             notifyItemMoved(fromPosition, toPosition)
-
-            HelperClassRoutine.allWorkouts.forEach { Log.v("hhh", it.name!!) }
 
             return true
         }
