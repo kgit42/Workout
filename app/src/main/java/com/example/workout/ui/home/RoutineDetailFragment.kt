@@ -326,6 +326,8 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
             )
             notifyItemMoved(fromPosition, toPosition)
 
+            HelperClassRoutine.allWorkouts.forEach { Log.v("hhh", it.name!!) }
+
             return true
         }
 

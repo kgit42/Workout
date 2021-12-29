@@ -15,7 +15,10 @@ interface ExerciceDao {
     fun insertAll(vararg exercice: Exercice)
 
     @Delete
-    fun delete(user: Exercice)
+    fun delete(exercice: Exercice)
+
+    @Query("DELETE FROM exercice")
+    fun deleteAll()
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertAll(list: List<Exercice>)

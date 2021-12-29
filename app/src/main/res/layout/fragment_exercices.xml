@@ -29,13 +29,14 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbar_exercices"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways|snap"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:title="Übungen" />             <!-- app:menu="@menu/menu_sort" -->
+            app:title="Übungen"
+            app:menu="@menu/menu_import"/>             <!-- app:menu="@menu/menu_sort" -->
 
 
     </com.google.android.material.appbar.AppBarLayout>

@@ -1,27 +1,43 @@
 package com.example.workout.ui.exercices
 
+import android.app.Application
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.workout.HelperClass
 import com.example.workout.R
 import com.example.workout.databinding.FragmentExercicesBinding
+import com.example.workout.db.AppDatabase
 import com.example.workout.db.Exercice
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.google.gson.stream.JsonReader
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ExercicesFragment : Fragment() {
 
     private lateinit var exercicesViewModel: ExercicesViewModel
     private lateinit var _binding: FragmentExercicesBinding
     private lateinit var adapter: MyRecyclerViewAdapter
+
+    private lateinit var toolbar: Toolbar
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -44,6 +60,7 @@ class ExercicesFragment : Fragment() {
         })*/
 
         setupRecyclerView()
+        onOptionsItemSelected()
 
         //Observer --> falls es Änderungen in DB gibt
         exercicesViewModel.getAllExercices()
@@ -67,6 +84,47 @@ class ExercicesFragment : Fragment() {
             listExercices.adapter = adapter
             listExercices.layoutManager = LinearLayoutManager(listExercices.context)
         }
+    }
+
+
+    //Import-Button
+    private fun onOptionsItemSelected() {
+        toolbar = binding.toolbarExercices
+        toolbar.setOnMenuItemClickListener {
+
+            ProcessLifecycleOwner.get().lifecycleScope.launch(Dispatchers.IO) {
+                //zunächst alle Exercices aus DB löschen:
+                withContext(Dispatchers.IO) {
+                    AppDatabase.getInstance(requireContext()).exerciceDao().deleteAll()
+                }
+
+                //dann neu importieren:
+                try {
+                    context?.resources?.openRawResource(R.raw.exercices).use { inputStream ->
+                        JsonReader(inputStream?.reader()).use { jsonReader ->
+                            val type = object : TypeToken<List<Exercice>>() {}.type
+                            val exerciceList: List<Exercice> = Gson().fromJson(jsonReader, type)
+
+                            withContext(Dispatchers.IO) {
+                                    AppDatabase.getInstance(requireContext()).exerciceDao()
+                                        .insertAll(exerciceList)
+
+                            }
+
+                        }
+                    }
+                    Log.v("hhh", "success")
+                } catch (e: Exception) {
+                    Log.v("hhh", "failure$e")
+                }
+            }
+
+
+            return@setOnMenuItemClickListener true
+
+
+        }
+
     }
 
 
