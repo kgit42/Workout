@@ -114,6 +114,7 @@ class WorkoutDetailFragment : Fragment() {
             }
 
         } else {
+            setupRecyclerView()
             binding.toolbarDetail.title = "Neues Workout"
         }
 

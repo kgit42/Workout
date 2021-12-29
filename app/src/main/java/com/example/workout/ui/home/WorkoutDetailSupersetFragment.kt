@@ -148,6 +148,7 @@ class WorkoutDetailSupersetFragment : Fragment() {
 
 
         } else {
+            setupRecyclerView()
             binding.toolbarDetail.title = "Neues Supersatz-Workout"
         }
 
