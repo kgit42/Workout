@@ -5,7 +5,7 @@ import androidx.room.*
 
 @Dao
 interface ExerciceDao {
-    @Query("SELECT * FROM exercice ORDER BY name")
+    @Query("SELECT * FROM exercice ORDER BY category, name")
     fun getAll(): LiveData<List<Exercice>>
 
     @Query("SELECT * FROM exercice WHERE eid IN (:exerciceIds)")

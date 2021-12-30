@@ -225,7 +225,7 @@
 	},
 	{
 		"eid": "29",
-		"name": "Bent Over Rows",
+		"name": "Dumbbell Bent Over Rows",
 		"category": "Oberer Rücken & Hintere Schulter",
 		"animation": "",
 		"audio": "",
@@ -233,7 +233,7 @@
 	},
 	{
 		"eid": "30",
-		"name": "Narrow Bent Over Rows",
+		"name": "Narrow Dumbbell Bent Over Rows",
 		"category": "Oberer Rücken & Hintere Schulter",
 		"animation": "",
 		"audio": "",
@@ -273,7 +273,7 @@
 	},
 	{
 		"eid": "35",
-		"name": "Pronated Grip Rows",
+		"name": "Bent Over Pronated Grip Rows",
 		"category": "Oberer Rücken & Hintere Schulter",
 		"animation": "",
 		"audio": "",
@@ -305,7 +305,7 @@
 	},
 	{
 		"eid": "39",
-		"name": "Supinated Grip Rows",
+		"name": "Bent Over Supinated Grip Rows",
 		"category": "Oberer Rücken & Hintere Schulter",
 		"animation": "",
 		"audio": "",
@@ -313,7 +313,7 @@
 	},
 	{
 		"eid": "40",
-		"name": "Wide Grip Rows",
+		"name": "Bent Over Wide Grip Rows",
 		"category": "Oberer Rücken & Hintere Schulter",
 		"animation": "",
 		"audio": "",
@@ -865,11 +865,11 @@
 	},
 	{
 		"eid": "109",
-		"name": "LEER",
-		"category": "Quadrizeps",
+		"name": "One Arm Shoulder Press",
+		"category": "Schulter",
 		"animation": "",
 		"audio": "",
-		"bilateral": "false"
+		"bilateral": "true"
 	},
 	{
 		"eid": "110",
@@ -913,11 +913,11 @@
 	},
 	{
 		"eid": "115",
-		"name": "LEER",
-		"category": "Quadrizeps",
+		"name": "Grippers",
+		"category": "Unterarm",
 		"animation": "",
 		"audio": "",
-		"bilateral": "true"
+		"bilateral": "false"
 	},
 	{
 		"eid": "116",
@@ -993,7 +993,7 @@
 	},
 	{
 		"eid": "125",
-		"name": "Alternating Shoulder Press",
+		"name": "Arnold Press",
 		"category": "Schulter",
 		"animation": "",
 		"audio": "",
@@ -1166,7 +1166,47 @@
 		"animation": "",
 		"audio": "",
 		"bilateral": "false"
-	}
+	},
+	{
+		"eid": "147",
+		"name": "Farmers Walk",
+		"category": "Unterarm",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "148",
+		"name": "Decline Chest Flys",
+		"category": "Brust",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "149",
+		"name": "Incline Reverse Flys",
+		"category": "Oberer Rücken & Hintere Schulter",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "150",
+		"name": "Incline Y Raises",
+		"category": "Oberer Rücken & Hintere Schulter",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "151",
+		"name": "Seal Rows",
+		"category": "Oberer Rücken & Hintere Schulter",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
 	
 	
 ]
