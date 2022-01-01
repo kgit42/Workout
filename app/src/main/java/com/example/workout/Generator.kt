@@ -354,7 +354,7 @@ class Generator(
                     }
 
 
-                    //Pause nach Übung / Übungskombination hinzufügen (nur, wenn nicht letzte Übung / letzte Übungskombination des Workouts)
+                    //Pause nach Übung / Übungskombination hinzufügen (nur, wenn nicht letzte Übung / letzte Übungskombination des Workouts; wird durch break sichergestellt)
                     //25% Chance, dass Pause zwischen Übungen (nicht bei Supersatz-Workouts) wegfällt bzw. nur 15 Sekunden beträgt --> Supersatz.
                     var newRest2 = workout.restExercices
                     if (workout.type == 0 && Math.random() < 0.25) {
