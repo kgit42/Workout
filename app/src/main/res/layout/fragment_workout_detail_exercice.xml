@@ -62,6 +62,7 @@
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
                         android:hint="@string/length"
+                        android:inputType="number"
                         android:textSize="14sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
