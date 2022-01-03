@@ -36,6 +36,7 @@ import kotlinx.coroutines.withContext
 import java.io.IOException
 import org.json.JSONObject
 import com.google.android.gms.cast.framework.CastContext
+import kotlinx.coroutines.runBlocking
 
 
 class CastActivity : AppCompatActivity() {
@@ -523,10 +524,12 @@ class CastActivity : AppCompatActivity() {
 
 
                 //RoutineWorkoutStatsElement in DB einfügen
-                ProcessLifecycleOwner.get().lifecycleScope.launch {
-                    withContext(Dispatchers.IO) {
-                        AppDatabase.getInstance(applicationContext).routineWorkoutStatsElementDao()
-                            .insert(statsObject)
+                runBlocking {
+                    launch {
+                        withContext(Dispatchers.IO) {
+                            AppDatabase.getInstance(applicationContext).routineWorkoutStatsElementDao()
+                                .insert(statsObject)
+                        }
                     }
                 }
 

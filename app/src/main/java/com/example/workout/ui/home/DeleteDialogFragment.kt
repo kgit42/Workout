@@ -19,6 +19,7 @@ import com.example.workout.db.Workout
 import com.example.workout.ui.stats.StatsViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class DeleteDialogFragment : DialogFragment() {
 
@@ -41,32 +42,35 @@ class DeleteDialogFragment : DialogFragment() {
                         //Workout löschen
                         if (arguments?.getInt("wid") != 0) {
                             //DB-Aufruf
-                            lifecycleScope.launch(Dispatchers.IO) {
-                                homeViewModel.deleteWorkout(arguments?.getInt("wid")!!)
+                                runBlocking {
+                                    launch(Dispatchers.IO) {
+                                        homeViewModel.deleteWorkout(arguments?.getInt("wid")!!)
 
-                                //Workout auch aus allen Routinen löschen
-                                val routines = homeViewModel.getAllRoutinesAsync()
-                                Log.v("hhh", routines.toString())
+                                        //Workout auch aus allen Routinen löschen
+                                        val routines = homeViewModel.getAllRoutinesAsync()
+                                        Log.v("hhh", routines.toString())
 
-                                routines.forEach { routine ->
-                                    var workouts = routine.workouts
+                                        routines.forEach { routine ->
+                                            var workouts = routine.workouts
 
-                                    workouts.forEach { workout ->
-                                        if (workout.wid == arguments?.getInt("wid")!!) {
-                                            workouts.remove(workout)
+                                            workouts.forEach { workout ->
+                                                if (workout.wid == arguments?.getInt("wid")!!) {
+                                                    workouts.remove(workout)
+                                                }
+                                            }
+
+                                            val newRoutine = Routine(
+                                                routine.rid, routine.name,
+                                                routine.restWorkouts, workouts
+                                            )
+
+                                            homeViewModel.updateRoutine(newRoutine)
+
                                         }
+
                                     }
-
-                                    val newRoutine = Routine(
-                                        routine.rid, routine.name,
-                                        routine.restWorkouts, workouts
-                                    )
-
-                                    homeViewModel.updateRoutine(newRoutine)
-
                                 }
 
-                            }
                         }
 
                         //Workoutentry löschen (noch nicht aus DB)

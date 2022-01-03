@@ -30,6 +30,7 @@ import androidx.core.content.ContextCompat
 import com.example.workout.WorkoutDetailFragmentAdapterInterface
 import com.example.workout.db.Routine
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 
 
 class WorkoutDetailSupersetFragment : Fragment() {
@@ -117,25 +118,29 @@ class WorkoutDetailSupersetFragment : Fragment() {
         if (arguments?.getInt("wid") != null) {
 
             if (!HelperClass.addedFromDb) {
-                lifecycleScope.launch {
-                    var workout = homeViewModel.getWorkoutByIdAsync(arguments?.getInt("wid")!!)
+                runBlocking {
+                    launch {
+                        var workout = homeViewModel.getWorkoutByIdAsync(arguments?.getInt("wid")!!)
 
-                    HelperClass.addElementsFromDbIfNotDone(workout)
-                    fillWithData(workout)
-                    fillToolbar(workout)
+                        HelperClass.addElementsFromDbIfNotDone(workout)
+                        fillWithData(workout)
+                        fillToolbar(workout)
 
-                    setupRecyclerView()
+                        setupRecyclerView()
 
-                    //Bestehende Daten an den Anfang der Liste setzen, dahinter kommen die neu hinzuzufügenden Elemente.
-                    adapter.addDataToBeginning(HelperClass.workoutentriesFromDb)
-                    adapter2.addDataToBeginning(HelperClass.workoutentriesFromDb2)
+                        //Bestehende Daten an den Anfang der Liste setzen, dahinter kommen die neu hinzuzufügenden Elemente.
+                        adapter.addDataToBeginning(HelperClass.workoutentriesFromDb)
+                        adapter2.addDataToBeginning(HelperClass.workoutentriesFromDb2)
+                    }
                 }
             } else {
-                lifecycleScope.launch {
-                    var workout = homeViewModel.getWorkoutByIdAsync(arguments?.getInt("wid")!!)
+                runBlocking {
+                    launch {
+                        var workout = homeViewModel.getWorkoutByIdAsync(arguments?.getInt("wid")!!)
 
-                    fillToolbar(workout)
+                        fillToolbar(workout)
 
+                    }
                 }
 
                 setupRecyclerView()
@@ -238,48 +243,54 @@ class WorkoutDetailSupersetFragment : Fragment() {
                         exercices,
                         exercices2
                     )
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        homeViewModel.updateWorkout(
-                            newWorkout
-                        )
 
-                        //Workout auch in allen Routinen updaten
-                        val routines = homeViewModel.getAllRoutinesAsync()
-                        Log.v("hhh", routines.toString())
-
-                        routines.forEach { routine ->
-                            var workouts = routine.workouts
-
-                            workouts.forEachIndexed { index, workout ->
-                                if (workout.wid == arguments?.getInt("wid")!!) {
-                                    workouts[index] = newWorkout
-                                }
-                            }
-
-                            val newRoutine = Routine(
-                                routine.rid, routine.name,
-                                routine.restWorkouts, workouts
+                    runBlocking {
+                        launch(Dispatchers.IO) {
+                            homeViewModel.updateWorkout(
+                                newWorkout
                             )
 
-                            homeViewModel.updateRoutine(newRoutine)
+                            //Workout auch in allen Routinen updaten
+                            val routines = homeViewModel.getAllRoutinesAsync()
+                            Log.v("hhh", routines.toString())
 
+                            routines.forEach { routine ->
+                                var workouts = routine.workouts
+
+                                workouts.forEachIndexed { index, workout ->
+                                    if (workout.wid == arguments?.getInt("wid")!!) {
+                                        workouts[index] = newWorkout
+                                    }
+                                }
+
+                                val newRoutine = Routine(
+                                    routine.rid, routine.name,
+                                    routine.restWorkouts, workouts
+                                )
+
+                                homeViewModel.updateRoutine(newRoutine)
+
+                            }
                         }
                     }
+
                 } else {
                     //DB-Aufruf
-                    lifecycleScope.launch {
-                        homeViewModel.createWorkout(
-                            Workout(
-                                0,
-                                name,
-                                1,
-                                anzahl,
-                                pause1,
-                                pause2,
-                                exercices,
-                                exercices2
+                    runBlocking {
+                        launch {
+                            homeViewModel.createWorkout(
+                                Workout(
+                                    0,
+                                    name,
+                                    1,
+                                    anzahl,
+                                    pause1,
+                                    pause2,
+                                    exercices,
+                                    exercices2
+                                )
                             )
-                        )
+                        }
                     }
                 }
             } catch (e: Exception) {
@@ -306,34 +317,37 @@ class WorkoutDetailSupersetFragment : Fragment() {
 
             HelperClass.setAdapter(adapter)
 
-            lifecycleScope.launch {
+            runBlocking {
+                launch {
 
-                HelperClass.listToAdd.forEach {
+                    HelperClass.listToAdd.forEach {
 
-                    //Ein neues WorkoutEntry dieser Übung in DB anlegen und ID zurückgeben lassen
-                    var id = homeViewModel.createWorkoutEntry(WorkoutEntry(exercice = it))
+                        //Ein neues WorkoutEntry dieser Übung in DB anlegen und ID zurückgeben lassen
+                        var id = homeViewModel.createWorkoutEntry(WorkoutEntry(exercice = it))
 
-                    //Neues WorkoutEntry mit der erhaltenen ID der HelperClass hinzufügen
-                    val workoutentry = WorkoutEntry(id.toInt(), exercice = it)
-                    HelperClass.workoutentriesToAdd.add(workoutentry)
+                        //Neues WorkoutEntry mit der erhaltenen ID der HelperClass hinzufügen
+                        val workoutentry = WorkoutEntry(id.toInt(), exercice = it)
+                        HelperClass.workoutentriesToAdd.add(workoutentry)
+
+                    }
+
+
+                    //alle hinzuzufügenden Elemente aus HelperClass dem Adapter der RecyclerView hinzufügen
+                    HelperClass.workoutentriesToAdd.forEach {
+                        adapter.addElement(it)
+                    }
+
+                    //Elemente aus listToAdd löschen. Verwendung eines Iterators, da es
+                    // sonst zu ConcurrentModificationException kommt
+                    val iterator = HelperClass.listToAdd.iterator()
+                    while (iterator.hasNext()) {
+                        var ex = iterator.next()
+                        iterator.remove()
+                    }
 
                 }
-
-
-                //alle hinzuzufügenden Elemente aus HelperClass dem Adapter der RecyclerView hinzufügen
-                HelperClass.workoutentriesToAdd.forEach {
-                    adapter.addElement(it)
-                }
-
-                //Elemente aus listToAdd löschen. Verwendung eines Iterators, da es
-                // sonst zu ConcurrentModificationException kommt
-                val iterator = HelperClass.listToAdd.iterator()
-                while (iterator.hasNext()) {
-                    var ex = iterator.next()
-                    iterator.remove()
-                }
-
             }
+
 
         }
 
@@ -347,33 +361,35 @@ class WorkoutDetailSupersetFragment : Fragment() {
 
             HelperClass.setAdapter2(adapter2)
 
-            lifecycleScope.launch {
+            runBlocking {
+                launch {
 
-                HelperClass.listToAdd2.forEach {
+                    HelperClass.listToAdd2.forEach {
 
-                    //Ein neues WorkoutEntry dieser Übung in DB anlegen und ID zurückgeben lassen
-                    var id = homeViewModel.createWorkoutEntry(WorkoutEntry(exercice = it))
+                        //Ein neues WorkoutEntry dieser Übung in DB anlegen und ID zurückgeben lassen
+                        var id = homeViewModel.createWorkoutEntry(WorkoutEntry(exercice = it))
 
-                    //Neues WorkoutEntry mit der erhaltenen ID der HelperClass hinzufügen
-                    val workoutentry = WorkoutEntry(id.toInt(), exercice = it)
-                    HelperClass.workoutentriesToAdd2.add(workoutentry)
+                        //Neues WorkoutEntry mit der erhaltenen ID der HelperClass hinzufügen
+                        val workoutentry = WorkoutEntry(id.toInt(), exercice = it)
+                        HelperClass.workoutentriesToAdd2.add(workoutentry)
+
+                    }
+
+
+                    //alle hinzuzufügenden Elemente aus HelperClass dem Adapter der RecyclerView hinzufügen
+                    HelperClass.workoutentriesToAdd2.forEach {
+                        adapter2.addElement(it)
+                    }
+
+                    //Elemente aus listToAdd löschen. Verwendung eines Iterators, da es
+                    // sonst zu ConcurrentModificationException kommt
+                    val iterator = HelperClass.listToAdd2.iterator()
+                    while (iterator.hasNext()) {
+                        var ex = iterator.next()
+                        iterator.remove()
+                    }
 
                 }
-
-
-                //alle hinzuzufügenden Elemente aus HelperClass dem Adapter der RecyclerView hinzufügen
-                HelperClass.workoutentriesToAdd2.forEach {
-                    adapter2.addElement(it)
-                }
-
-                //Elemente aus listToAdd löschen. Verwendung eines Iterators, da es
-                // sonst zu ConcurrentModificationException kommt
-                val iterator = HelperClass.listToAdd2.iterator()
-                while (iterator.hasNext()) {
-                    var ex = iterator.next()
-                    iterator.remove()
-                }
-
             }
 
         }

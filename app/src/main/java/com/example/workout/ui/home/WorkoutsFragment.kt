@@ -18,6 +18,7 @@ import com.example.workout.*
 import com.example.workout.db.Workout
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.util.*
 
 
@@ -192,17 +193,21 @@ class WorkoutsFragment : Fragment() {
 
     private fun generateWorkoutAndStartActivity(wid: Int) {
         //Wenn keine Übungen im Workout, nicht starten
-        lifecycleScope.launch {
-            var workout = homeViewModel.getWorkoutByIdAsync(wid)
-            if (workout.exercices.size == 0) {
-                hideLoadingAndShowStartButtons()
-                Snackbar.make(requireView(), "Fehler: Workout ist leer.", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-            } else {
-                val generator = Generator(homeViewModel, null, wid, context)
-                generator.generateRoutineAndStartActivity()
+
+        runBlocking {
+            launch {
+                var workout = homeViewModel.getWorkoutByIdAsync(wid)
+                if (workout.exercices.size == 0) {
+                    hideLoadingAndShowStartButtons()
+                    Snackbar.make(requireView(), "Fehler: Workout ist leer.", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+                } else {
+                    val generator = Generator(homeViewModel, null, wid, context)
+                    generator.generateRoutineAndStartActivity()
+                }
             }
         }
+
 
     }
 }

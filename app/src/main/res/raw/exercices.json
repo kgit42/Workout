@@ -2,7 +2,7 @@
 	{
 		"eid": "1",
 		"name": "Bizeps-Curls",
-		"category": "Oberarm",
+		"category": "Bizeps",
 		"animation": "biceps_curls.gif",
 		"audio": "Bizeps_curls.m4a",
 		"bilateral": "false"
@@ -666,7 +666,7 @@
 	{
 		"eid": "84",
 		"name": "Alternating Rotational Curls",
-		"category": "Bauch",
+		"category": "Bizeps",
 		"animation": "",
 		"audio": "",
 		"bilateral": "false"
@@ -1105,7 +1105,7 @@
 	},
 	{
 		"eid": "139",
-		"name": "Two Arms Triceps Extensions",
+		"name": "LEER",
 		"category": "Trizeps",
 		"animation": "",
 		"audio": "",

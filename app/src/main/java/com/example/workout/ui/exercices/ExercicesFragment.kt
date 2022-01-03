@@ -29,6 +29,7 @@ import com.google.gson.reflect.TypeToken
 import com.google.gson.stream.JsonReader
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 class ExercicesFragment : Fragment() {
@@ -92,32 +93,35 @@ class ExercicesFragment : Fragment() {
         toolbar = binding.toolbarExercices
         toolbar.setOnMenuItemClickListener {
 
-            ProcessLifecycleOwner.get().lifecycleScope.launch(Dispatchers.IO) {
-                //zunächst alle Exercices aus DB löschen:
-                withContext(Dispatchers.IO) {
-                    AppDatabase.getInstance(requireContext()).exerciceDao().deleteAll()
-                }
+            runBlocking {
+                launch(Dispatchers.IO) {
+                    //zunächst alle Exercices aus DB löschen:
+                    withContext(Dispatchers.IO) {
+                        AppDatabase.getInstance(requireContext()).exerciceDao().deleteAll()
+                    }
 
-                //dann neu importieren:
-                try {
-                    context?.resources?.openRawResource(R.raw.exercices).use { inputStream ->
-                        JsonReader(inputStream?.reader()).use { jsonReader ->
-                            val type = object : TypeToken<List<Exercice>>() {}.type
-                            val exerciceList: List<Exercice> = Gson().fromJson(jsonReader, type)
+                    //dann neu importieren:
+                    try {
+                        context?.resources?.openRawResource(R.raw.exercices).use { inputStream ->
+                            JsonReader(inputStream?.reader()).use { jsonReader ->
+                                val type = object : TypeToken<List<Exercice>>() {}.type
+                                val exerciceList: List<Exercice> = Gson().fromJson(jsonReader, type)
 
-                            withContext(Dispatchers.IO) {
+                                withContext(Dispatchers.IO) {
                                     AppDatabase.getInstance(requireContext()).exerciceDao()
                                         .insertAll(exerciceList)
 
-                            }
+                                }
 
+                            }
                         }
+                        Log.v("hhh", "success")
+                    } catch (e: Exception) {
+                        Log.v("hhh", "failure$e")
                     }
-                    Log.v("hhh", "success")
-                } catch (e: Exception) {
-                    Log.v("hhh", "failure$e")
                 }
             }
+
 
 
             return@setOnMenuItemClickListener true

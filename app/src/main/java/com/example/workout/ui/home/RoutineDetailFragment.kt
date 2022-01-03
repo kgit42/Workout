@@ -21,6 +21,7 @@ import com.example.workout.db.Routine
 import com.example.workout.db.Workout
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.lang.Exception
 
 class RoutineDetailFragment : Fragment(), OnDragStartListener {
@@ -73,7 +74,7 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
                     //RecyclerView aktualisieren
                     setupRecyclerView()
 
-                    if(!HelperClassRoutine.addedFromDb){
+                    if (!HelperClassRoutine.addedFromDb) {
                         //Textboxen befüllen
                         fillWithData(routine)
                     }
@@ -146,27 +147,31 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
                 if (arguments?.getInt("rid") != null) {
 
                     //DB-Aufruf
-                    lifecycleScope.launch {
-                        homeViewModel.updateRoutine(
-                            Routine(
-                                arguments?.getInt("rid")!!,
-                                name,
-                                pause1,
-                                exercices
+                    runBlocking {
+                        launch {
+                            homeViewModel.updateRoutine(
+                                Routine(
+                                    arguments?.getInt("rid")!!,
+                                    name,
+                                    pause1,
+                                    exercices
+                                )
                             )
-                        )
+                        }
                     }
                 } else {
                     //DB-Aufruf
-                    lifecycleScope.launch {
-                        homeViewModel.createRoutine(
-                            Routine(
-                                0,
-                                name,
-                                pause1,
-                                exercices
+                    runBlocking {
+                        launch {
+                            homeViewModel.createRoutine(
+                                Routine(
+                                    0,
+                                    name,
+                                    pause1,
+                                    exercices
+                                )
                             )
-                        )
+                        }
                     }
                 }
             } catch (e: Exception) {
@@ -212,7 +217,7 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
         binding.restWorkouts.setText(routine.restWorkouts.toString())
     }
 
-    fun fillToolbar(routine: Routine){
+    fun fillToolbar(routine: Routine) {
         binding.toolbarDetail.title = routine.name
     }
 

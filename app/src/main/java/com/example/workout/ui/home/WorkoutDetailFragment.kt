@@ -23,13 +23,12 @@ import com.example.workout.HelperClass
 import com.example.workout.db.Workout
 import com.example.workout.db.WorkoutEntry
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.launch
 import java.lang.Exception
 import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
 import com.example.workout.WorkoutDetailFragmentAdapterInterface
 import com.example.workout.db.Routine
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 
 
 class WorkoutDetailFragment : Fragment() {
@@ -85,32 +84,36 @@ class WorkoutDetailFragment : Fragment() {
         if (arguments?.getInt("wid") != null) {
 
             if (!HelperClass.addedFromDb) {
-                lifecycleScope.launch {
-                    var workout = homeViewModel.getWorkoutByIdAsync(arguments?.getInt("wid")!!)
+                runBlocking {
+                    launch {
+                        var workout = homeViewModel.getWorkoutByIdAsync(arguments?.getInt("wid")!!)
 
-                    HelperClass.addElementsFromDbIfNotDone(workout)
+                        HelperClass.addElementsFromDbIfNotDone(workout)
 
-                    //Textboxen befüllen
-                    fillWithData(workout)
+                        //Textboxen befüllen
+                        fillWithData(workout)
 
-                    fillToolbar(workout)
+                        fillToolbar(workout)
+
+                        setupRecyclerView()
+
+                        //Bestehende Daten an den Anfang der Liste setzen, dahinter kommen die neu hinzuzufügenden Elemente.
+                        adapter.addDataToBeginning()
+                    }
+                }
+            } else {
+                runBlocking {
+                    launch {
+                        var workout = homeViewModel.getWorkoutByIdAsync(arguments?.getInt("wid")!!)
+
+                        fillToolbar(workout)
+                    }
 
                     setupRecyclerView()
 
                     //Bestehende Daten an den Anfang der Liste setzen, dahinter kommen die neu hinzuzufügenden Elemente.
                     adapter.addDataToBeginning()
                 }
-            } else {
-                lifecycleScope.launch {
-                    var workout = homeViewModel.getWorkoutByIdAsync(arguments?.getInt("wid")!!)
-
-                    fillToolbar(workout)
-                }
-
-                setupRecyclerView()
-
-                //Bestehende Daten an den Anfang der Liste setzen, dahinter kommen die neu hinzuzufügenden Elemente.
-                adapter.addDataToBeginning()
             }
 
         } else {
@@ -185,48 +188,59 @@ class WorkoutDetailFragment : Fragment() {
                         exercices,
                         arrayListOf()
                     )
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        homeViewModel.updateWorkout(
-                            newWorkout
-                        )
 
-                        //Workout auch in allen Routinen updaten
-                        val routines = homeViewModel.getAllRoutinesAsync()
-                        Log.v("hhh", routines.toString())
+                    //Verwendung von lifecycleScope führte hier dazu, dass die Coroutine manchmal einfach abbricht
+                    //(je nachdem, wie das Timing ist/welcher Thread "schneller" ist)
+                    //daher: z. B. GlobalScope nutzen, oder wie hier mit runBlocking:
+                    //https://kotlinlang.org/docs/coroutines-basics.html#your-first-coroutine
 
-                        routines.forEach { routine ->
-                            var workouts = routine.workouts
-
-                            workouts.forEachIndexed { index, workout ->
-                                if (workout.wid == arguments?.getInt("wid")!!) {
-                                    workouts[index] = newWorkout
-                                }
-                            }
-
-                            val newRoutine = Routine(
-                                routine.rid, routine.name,
-                                routine.restWorkouts, workouts
+                    runBlocking {
+                        launch(Dispatchers.IO) {
+                            homeViewModel.updateWorkout(
+                                newWorkout
                             )
 
-                            homeViewModel.updateRoutine(newRoutine)
+                            //Workout auch in allen Routinen updaten
+                            val routines = homeViewModel.getAllRoutinesAsync()
+                            Log.v("hhh", routines.toString())
 
+                            routines.forEach { routine ->
+                                var workouts = routine.workouts
+
+                                workouts.forEachIndexed { index, workout ->
+                                    if (workout.wid == arguments?.getInt("wid")!!) {
+                                        workouts[index] = newWorkout
+                                    }
+                                }
+
+                                val newRoutine = Routine(
+                                    routine.rid, routine.name,
+                                    routine.restWorkouts, workouts
+                                )
+
+                                homeViewModel.updateRoutine(newRoutine)
+
+                            }
                         }
                     }
+
                 } else {
                     //DB-Aufruf
-                    lifecycleScope.launch {
-                        homeViewModel.createWorkout(
-                            Workout(
-                                0,
-                                name,
-                                0,
-                                anzahl,
-                                pause1,
-                                pause2,
-                                exercices,
-                                arrayListOf()
+                    runBlocking {
+                        launch {
+                            homeViewModel.createWorkout(
+                                Workout(
+                                    0,
+                                    name,
+                                    0,
+                                    anzahl,
+                                    pause1,
+                                    pause2,
+                                    exercices,
+                                    arrayListOf()
+                                )
                             )
-                        )
+                        }
                     }
                 }
             } catch (e: Exception) {
@@ -251,36 +265,38 @@ class WorkoutDetailFragment : Fragment() {
 
             HelperClass.setAdapter(adapter)
 
-            lifecycleScope.launch {
+            runBlocking {
+                launch {
 
-                HelperClass.listToAdd.forEach {
+                    HelperClass.listToAdd.forEach {
 
-                    //Ein neues WorkoutEntry dieser Übung in DB anlegen und ID zurückgeben lassen
-                    var id = homeViewModel.createWorkoutEntry(WorkoutEntry(exercice = it))
+                        //Ein neues WorkoutEntry dieser Übung in DB anlegen und ID zurückgeben lassen
+                        var id = homeViewModel.createWorkoutEntry(WorkoutEntry(exercice = it))
 
-                    //Neues WorkoutEntry mit der erhaltenen ID der HelperClass hinzufügen
-                    val workoutentry = WorkoutEntry(id.toInt(), exercice = it)
-                    HelperClass.workoutentriesToAdd.add(workoutentry)
+                        //Neues WorkoutEntry mit der erhaltenen ID der HelperClass hinzufügen
+                        val workoutentry = WorkoutEntry(id.toInt(), exercice = it)
+                        HelperClass.workoutentriesToAdd.add(workoutentry)
+
+                    }
+
+                    //HelperClass.workoutentriesToAdd.setValue(newWorkoutentriesToAdd)
+                    //Log.v("hhh", HelperClass.workoutentriesToAdd.toString())
+
+
+                    //alle hinzuzufügenden Elemente aus HelperClass dem Adapter der RecyclerView hinzufügen
+                    HelperClass.workoutentriesToAdd.forEach {
+                        adapter.addElement(it)
+                    }
+
+                    //Elemente aus listToAdd löschen. Verwendung eines Iterators, da es
+                    // sonst zu ConcurrentModificationException kommt
+                    val iterator = HelperClass.listToAdd.iterator()
+                    while (iterator.hasNext()) {
+                        var ex = iterator.next()
+                        iterator.remove()
+                    }
 
                 }
-
-                //HelperClass.workoutentriesToAdd.setValue(newWorkoutentriesToAdd)
-                //Log.v("hhh", HelperClass.workoutentriesToAdd.toString())
-
-
-                //alle hinzuzufügenden Elemente aus HelperClass dem Adapter der RecyclerView hinzufügen
-                HelperClass.workoutentriesToAdd.forEach {
-                    adapter.addElement(it)
-                }
-
-                //Elemente aus listToAdd löschen. Verwendung eines Iterators, da es
-                // sonst zu ConcurrentModificationException kommt
-                val iterator = HelperClass.listToAdd.iterator()
-                while (iterator.hasNext()) {
-                    var ex = iterator.next()
-                    iterator.remove()
-                }
-
             }
 
         }
