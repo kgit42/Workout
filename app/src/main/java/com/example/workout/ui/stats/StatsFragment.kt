@@ -44,6 +44,7 @@ class StatsFragment : Fragment() {
 
         setupListView()
 
+        /*
         //für Testzwecke:
         lifecycleScope.launch {
             statsViewModel.createRoutineWorkoutStatsElement(
@@ -55,6 +56,7 @@ class StatsFragment : Fragment() {
 
         }
 
+         */
 
 
         //Observer --> falls es Änderungen in DB gibt
@@ -70,7 +72,13 @@ class StatsFragment : Fragment() {
                     calendar.timeInMillis = it.timestamp!!
 
                     val mWeekNumber = calendar[Calendar.WEEK_OF_YEAR]
-                    val mYear = calendar[Calendar.YEAR]
+
+                    //Spezialfall: Tage am Anfang eines neuen Jahres, die noch zu KW 52 zählen
+                    val mYear: Int = if(calendar[Calendar.MONTH] == Calendar.JANUARY && mWeekNumber > 50){
+                        calendar[Calendar.YEAR] - 1
+                    }else{
+                        calendar[Calendar.YEAR]
+                    }
 
                     //Falls diese KW schon in der HashMap existiert, füge sie ein in die zugehörige MutableList an den Anfang.
                     //Sonst erstelle neue MutableList und füge ein.
