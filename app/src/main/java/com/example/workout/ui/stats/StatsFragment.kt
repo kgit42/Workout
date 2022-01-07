@@ -11,9 +11,11 @@ import com.example.workout.R
 import android.content.Context
 import android.util.Log
 import android.widget.*
+import androidx.lifecycle.lifecycleScope
 import com.example.workout.db.RoutineWorkoutStatsElement
 
 import com.example.workout.ui.home.DeleteDialogFragment
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -42,24 +44,25 @@ class StatsFragment : Fragment() {
 
         setupListView()
 
-        /* //für Testzwecke:
+        //für Testzwecke:
         lifecycleScope.launch {
-            statsViewModel.createRoutineWorkoutStatsElement(
-                RoutineWorkoutStatsElement(0, 5652, 3, "dfgdg", 1633860131000)
-            )
             statsViewModel.createRoutineWorkoutStatsElement(
                 RoutineWorkoutStatsElement(0, 184, 5, "dg", 1633168926000)
             )
+            statsViewModel.createRoutineWorkoutStatsElement(
+                RoutineWorkoutStatsElement(0, 5652, 3, "dfgdg", 1633860131000)
+            )
+
         }
 
-         */
+
 
         //Observer --> falls es Änderungen in DB gibt
         statsViewModel.getAllRoutineWorkoutStatsElements()
             .observe(viewLifecycleOwner) { routineWorkoutStatsElements ->
 
-                //HashMap, die die Wochennummer einem Objekt zuordnet
-                val expandableListDetail = HashMap<Int, MutableList<RoutineWorkoutStatsElement>>()
+                //HashMap, die die Wochennummer und Jahr einem Objekt zuordnet
+                val expandableListDetail = HashMap<Pair<Int, Int>, MutableList<RoutineWorkoutStatsElement>>()
 
                 routineWorkoutStatsElements.forEach {
                     //Calendar-Klasse nutzen, um aus timestamp Wochennummer (KW) abzuleiten:
@@ -67,17 +70,18 @@ class StatsFragment : Fragment() {
                     calendar.timeInMillis = it.timestamp!!
 
                     val mWeekNumber = calendar[Calendar.WEEK_OF_YEAR]
+                    val mYear = calendar[Calendar.YEAR]
 
-                    //Falls diese KW schon in der HashMap existiert, füge sie ein in die zugehörige MutableList.
-                    //Sonst erstelle neue MutableList und füge ein an den Anfang der Liste.
-                    if (expandableListDetail[mWeekNumber] != null) {
-                        expandableListDetail[mWeekNumber]?.add(0, it)
+                    //Falls diese KW schon in der HashMap existiert, füge sie ein in die zugehörige MutableList an den Anfang.
+                    //Sonst erstelle neue MutableList und füge ein.
+                    if (expandableListDetail[Pair(mWeekNumber, mYear)] != null) {
+                        expandableListDetail[Pair(mWeekNumber, mYear)]?.add(0, it)
                     } else {
-                        expandableListDetail[mWeekNumber] = mutableListOf(it)
+                        expandableListDetail[Pair(mWeekNumber, mYear)] = mutableListOf(it)
                     }
                 }
 
-                val expandableListTitle = ArrayList<Int>(expandableListDetail.keys)
+                val expandableListTitle = ArrayList<Pair<Int, Int>>(expandableListDetail.keys)
 
                 //Daten an ExpandableList weitergeben
                 adapter.setData(expandableListDetail, expandableListTitle)
@@ -122,14 +126,14 @@ class StatsFragment : Fragment() {
 
 
     inner class CustomExpandableListAdapter(
-        private val context: Context, private var expandableListTitle: List<Int>,
-        private var expandableListDetail: HashMap<Int, MutableList<RoutineWorkoutStatsElement>>
+        private val context: Context, private var expandableListTitle: List<Pair<Int, Int>>,
+        private var expandableListDetail: HashMap<Pair<Int, Int>, MutableList<RoutineWorkoutStatsElement>>
     ) : BaseExpandableListAdapter() {
 
         //um vom ViewModel aus Daten zu ändern
         fun setData(
-            newDataDetail: HashMap<Int, MutableList<RoutineWorkoutStatsElement>>,
-            newDataTitle: List<Int>
+            newDataDetail: HashMap<Pair<Int, Int>, MutableList<RoutineWorkoutStatsElement>>,
+            newDataTitle: List<Pair<Int, Int>>
         ) {
             this.expandableListDetail = newDataDetail
             this.expandableListTitle = newDataTitle
@@ -244,7 +248,7 @@ class StatsFragment : Fragment() {
             convertView: View?, parent: ViewGroup
         ): View {
             var convertView = convertView
-            val groupElement = getGroup(listPosition) as Int
+            val groupElement = getGroup(listPosition) as Pair<*, *>
             if (convertView == null) {
                 val layoutInflater =
                     context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -277,7 +281,7 @@ class StatsFragment : Fragment() {
                 counterSeconds.rem(60)
             )
 
-            text.text = "KW ${groupElement.toString()}"
+            text.text = "KW ${groupElement.first.toString()} (${groupElement.second.toString()})"
             category.text = "$str, $counterSets $string2"
 
             return convertView
