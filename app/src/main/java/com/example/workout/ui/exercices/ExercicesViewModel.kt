@@ -23,7 +23,7 @@ class ExercicesViewModel(app: Application) : AndroidViewModel(app) {
     val db = AppDatabase.getInstance(app.applicationContext)
 
     fun getAllExercices(): LiveData<List<Exercice>> {
-        return db.exerciceDao().getAll()
+        return db.exerciceDao().getAllAlphabetical()
     }
 
 

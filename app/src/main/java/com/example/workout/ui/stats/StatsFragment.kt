@@ -160,9 +160,9 @@ class StatsFragment : Fragment() {
             }
 
             val image: ImageView = convertView?.findViewById(R.id.item_image)!!
-            val text: TextView = convertView?.findViewById(R.id.item_title)!!
-            val category: TextView = convertView?.findViewById(R.id.item_category)!!
-            val time: TextView = convertView?.findViewById(R.id.item_time)!!
+            val text: TextView = convertView.findViewById(R.id.item_title)!!
+            val category: TextView = convertView.findViewById(R.id.item_category)!!
+            val time: TextView = convertView.findViewById(R.id.item_time)!!
 
             text.text = childElement.name
 
@@ -253,7 +253,7 @@ class StatsFragment : Fragment() {
 
             //val image: ImageView = view.findViewById(R.id.item_image)
             val text: TextView = convertView?.findViewById(R.id.item_title)!!
-            val category: TextView = convertView?.findViewById(R.id.item_category)!!
+            val category: TextView = convertView.findViewById(R.id.item_category)!!
 
             //Anzahl der Sätze und Sekunden insgesamt berechnen
             var counterSeconds = 0
@@ -273,8 +273,8 @@ class StatsFragment : Fragment() {
             }
 
             val str = String.format(
-                "%d:%02d", counterSeconds?.div(60),
-                counterSeconds?.rem(60)
+                "%d:%02d", counterSeconds.div(60),
+                counterSeconds.rem(60)
             )
 
             text.text = "KW ${groupElement.toString()}"

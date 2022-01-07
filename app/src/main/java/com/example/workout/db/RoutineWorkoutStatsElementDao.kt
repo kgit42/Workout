@@ -6,7 +6,7 @@ import androidx.room.*
 
 @Dao
 interface RoutineWorkoutStatsElementDao {
-    @Query("SELECT * FROM routineworkoutstatselement")
+    @Query("SELECT * FROM routineworkoutstatselement ORDER BY timestamp")
     fun getAll(): LiveData<List<RoutineWorkoutStatsElement>>
 
     @Insert

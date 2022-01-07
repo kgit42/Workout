@@ -8,6 +8,9 @@ interface ExerciceDao {
     @Query("SELECT * FROM exercice ORDER BY category, name")
     fun getAll(): LiveData<List<Exercice>>
 
+    @Query("SELECT * FROM exercice ORDER BY name")
+    fun getAllAlphabetical(): LiveData<List<Exercice>>
+
     @Query("SELECT * FROM exercice WHERE eid IN (:exerciceIds)")
     fun loadAllByIds(exerciceIds: IntArray): List<Exercice>
 
