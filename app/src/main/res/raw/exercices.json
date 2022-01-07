@@ -1105,8 +1105,8 @@
 	},
 	{
 		"eid": "139",
-		"name": "LEER",
-		"category": "Trizeps",
+		"name": "Dead Hang",
+		"category": "Unterarm",
 		"animation": "",
 		"audio": "",
 		"bilateral": "false"
@@ -1206,7 +1206,32 @@
 		"animation": "",
 		"audio": "",
 		"bilateral": "false"
+	},
+	{
+		"eid": "152",
+		"name": "One Arm Dead Hang",
+		"category": "Unterarm",
+		"animation": "",
+		"audio": "",
+		"bilateral": "true"
+	},
+	{
+		"eid": "153",
+		"name": "Cable Triceps Pushdowns",
+		"category": "Unterarm",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "154",
+		"name": "Hyperextensions",
+		"category": "Unterer Rücken",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
 	}
+	
 	
 	
 ]
