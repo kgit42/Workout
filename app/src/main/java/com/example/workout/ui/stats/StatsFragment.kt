@@ -89,14 +89,11 @@ class StatsFragment : Fragment() {
                     }
                 }
 
-                val expandableListTitle = ArrayList<Pair<Int, Int>>(expandableListDetail.keys)
+                val expandableListTitle = ArrayList<Pair<Int, Int>>(expandableListDetail.keys.toSortedSet(compareBy<Pair<Int, Int>> { it.second }.thenBy { it.first }))
 
                 //Daten an ExpandableList weitergeben
                 adapter.setData(expandableListDetail, expandableListTitle)
             }
-
-
-
 
         return root
     }
@@ -143,8 +140,9 @@ class StatsFragment : Fragment() {
             newDataDetail: HashMap<Pair<Int, Int>, MutableList<RoutineWorkoutStatsElement>>,
             newDataTitle: List<Pair<Int, Int>>
         ) {
-            this.expandableListDetail = newDataDetail
+            this.expandableListDetail = newDataDetail //.toSortedMap(compareBy<String> { it.length }.thenBy { it }).toList()
             this.expandableListTitle = newDataTitle
+
             notifyDataSetChanged()
         }
 
