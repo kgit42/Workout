@@ -45,6 +45,8 @@
 
     <string name="save">Speichern</string>
     <string name="import_">Neu einlesen</string>
+    <string name="export_userdata">Nutzerdaten exportieren</string>
+    <string name="export_stats">Statistik exportieren</string>
 
     <string name="start">Start</string>
 

@@ -69,15 +69,15 @@ class RoutineDetailFragment : Fragment(), OnDragStartListener {
 
             homeViewModel.getRoutineById(arguments?.getInt("rid"))
                 .observe(viewLifecycleOwner) { routine ->
-                    HelperClassRoutine.addElementsFromDbIfNotDoneToBeginning(routine)
-
-                    //RecyclerView aktualisieren
-                    setupRecyclerView()
-
                     if (!HelperClassRoutine.addedFromDb) {
                         //Textboxen befüllen
                         fillWithData(routine)
                     }
+
+                    HelperClassRoutine.addElementsFromDbIfNotDoneToBeginning(routine)
+
+                    //RecyclerView aktualisieren
+                    setupRecyclerView()
 
                     fillToolbar(routine)
 

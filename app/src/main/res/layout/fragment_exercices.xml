@@ -36,7 +36,7 @@
             app:layout_scrollFlags="scroll|enterAlways|snap"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:title="Übungen"
-            app:menu="@menu/menu_import"/>             <!-- app:menu="@menu/menu_sort" -->
+            app:menu="@menu/menu_exercices"/>             <!-- app:menu="@menu/menu_sort" -->
 
 
     </com.google.android.material.appbar.AppBarLayout>
