@@ -188,7 +188,7 @@ class WorkoutDetailSupersetFragment : Fragment() {
             var current = adapter.getElements()[j]
             checksum += current.exercice.name?.length!!
             checksum += current.length!!
-            checksum += current.innerRest!!
+            if(current.exercice.bilateral == true) checksum += current.innerRest!!
             checksum *= current.priority?.plus(1)!!
             checksum += if(current.multipleSets == true) 1 else 0
         }
