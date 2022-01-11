@@ -25,8 +25,12 @@ import com.example.workout.db.WorkoutEntry
 import com.google.android.material.snackbar.Snackbar
 import java.lang.Exception
 import android.graphics.drawable.Drawable
+import android.widget.Button
+import android.widget.ProgressBar
 import androidx.core.content.ContextCompat
+import com.example.workout.R
 import com.example.workout.WorkoutDetailFragmentAdapterInterface
+import com.example.workout.db.Exercice
 import com.example.workout.db.Routine
 import kotlinx.coroutines.*
 
@@ -99,6 +103,10 @@ class WorkoutDetailFragment : Fragment() {
 
                         //Bestehende Daten an den Anfang der Liste setzen, dahinter kommen die neu hinzuzufügenden Elemente.
                         adapter.addDataToBeginning()
+
+                        //Textfeld unter Liste updaten
+                        var checksum = calculateChecksum(adapter)
+                        binding.textViewBottom.text = "Anzahl: " + binding.addExerciceList.layoutManager?.itemCount.toString() + " | Checksumme: " + checksum
                     }
                 }
             } else {
@@ -113,6 +121,10 @@ class WorkoutDetailFragment : Fragment() {
 
                     //Bestehende Daten an den Anfang der Liste setzen, dahinter kommen die neu hinzuzufügenden Elemente.
                     adapter.addDataToBeginning()
+
+                    //Textfeld unter Liste updaten
+                    var checksum = calculateChecksum(adapter)
+                    binding.textViewBottom.text = "Anzahl: " + binding.addExerciceList.layoutManager?.itemCount.toString() + " | Checksumme: " + checksum
                 }
             }
 
@@ -130,6 +142,20 @@ class WorkoutDetailFragment : Fragment() {
 
         setupToolbarWithNavigation()
         onOptionsItemSelected()
+    }
+
+    //Checksumme berechnen: (Anzahl Buchstaben der Übungen + Längen) * Priorität und + 1 wenn Mehrsatz
+    private fun calculateChecksum(adapter: MyRecyclerViewAdapter): Int{
+        var checksum = 0
+        for (j in 0 until adapter.getElements().size) {
+            var current = adapter.getElements()[j]
+            checksum += current.exercice.name?.length!!
+            checksum += current.length!!
+            checksum += current.innerRest!!
+            checksum *= current.priority?.plus(1)!!
+            checksum += if(current.multipleSets == true) 1 else 0
+        }
+        return checksum
     }
 
 
@@ -262,48 +288,48 @@ class WorkoutDetailFragment : Fragment() {
             addExerciceList.adapter = adapter
             addExerciceList.isNestedScrollingEnabled = false
             addExerciceList.layoutManager = LinearLayoutManager(addExerciceList.context)
+        }
 
-            HelperClass.setAdapter(adapter)
+        HelperClass.setAdapter(adapter)
 
-            runBlocking {
-                launch {
+        runBlocking {
+            launch {
 
-                    HelperClass.listToAdd.forEach {
+                HelperClass.listToAdd.forEach {
 
-                        //Ein neues WorkoutEntry dieser Übung in DB anlegen und ID zurückgeben lassen
-                        var id = homeViewModel.createWorkoutEntry(WorkoutEntry(exercice = it))
+                    //Ein neues WorkoutEntry dieser Übung in DB anlegen und ID zurückgeben lassen
+                    var id = homeViewModel.createWorkoutEntry(WorkoutEntry(exercice = it))
 
-                        //Neues WorkoutEntry mit der erhaltenen ID der HelperClass hinzufügen
-                        val workoutentry = WorkoutEntry(id.toInt(), exercice = it)
-                        HelperClass.workoutentriesToAdd.add(workoutentry)
-
-                    }
-
-                    //HelperClass.workoutentriesToAdd.setValue(newWorkoutentriesToAdd)
-                    //Log.v("hhh", HelperClass.workoutentriesToAdd.toString())
-
-
-                    //alle hinzuzufügenden Elemente aus HelperClass dem Adapter der RecyclerView hinzufügen
-                    HelperClass.workoutentriesToAdd.forEach {
-                        adapter.addElement(it)
-                    }
-
-                    //Elemente aus listToAdd löschen. Verwendung eines Iterators, da es
-                    // sonst zu ConcurrentModificationException kommt
-                    val iterator = HelperClass.listToAdd.iterator()
-                    while (iterator.hasNext()) {
-                        var ex = iterator.next()
-                        iterator.remove()
-                    }
+                    //Neues WorkoutEntry mit der erhaltenen ID der HelperClass hinzufügen
+                    val workoutentry = WorkoutEntry(id.toInt(), exercice = it)
+                    HelperClass.workoutentriesToAdd.add(workoutentry)
 
                 }
+
+                //HelperClass.workoutentriesToAdd.setValue(newWorkoutentriesToAdd)
+                //Log.v("hhh", HelperClass.workoutentriesToAdd.toString())
+
+
+                //alle hinzuzufügenden Elemente aus HelperClass dem Adapter der RecyclerView hinzufügen
+                HelperClass.workoutentriesToAdd.forEach {
+                    adapter.addElement(it)
+                }
+
+                //Elemente aus listToAdd löschen. Verwendung eines Iterators, da es
+                // sonst zu ConcurrentModificationException kommt
+                val iterator = HelperClass.listToAdd.iterator()
+                while (iterator.hasNext()) {
+                    var ex = iterator.next()
+                    iterator.remove()
+                }
+
             }
 
         }
     }
 
     //füllt EditTexts aus mit bestehenden Daten aus DB
-    fun fillWithData(workout: Workout) {
+    private fun fillWithData(workout: Workout) {
         binding.name.setText(workout.name)
         binding.anzahl1.setText(workout.numberSets.toString())
         binding.pause1.setText(workout.restExercices.toString())

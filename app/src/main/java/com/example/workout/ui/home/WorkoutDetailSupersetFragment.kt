@@ -131,6 +131,13 @@ class WorkoutDetailSupersetFragment : Fragment() {
                         //Bestehende Daten an den Anfang der Liste setzen, dahinter kommen die neu hinzuzufügenden Elemente.
                         adapter.addDataToBeginning(HelperClass.workoutentriesFromDb)
                         adapter2.addDataToBeginning(HelperClass.workoutentriesFromDb2)
+
+                        //Textfeld unter Listen updaten
+                        var checksum1 = calculateChecksum(adapter)
+                        var checksum2 = calculateChecksum(adapter2)
+                        binding.textViewBottom1.text = "Anzahl: " + binding.workout1List.layoutManager?.itemCount.toString() + " | Checksumme: " + checksum1
+                        binding.textViewBottom2.text = "Anzahl: " + binding.workout2List.layoutManager?.itemCount.toString() + " | Checksumme: " + checksum2
+
                     }
                 }
             } else {
@@ -149,6 +156,12 @@ class WorkoutDetailSupersetFragment : Fragment() {
                 adapter.addDataToBeginning(HelperClass.workoutentriesFromDb)
                 adapter2.addDataToBeginning(HelperClass.workoutentriesFromDb2)
 
+                //Textfeld unter Listen updaten
+                var checksum1 = calculateChecksum(adapter)
+                var checksum2 = calculateChecksum(adapter2)
+                binding.textViewBottom1.text = "Anzahl: " + binding.workout1List.layoutManager?.itemCount.toString() + " | Checksumme: " + checksum1
+                binding.textViewBottom2.text = "Anzahl: " + binding.workout2List.layoutManager?.itemCount.toString() + " | Checksumme: " + checksum2
+
             }
 
 
@@ -166,6 +179,20 @@ class WorkoutDetailSupersetFragment : Fragment() {
 
         setupToolbarWithNavigation()
         onOptionsItemSelected()
+    }
+
+    //Checksumme berechnen: (Anzahl Buchstaben der Übungen + Längen) * Priorität und + 1 wenn Mehrsatz
+    private fun calculateChecksum(adapter: WorkoutDetailSupersetFragment.MyRecyclerViewAdapter): Int{
+        var checksum = 0
+        for (j in 0 until adapter.getElements().size) {
+            var current = adapter.getElements()[j]
+            checksum += current.exercice.name?.length!!
+            checksum += current.length!!
+            checksum += current.innerRest!!
+            checksum *= current.priority?.plus(1)!!
+            checksum += if(current.multipleSets == true) 1 else 0
+        }
+        return checksum
     }
 
 
