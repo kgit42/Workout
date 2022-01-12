@@ -243,7 +243,7 @@ class Generator(
                     //Die ausgewählte Übung <sets> Mal hinzufügen
                     for (j in 1..sets) {
 
-                        //20% Chance, dass Pause zwischen Sätzen wegfällt --> Supersatz. Stattdessen 1 Satz weniger.
+                        //15% Chance, dass Pause zwischen Sätzen wegfällt --> Supersatz. Stattdessen 1 Satz weniger.
                         //Nicht bei letztem Satz und nicht, wenn nur 1 Satz.
                         var newLength: Int? = entry.length
 
@@ -252,7 +252,7 @@ class Generator(
                             newLength2 = entry2.length
                         }
                         if (j != sets && sets != 1) {
-                            if (Math.random() < 0.2) {
+                            if (Math.random() < 0.15) {
                                 newLength = entry.length?.times(2)
 
                                 if (workout.type == 1) {
