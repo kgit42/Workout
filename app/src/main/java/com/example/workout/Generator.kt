@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 import kotlin.collections.ArrayList
+import kotlin.math.roundToInt
 
 class Generator(
     private var homeViewModel: HomeViewModel,
@@ -228,10 +229,13 @@ class Generator(
 
                     var sets = 0
                     if (entry.multipleSets == true) {
-                        //zufällige Anzahl an Sätzen. 1 bis 4.
+                        //zufällige Anzahl an Sätzen. 1 bis 4. Für 4 Sätze halbe Wahrscheinlichkeit.
                         val min = 1
-                        val max = 4
-                        var randomNum: Int = ThreadLocalRandom.current().nextInt(min, max + 1)
+                        val max = 7
+                        var randomNum: Int = (ThreadLocalRandom.current().nextInt(min, max + 1).toDouble() / 2).roundToInt()
+
+                        //Log.v("hhh", randomNum.toString())
+
                         sets = randomNum
                     } else {
                         sets = 1
