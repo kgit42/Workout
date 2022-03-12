@@ -97,7 +97,7 @@ class HelperClass {
             myAdapter2 = adapter
         }
 
-        fun updateWorkoutEntry(id: Int?, dauer: Int?, mehrsatz: Boolean?, prio: Int?, pause: Int?) {
+        fun updateWorkoutEntry(id: Int?, dauer: Int?, mehrsatz: Boolean?, prio: Int?, pause: Int?, customRest: Int?) {
             //Element suchen in beiden Listen. Auch in den zu der 2. RecyclerView gehörenden Listen bei Supersatz-Workouts.
             // Wenn gefunden, Schleife abbrechen für bessere Performance.
 
@@ -109,6 +109,7 @@ class HelperClass {
                     workoutentriesFromDb[index].multipleSets = mehrsatz
                     workoutentriesFromDb[index].priority = prio
                     workoutentriesFromDb[index].innerRest = pause
+                    workoutentriesFromDb[index].customRest = customRest
                     found = true
                     break
                 }
@@ -121,6 +122,7 @@ class HelperClass {
                         workoutentriesToAdd[index].multipleSets = mehrsatz
                         workoutentriesToAdd[index].priority = prio
                         workoutentriesToAdd[index].innerRest = pause
+                        workoutentriesToAdd[index].customRest = customRest
                         found = true
                         break
                     }
@@ -134,6 +136,7 @@ class HelperClass {
                         workoutentriesFromDb2[index].multipleSets = mehrsatz
                         workoutentriesFromDb2[index].priority = prio
                         workoutentriesFromDb2[index].innerRest = pause
+                        workoutentriesFromDb2[index].customRest = customRest
                         found = true
                         break
                     }
@@ -147,6 +150,7 @@ class HelperClass {
                         workoutentriesToAdd2[index].multipleSets = mehrsatz
                         workoutentriesToAdd2[index].priority = prio
                         workoutentriesToAdd2[index].innerRest = pause
+                        workoutentriesToAdd2[index].customRest = customRest
                         break
                     }
                 }

@@ -30,6 +30,7 @@
     <string name="rest_exercices_default">60</string>
     <string name="rest_sets">Pause zw. Sätzen</string>
     <string name="rest_sets_default">60</string>
+    <string name="rest_custom">Pause zw. Sätzen (übungsspezifisch)</string>
     <string name="exercices">Übungen</string>
     <string name="exercices_1">Übungen 1</string>
     <string name="exercices_2">Übungen 2</string>

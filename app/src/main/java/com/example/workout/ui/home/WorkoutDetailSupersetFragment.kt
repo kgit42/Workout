@@ -190,6 +190,7 @@ class WorkoutDetailSupersetFragment : Fragment() {
             checksumTemp += current.exercice.name?.length!!
             checksumTemp += current.length!!
             if(current.exercice.bilateral == true) checksumTemp += current.innerRest!!
+            checksumTemp += current.customRest!!
             checksumTemp *= current.priority?.plus(1)!!
             checksum += checksumTemp + if(current.multipleSets == true) 1 else 0
         }
@@ -496,7 +497,7 @@ class WorkoutDetailSupersetFragment : Fragment() {
             holder.text.text = values.exercices[position].exercice.name
             holder.category.text = values.exercices[position].exercice.category
             holder.time.text =
-                values.exercices[position].length.toString() + "s " + (if (values.exercices[position].exercice.bilateral == true) "(" + values.exercices[position].innerRest + "s) " else ("")) + "| " + values.exercices[position].priority + if (values.exercices[position].multipleSets == true) "M" else ("")
+                values.exercices[position].length.toString() + "s " + (if (values.exercices[position].exercice.bilateral == true) "(" + values.exercices[position].innerRest + "s) " else ("")) + (if (values.exercices[position].customRest != -1) "[" + values.exercices[position].customRest + "s] " else ("")) + " " + values.exercices[position].priority + if (values.exercices[position].multipleSets == true) "M" else ("")
 
 
             //Bild suchen
@@ -524,6 +525,7 @@ class WorkoutDetailSupersetFragment : Fragment() {
                 //navigiert zur Detail-Seite und übergibt die jeweilige Übung
                 val args = Bundle()
                 args.putInt("weid", values.exercices[position].weid)
+                args.putBoolean("superset", true)
                 holder.view.findNavController()
                     .navigate(com.example.workout.R.id.navigation_workout_detail_exercice, args)
             }

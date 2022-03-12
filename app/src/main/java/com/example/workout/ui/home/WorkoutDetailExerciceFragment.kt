@@ -89,7 +89,6 @@ class WorkoutDetailExerciceFragment : Fragment() {
             binding.pause3.setText(workoutentry.innerRest.toString())
         }
 
-
         binding.mehrsatz.isChecked = workoutentry.multipleSets == true
 
         when (workoutentry.priority) {
@@ -99,6 +98,14 @@ class WorkoutDetailExerciceFragment : Fragment() {
         }
 
         binding.toolbarDetail.title = workoutentry.exercice.name
+
+        if(arguments?.getBoolean("superset") != true){
+            if(workoutentry.customRest != -1) {
+                binding.restCustom.setText(workoutentry.customRest.toString())
+            }
+        }else {
+            binding.restCustom.visibility = INVISIBLE
+        }
     }
 
     private fun setupToolbarWithNavigation() {
@@ -127,13 +134,20 @@ class WorkoutDetailExerciceFragment : Fragment() {
                 val mehrsatz = binding.mehrsatz.isChecked
                 var prio = 0
 
+                val customRest: Int
+                if(binding.restCustom.text.toString() != ""){
+                    customRest = Integer.parseInt(binding.restCustom.text.toString())
+                }else{
+                    customRest = -1
+                }
+
                 when (binding.prio.checkedChipId) {
                     binding.chip1.id -> prio = 0
                     binding.chip2.id -> prio = 1
                     binding.chip3.id -> prio = 2
                 }
 
-                if (pause != null && pause < 5 || dauer < 5) {
+                if (pause != null && pause < 5 || dauer < 5 || customRest in 0..4) {
                     throw Exception()
                 }
 
@@ -145,6 +159,7 @@ class WorkoutDetailExerciceFragment : Fragment() {
                     mehrsatz,
                     prio,
                     pause,
+                    customRest
                 )
 
 

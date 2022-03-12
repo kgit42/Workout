@@ -16,5 +16,6 @@ data class WorkoutEntry(
     @ColumnInfo(name = "multiple_sets") var multipleSets: Boolean? = true,
     @ColumnInfo(name = "priority") var priority: Int? = 1,
     @ColumnInfo(name = "inner_rest") var innerRest: Int? = 10,
+    @ColumnInfo(name = "custom_rest") var customRest: Int? = -1,
     @Embedded val exercice: Exercice
 )

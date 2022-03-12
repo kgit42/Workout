@@ -92,6 +92,30 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:inputType="number"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/input2">
+
+                    <EditText
+                        android:id="@+id/restCustom"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:hint="@string/rest_custom"
+                        android:inputType="number"
+                        android:textSize="14sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
                 <TextView
                     android:id="@+id/textView3"
                     android:layout_width="175dp"
@@ -102,7 +126,7 @@
                     android:textColor="#000000"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/input2" />
+                    app:layout_constraintTop_toBottomOf="@id/input3" />
 
                 <Switch
                     android:id="@+id/mehrsatz"
@@ -111,7 +135,7 @@
                     android:layout_marginTop="32dp"
                     android:layout_marginEnd="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/input2" />
+                    app:layout_constraintTop_toBottomOf="@id/input3" />
 
                 <TextView
                     android:id="@+id/textView4"

@@ -13,7 +13,7 @@ import androidx.room.TypeConverters
         Workout::class,
         WorkoutEntry::class,
         RoutineWorkoutStatsElement::class
-    ), version = 20
+    ), version = 21
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {

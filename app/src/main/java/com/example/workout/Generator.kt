@@ -334,7 +334,7 @@ class Generator(
                             json.workouts[index0].exercices.add(
                                 ExerciceModel(
                                     "0",
-                                    workout.restSets.toString(),
+                                    if(entry.customRest == -1) workout.restSets.toString() else (entry.customRest.toString()),
                                     null,
                                     null,
                                     null,
