@@ -1218,7 +1218,7 @@
 	{
 		"eid": "153",
 		"name": "Cable Triceps Pushdowns",
-		"category": "Unterarm",
+		"category": "Trizeps",
 		"animation": "",
 		"audio": "",
 		"bilateral": "false"
@@ -1227,6 +1227,22 @@
 		"eid": "154",
 		"name": "Hyperextensions",
 		"category": "Unterer Rücken",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+		{
+		"eid": "155",
+		"name": "Alternating Lateral Raises",
+		"category": "Schulter",
+		"animation": "",
+		"audio": "",
+		"bilateral": "false"
+	},
+	{
+		"eid": "156",
+		"name": "Alternating Front Shoulder Raises",
+		"category": "Schulter",
 		"animation": "",
 		"audio": "",
 		"bilateral": "false"
